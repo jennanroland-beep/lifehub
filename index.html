@@ -1335,13 +1335,21 @@ function driveInitGapi(cid,key){
   function tryInit(){
     if(typeof gapi==='undefined'||typeof google==='undefined'){setTimeout(tryInit,400);return;}
     gapi.load('client',function(){
-      gapi.client.init({apiKey:key,discoveryDocs:['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']}).then(function(){
+      gapi.client.setApiKey(key);
+      gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest').then(function(){
         driveTokenClient=google.accounts.oauth2.initTokenClient({
           client_id:cid,scope:'https://www.googleapis.com/auth/drive.appdata',
-          callback:function(resp){if(resp.error){driveSetUI('error');return;}driveLoad();}
+          callback:function(resp){
+            if(resp.error){
+              console.error('OAuth error:',resp.error,resp.error_description);
+              driveSetUI('error');return;
+            }
+            driveLoad();
+          }
         });
-        driveGapiReady=true;driveTokenClient.requestAccessToken({prompt:''});
-      }).catch(function(){driveSetUI('error');});
+        driveGapiReady=true;
+        driveTokenClient.requestAccessToken({prompt:'consent'});
+      }).catch(function(e){console.error('Drive API load error:',e);driveSetUI('error');});
     });
   }
   tryInit();
@@ -1358,14 +1366,12 @@ async function driveLoad(){
         if(DRIVE_KEYS_PREFIX.some(function(p){return k.startsWith(p);}))
           localStorage.setItem(k,typeof data[k]==='string'?data[k]:JSON.stringify(data[k]));
       });
-      // Re-render active panel
       var active=document.querySelector('.panel.active');
       if(active){var t=active.id.replace('panel-','');switchTab(t);}
-      // Reload meal plan if stored
       var mp=load('meals_current');if(mp)renderMealPlan(mp);
     } else {await driveSync(true);}
     driveSetUI('synced');
-  }catch(e){driveSetUI('error');}
+  }catch(e){console.error('driveLoad error:',e);driveSetUI('error');}
 }
 async function driveSync(initial){
   if(!driveGapiReady)return;driveSetUI('syncing');
@@ -1387,7 +1393,7 @@ async function driveSync(initial){
       driveFileId=r.result.id;
     }
     driveSetUI('synced');
-  }catch(e){driveSetUI('error');}
+  }catch(e){console.error('driveSync error:',e);driveSetUI('error');}
 }
 function driveSetUI(state){
   driveState=state;
