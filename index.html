@@ -974,20 +974,23 @@ function renderWeekly(){
       var dayName=DAYS_FULL[idx];
       var dd=(wd.days&&wd.days[iso])||{};
       var mealDay=(mealData.days&&mealData.days[dayName])||{};
+      // Normalize meal values — can be string or object with .name
+      var mealLunch=mealDay.lunch?(typeof mealDay.lunch==='string'?mealDay.lunch:mealDay.lunch.name):'';
+      var mealDinner=mealDay.dinner?(typeof mealDay.dinner==='string'?mealDay.dinner:mealDay.dinner.name):'';
       var outfitDay=outfitData[dayName]||{};
       var auggieDay=auggieData[dayName]||[];
 
       html+='<td class="wg-cell"><div class="wg-card">';
 
       if(row.key==='lunch'){
-        var val=mealDay.lunch||dd.lunch||'';
-        html+=mealDay.lunch
-          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.lunch)+'</div>'
+        var val=mealLunch||dd.lunch||'';
+        html+=mealLunch
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealLunch)+'</div>'
           :'<textarea rows="2" data-iso="'+iso+'" data-field="lunch" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add lunch">'+esc(val)+'</textarea>';
       } else if(row.key==='dinner'){
-        var val=mealDay.dinner||dd.dinner||'';
-        html+=mealDay.dinner
-          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.dinner)+'</div>'
+        var val=mealDinner||dd.dinner||'';
+        html+=mealDinner
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDinner)+'</div>'
           :'<textarea rows="2" data-iso="'+iso+'" data-field="dinner" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add dinner">'+esc(val)+'</textarea>';
       } else if(row.key==='outfit'){
         if(outfitDay.pieces&&outfitDay.pieces.length){
@@ -1144,32 +1147,74 @@ function parseMealPlan(){
   var raw=document.getElementById('meal-paste-input').value.trim();
   if(!raw){return;}
   var status=document.getElementById('meal-import-status');
-  // Strip markdown code fences if present
   var clean=raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
   try{
     var parsed=JSON.parse(clean);
+
+    // ── NORMALIZE to hub format ──
+    // Hub expects: { weekLabel, plants:{count,list}, budget:{total}, days:{Monday:{lunch:'',dinner:'',bf_night:false,...}} }
+    // Your format:  { week, meals:{monday:{lunch:{name,..},dinner:{name,..}}}, plants_count, estimated_cost }
+
+    // If already in hub format (has .days), use as-is
+    if(!parsed.days){
+      var dayMap={sunday:'Sunday',monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday'};
+      var normalized={
+        weekLabel: parsed.weekLabel || (parsed.week ? 'Week of '+parsed.week : 'This Week'),
+        plants: {count: parsed.plants_count||parsed.plants&&parsed.plants.count||'—', list: parsed.plants&&parsed.plants.list||''},
+        budget: {total: parsed.estimated_cost||parsed.budget&&parsed.budget.total||''},
+        days: {}
+      };
+
+      var src=parsed.meals||parsed.days||{};
+      Object.keys(src).forEach(function(rawDay){
+        var dayName=dayMap[rawDay.toLowerCase()]||rawDay;
+        var dayData=src[rawDay];
+        var lunch=dayData.lunch;
+        var dinner=dayData.dinner;
+        var breakfast=dayData.breakfast;
+        normalized.days[dayName]={
+          lunch: typeof lunch==='string'?lunch:(lunch&&lunch.name?lunch.name+(lunch.source?' ('+lunch.source+')':''):''),
+          dinner: typeof dinner==='string'?dinner:(dinner&&dinner.name?dinner.name:''),
+          breakfast: typeof breakfast==='string'?breakfast:(breakfast&&breakfast.name?breakfast.name:''),
+          bf_night: !!(dinner&&dinner.bf_night),
+          serves: dinner&&dinner.serves||'',
+          time_min: dinner&&dinner.time_min||''
+        };
+        // Carry over ingredients/steps if present (for recipe cards)
+        if(dinner&&dinner.ingredients)normalized.days[dayName].dinnerIngredients=dinner.ingredients;
+        if(dinner&&dinner.steps)normalized.days[dayName].dinnerSteps=dinner.steps;
+        if(dinner&&dinner.note)normalized.days[dayName].dinnerNote=dinner.note;
+        if(dinner&&dinner.desc)normalized.days[dayName].dinnerDesc=dinner.desc;
+        if(dinner&&dinner.tags)normalized.days[dayName].dinnerTags=dinner.tags;
+      });
+      parsed=normalized;
+    }
+
     hubSave('meals_current',parsed);
     status.textContent='✓ Imported!';
     status.style.color='var(--sage)';
     renderMealPlan(parsed);
     mSwitchView('plan',document.getElementById('m-plan-btn'));
   }catch(e){
-    status.textContent='Not valid JSON — paste the code block from our chat exactly as sent.';
+    status.textContent='Could not parse JSON: '+e.message;
     status.style.color='var(--coral)';
   }
 }
 
 function renderMealPlan(data){
   if(!data){data=load('meals_current');if(!data)return;}
-  // Stats bar
   var statsBar=document.getElementById('meal-stats-bar');
-  statsBar.innerHTML='<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--sage);">'+(data.plants&&data.plants.count||'—')+'</div><div class="meal-stat-label">Plants this week</div></div>'+
-    '<div class="meal-stat-chip"><div class="meal-stat-val" style="font-size:14px;font-weight:300;line-height:1.3;">'+esc(data.weekLabel||'This Week')+'</div><div class="meal-stat-label">Week label</div></div>'+
-    (data.budget?'<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--coral);">'+esc(data.budget.total||'')+'</div><div class="meal-stat-label">Estimated grocery</div></div>':'');
-  // Meal content
+  var plantCount=(data.plants&&data.plants.count)||data.plants_count||'—';
+  var weekLbl=data.weekLabel||'This Week';
+  var budgetTotal=(data.budget&&data.budget.total)||data.estimated_cost||'';
+  statsBar.innerHTML=
+    '<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--sage);">'+esc(String(plantCount))+'</div><div class="meal-stat-label">Plants this week</div></div>'+
+    '<div class="meal-stat-chip"><div class="meal-stat-val" style="font-size:14px;font-weight:300;line-height:1.3;">'+esc(weekLbl)+'</div><div class="meal-stat-label">Week label</div></div>'+
+    (budgetTotal?'<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--coral);">'+esc(budgetTotal)+'</div><div class="meal-stat-label">Estimated grocery</div></div>':'');
   var content=document.getElementById('meal-plan-content');
-  var daysWithMeals=Object.keys(data.days||{}).filter(function(d){return data.days[d].dinner&&data.days[d].dinner.name;});
-  if(!daysWithMeals.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No meals found in the imported plan.</div>';return;}
+  var days=data.days||{};
+  var daysWithMeals=Object.keys(days).filter(function(d){return days[d].dinner;});
+  if(!daysWithMeals.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No meals found — check the JSON structure.</div>';return;}
   // Group: dinners then lunches
   var html='';
   // Plants line
@@ -1182,17 +1227,25 @@ function renderMealPlan(data){
   // Dinners
   html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:4px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Dinners</div>';
   DAYS_FULL.forEach(function(day){
-    var dd=data.days&&data.days[day];
-    if(dd&&dd.dinner&&dd.dinner.name)html+=buildMealCard(day,dd.dinner,dd.dinner.bf_night);
+    var dd=days[day];
+    if(!dd||!dd.dinner)return;
+    // dinner can be a string (normalized) or object (full format)
+    var meal=typeof dd.dinner==='string'
+      ?{name:dd.dinner,desc:dd.dinnerDesc||'',tags:dd.dinnerTags||[],serves:dd.serves||'',ingredients:dd.dinnerIngredients||[],steps:dd.dinnerSteps||[],note:dd.dinnerNote||'',bf_night:dd.bf_night}
+      :dd.dinner;
+    if(meal.name)html+=buildMealCard(day,meal,meal.bf_night||dd.bf_night);
   });
   // Lunches
-  var lunchDays=DAYS_FULL.filter(function(d){return data.days&&data.days[d]&&data.days[d].lunch&&data.days[d].lunch.name;});
+  var lunchDays=DAYS_FULL.filter(function(d){return days[d]&&days[d].lunch;});
   if(lunchDays.length){
     html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:24px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Lunches</div>';
-    lunchDays.forEach(function(day){html+=buildMealCard(day,data.days[day].lunch,false);});
+    lunchDays.forEach(function(day){
+      var dd=days[day];
+      var meal=typeof dd.lunch==='string'?{name:dd.lunch}:dd.lunch;
+      if(meal&&meal.name)html+=buildMealCard(day,meal,false);
+    });
   }
   content.innerHTML=html;
-  // Grocery
   renderGrocery(data.grocery||{});
 }
 
