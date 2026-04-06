@@ -1751,18 +1751,25 @@ function driveInitGapi(cid,key){
         driveTokenClient=google.accounts.oauth2.initTokenClient({
           client_id:cid,scope:'https://www.googleapis.com/auth/drive.appdata',
           callback:function(resp){
-            if(resp.error){console.error('OAuth error:',resp.error,resp.error_description);driveSetUI('error');return;}
-            // Cache token expiry
+            if(resp.error){
+              // Silent auth failed — retry with visible prompt
+              if(resp.error==='interaction_required'||resp.error==='login_required'||resp.error==='access_denied'){
+                localStorage.removeItem('hub_gdrive_token_exp');
+                driveTokenClient.requestAccessToken({prompt:'select_account'});
+                return;
+              }
+              console.error('OAuth error:',resp.error,resp.error_description);
+              driveSetUI('error');return;
+            }
             var expiresAt=Date.now()+(parseInt(resp.expires_in||3600)-120)*1000;
             localStorage.setItem('hub_gdrive_token_exp',expiresAt);
             driveLoad();
           }
         });
         driveGapiReady=true;
-        // Check if we have a recent enough token — if so skip the prompt
         var exp=parseInt(localStorage.getItem('hub_gdrive_token_exp')||'0');
         var needsAuth=Date.now()>exp;
-        driveTokenClient.requestAccessToken({prompt: needsAuth?'':'none'});
+        driveTokenClient.requestAccessToken({prompt:needsAuth?'':'none'});
       }).catch(function(e){console.error('Drive API load error:',e);driveSetUI('error');});
     });
   }
