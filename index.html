@@ -133,22 +133,52 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .week-nav-btn:hover{border-color:var(--ink);color:var(--ink);}
 .week-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);}
 .week-range{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
-.weekly-layout{display:grid;grid-template-columns:1fr 320px;gap:36px;}
-.schedule-col{display:flex;flex-direction:column;}
-.day-row-w{display:grid;grid-template-columns:52px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:start;}
-.day-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;line-height:1;color:var(--ink);}
-.day-name{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
-.day-content{display:flex;flex-direction:column;gap:4px;}
-.day-field-row{display:flex;align-items:flex-start;gap:5px;}
-.day-field-label{font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);flex-shrink:0;width:44px;padding-top:4px;}
-.day-field-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);flex:1;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);padding:3px 0;resize:none;overflow:hidden;min-height:20px;line-height:1.5;display:block;width:100%;}
-.day-field-input::placeholder{color:var(--ink-faint);}
-/* integrated pill rows */
-.day-integrated{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px;}
-.int-pill{font-size:10px;font-weight:300;background:var(--paper);border:1px solid var(--rule);padding:2px 8px;border-radius:2px;color:var(--ink-light);}
-.int-pill.meal{border-left:3px solid var(--sage);}
-.int-pill.outfit{border-left:3px solid var(--coral);}
-.int-pill.auggie{border-left:3px solid var(--blue);}
+/* ── WEEKLY GRID ── */
+.weekly-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);}
+.week-nav-btns{display:flex;gap:7px;align-items:center;}
+.week-nav-btn{background:none;border:1px solid var(--rule);width:26px;height:26px;border-radius:50%;cursor:pointer;color:var(--ink-light);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.week-nav-btn:hover{border-color:var(--ink);color:var(--ink);}
+.week-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);}
+.week-range{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
+.wg-table{width:100%;border-collapse:collapse;min-width:700px;}
+.wg-row-label{width:72px;padding:8px 10px 8px 0;vertical-align:top;}
+.wg-row-label-inner{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:white;padding:3px 8px;border-radius:2px;white-space:nowrap;display:inline-block;}
+.wg-day-header{text-align:center;padding:0 4px 10px;vertical-align:bottom;}
+.wg-day-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink);line-height:1;}
+.wg-day-name{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);margin-top:1px;}
+.wg-day-wx{font-size:9px;color:var(--ink-faint);margin-top:3px;line-height:1.3;}
+.wg-cell{padding:3px 4px;vertical-align:top;}
+.wg-card{border-radius:4px;padding:7px 9px;min-height:36px;position:relative;transition:box-shadow .15s;}
+.wg-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.wg-card textarea,.wg-card input{background:none;border:none;outline:none;width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;color:inherit;resize:none;padding:0;line-height:1.5;}
+.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.25);}
+/* Row color schemes */
+.wg-sched .wg-card{background:#EDEBE4;color:#3A3525;}
+.wg-sched .wg-card textarea{color:#3A3525;}
+.wg-lunch .wg-card{background:#E8F3E8;color:#2A5A2A;}
+.wg-lunch .wg-card textarea{color:#2A5A2A;}
+.wg-dinner .wg-card{background:#FDF0E6;color:#6B3A1F;}
+.wg-dinner .wg-card textarea{color:#6B3A1F;}
+.wg-workout .wg-card{background:#E6F0F8;color:#1A3D5C;}
+.wg-workout .wg-card textarea{color:#1A3D5C;}
+.wg-outfit .wg-card{background:var(--coral-fill);color:#5C2A1A;}
+.wg-outfit .wg-card textarea{color:#5C2A1A;}
+.wg-auggie .wg-card{background:var(--blue-fill);color:#1A2A5C;}
+.wg-auggie .wg-card textarea{color:#1A2A5C;}
+/* label colors */
+.wg-sched .wg-row-label-inner{background:#8A8470;}
+.wg-lunch .wg-row-label-inner{background:var(--sage);}
+.wg-dinner .wg-row-label-inner{background:#C8824A;}
+.wg-workout .wg-row-label-inner{background:var(--blue);}
+.wg-outfit .wg-row-label-inner{background:var(--coral);}
+.wg-auggie .wg-row-label-inner{background:var(--blue);}
+/* outfit cell special */
+.wg-outfit-content{font-size:10px;font-weight:300;line-height:1.5;}
+.wg-outfit-piece{display:block;}
+.wg-outfit-role{font-size:7px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-right:3px;}
+.wg-outfit-actions{display:flex;gap:4px;margin-top:4px;}
+.wg-outfit-btn{background:rgba(0,0,0,.08);border:none;cursor:pointer;font-size:9px;padding:1px 6px;border-radius:2px;color:inherit;opacity:.7;transition:opacity .15s;}
+.wg-outfit-btn:hover{opacity:1;}
 .weekly-right{display:flex;flex-direction:column;gap:20px;}
 .right-section{}
 .right-section-label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:9px;padding-bottom:5px;border-bottom:1.5px solid var(--rule);}
@@ -259,7 +289,6 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   .nav{padding:0 14px;}
   .nav-title{font-size:16px;}
   .panel{padding:18px 14px 60px;}
-  .weekly-layout{grid-template-columns:1fr;}
   .goals-layout{grid-template-columns:1fr;}
   .reflection-layout{grid-template-columns:1fr;}
   .grocery-grid{grid-template-columns:1fr;}
@@ -268,6 +297,17 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   .aug-week-grid{order:1;}
   .modal-box{width:95vw;padding:22px;}
   .nav-tabs{overflow-x:auto;}
+  /* Weekly grid — horizontal scroll on mobile, tighter cells */
+  #week-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .wg-table{min-width:560px;}
+  .wg-row-label{width:54px;}
+  .wg-row-label-inner{font-size:6.5px;padding:2px 5px;}
+  .wg-day-num{font-size:17px;}
+  .wg-day-name{font-size:6.5px;}
+  .wg-day-wx{font-size:8px;}
+  .wg-card{padding:5px 6px;min-height:28px;}
+  .wg-card textarea{font-size:10px;}
+  #weekly-bottom{grid-template-columns:1fr!important;}
 }
 </style>
 </head>
@@ -391,36 +431,39 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
       <button class="ghost-btn" style="margin-left:7px;font-size:8.5px;padding:5px 11px;" onclick="goThisWeek()">This week</button>
     </div>
   </div>
-  <div class="weekly-layout">
-    <div class="schedule-col" id="schedule-col"></div>
-    <div class="weekly-right">
-      <div class="right-section">
-        <div class="right-section-label">Weekly intention</div>
-        <textarea class="intention-input-single" id="w-intention" rows="2" placeholder="Set your intention for the week…" onchange="saveWeekly()"></textarea>
-      </div>
-      <div class="right-section">
-        <div class="right-section-label">This week's main focus</div>
-        <textarea class="ruled-textarea" id="w-focus" rows="3" placeholder="" onchange="saveWeekly()" style="min-height:80px;"></textarea>
-      </div>
-      <div class="right-section">
-        <div class="right-section-label">Top Priorities</div>
-        <div class="priority-list" id="w-priorities"></div>
-      </div>
-      <div class="right-section">
+
+  <!-- WEEK GRID -->
+  <div id="week-grid-wrap" style="overflow-x:auto;margin-bottom:28px;">
+    <div id="week-grid"></div>
+  </div>
+
+  <!-- SIDEBAR BELOW -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:8px;" id="weekly-bottom">
+    <div class="right-section">
+      <div class="right-section-label">Weekly intention</div>
+      <textarea class="intention-input-single" id="w-intention" rows="2" placeholder="Set your intention…" onchange="saveWeekly()"></textarea>
+    </div>
+    <div class="right-section">
+      <div class="right-section-label">Top Priorities</div>
+      <div class="priority-list" id="w-priorities"></div>
+    </div>
+    <div>
+      <div class="right-section" style="margin-bottom:14px;">
         <div class="right-section-label">Personal Tasks</div>
         <div class="task-list" id="w-personal-tasks"></div>
-        <button class="ghost-btn" style="margin-top:7px;" onclick="addWeekTask('personal')">+ Add task</button>
+        <button class="ghost-btn" style="margin-top:6px;font-size:8.5px;" onclick="addWeekTask('personal')">+ Add</button>
       </div>
       <div class="right-section">
         <div class="right-section-label">Work Tasks</div>
         <div class="task-list" id="w-work-tasks"></div>
-        <button class="ghost-btn" style="margin-top:7px;" onclick="addWeekTask('work')">+ Add task</button>
-      </div>
-      <div class="right-section">
-        <div class="right-section-label">Brain Dump</div>
-        <textarea class="ruled-textarea" id="w-braindump" rows="4" placeholder="" onchange="saveWeekly()" style="min-height:80px;"></textarea>
+        <button class="ghost-btn" style="margin-top:6px;font-size:8.5px;" onclick="addWeekTask('work')">+ Add</button>
       </div>
     </div>
+  </div>
+
+  <div class="right-section" style="margin-top:20px;">
+    <div class="right-section-label">Brain Dump</div>
+    <textarea class="ruled-textarea" id="w-braindump" rows="3" onchange="saveWeekly()" style="min-height:72px;"></textarea>
   </div>
 </div>
 
@@ -458,9 +501,9 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   <!-- Import view -->
   <div id="m-view-import" style="display:none;">
     <div style="max-width:640px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;margin-bottom:8px;">Paste or describe your meal plan</div>
-      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:16px;">Paste the meal plan text I send you in our chat (or any format — recipe names, days, ingredients). I'll parse it and populate the week automatically.</div>
-      <textarea class="paste-area" id="meal-paste-input" placeholder="Paste your meal plan here — any format works. E.g.:&#10;Monday dinner: Coconut Lime Tofu with Jasmine Rice&#10;Tuesday dinner: Soy-Glazed Flat Iron Steak...&#10;&#10;Or paste the full HTML/text from the file I send you."></textarea>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;margin-bottom:8px;">Paste your meal plan JSON</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:16px;">When I send you a meal plan, I'll include a JSON block at the bottom. Copy the whole block (including the curly braces) and paste it here — it'll populate instantly with full recipe cards.</div>
+      <textarea class="paste-area" id="meal-paste-input" placeholder='Paste the JSON block from our chat here. It starts with { and ends with }&#10;&#10;Example:&#10;{&#10;  "weekLabel": "Week of April 7",&#10;  "days": { ... }&#10;}'></textarea>
       <div style="display:flex;gap:10px;margin-top:12px;align-items:center;">
         <button class="solid-btn" onclick="parseMealPlan()">Import →</button>
         <div id="meal-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
@@ -502,7 +545,7 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
       <input type="text" id="w-item-notes" class="ruled-input" placeholder="Notes (e.g. runs large, dry clean only…)" style="margin-bottom:13px;"/>
       <button onclick="wAddItem()" class="solid-btn">+ Add to closet</button>
     </div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;" id="w-filter-bar">
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center;" id="w-filter-bar">
       <button class="pct-toggle-btn active" onclick="wFilter('all',this)">All</button>
       <button class="pct-toggle-btn" onclick="wFilter('Top',this)">Tops</button>
       <button class="pct-toggle-btn" onclick="wFilter('Bottom',this)">Bottoms</button>
@@ -511,26 +554,34 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
       <button class="pct-toggle-btn" onclick="wFilter('Shoes',this)">Shoes</button>
       <button class="pct-toggle-btn" onclick="wFilter('Bag',this)">Bags</button>
       <button class="pct-toggle-btn" onclick="wFilter('Accessory',this)">Accessories</button>
+      <button onclick="wCopyClosetForClaude()" class="ghost-btn" style="margin-left:auto;font-size:8.5px;padding:4px 12px;">Copy closet for Claude ↗</button>
     </div>
     <div class="w-grid" id="w-closet-grid"></div>
   </div>
 
   <!-- Single outfit -->
   <div id="wb-outfit" style="display:none;">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:7px;margin-bottom:18px;" id="w-vibe-grid">
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Work / Office')"><div style="font-size:20px;margin-bottom:4px;">💼</div><div class="label-caps">Work</div></div>
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Casual Day')"><div style="font-size:20px;margin-bottom:4px;">☀️</div><div class="label-caps">Casual</div></div>
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Date Night')"><div style="font-size:20px;margin-bottom:4px;">🕯️</div><div class="label-caps">Date Night</div></div>
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Weekend Errands')"><div style="font-size:20px;margin-bottom:4px;">🛒</div><div class="label-caps">Errands</div></div>
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Brunch')"><div style="font-size:20px;margin-bottom:4px;">🥂</div><div class="label-caps">Brunch</div></div>
-      <div class="w-card" style="cursor:pointer;text-align:center;padding:13px 8px;" onclick="wSelectVibe(this,'Evening Out')"><div style="font-size:20px;margin-bottom:4px;">✨</div><div class="label-caps">Evening</div></div>
+    <!-- Step 1: Copy closet for Claude -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;">
+        <div class="label-caps">Step 1 — Copy your closet for Claude</div>
+        <button onclick="wCopyClosetForClaude()" class="solid-btn" style="padding:7px 16px;font-size:9px;" id="w-copy-btn">Copy closet prompt</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Copies a ready-to-send prompt to your clipboard. Paste it into Claude (extension or claude.ai) with your vibe and context — e.g. <em>"Work outfit, Brooklyn, 55°F, need to walk Auggie first."</em></div>
+      <div id="w-copy-confirm" style="font-size:11px;color:var(--sage);margin-top:6px;display:none;">✓ Copied! Paste into Claude.</div>
     </div>
-    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:16px;">
-      <div class="label-caps" style="margin-bottom:7px;">Any context?</div>
-      <input type="text" id="w-outfit-ctx" class="ruled-input" placeholder="e.g. Brooklyn in April, walking Auggie first…" style="margin-bottom:13px;"/>
-      <button onclick="wGenerateOutfit()" class="solid-btn">Generate outfit →</button>
+
+    <!-- Step 2: Paste Claude's response -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;">
+      <div class="label-caps" style="margin-bottom:8px;">Step 2 — Paste Claude's response</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:12px;">Copy Claude's outfit response and paste it here. It'll parse into outfit cards automatically.</div>
+      <textarea id="w-outfit-paste" class="paste-area" style="min-height:120px;" placeholder="OUTFIT 1: Tuesday Work Look&#10;Top: Cream linen blazer&#10;Bottom: Navy straight-leg trousers&#10;Shoes: White leather loafers&#10;Note: Layer over a fitted white tee — polished but easy.&#10;&#10;OUTFIT 2: ..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+        <button onclick="wParseOutfitResponse()" class="solid-btn">Import outfits →</button>
+        <div id="w-outfit-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
+      </div>
     </div>
-    <div id="w-outfit-result"></div>
+    <div id="w-outfit-result" style="margin-top:16px;"></div>
   </div>
 
   <!-- Week plan -->
@@ -543,12 +594,28 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
       <div id="w-weather-preview" style="font-size:10px;color:var(--ink-faint);width:100%;"></div>
     </div>
     <div id="w-week-rows" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;"></div>
-    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;">
-      <div class="label-caps" style="margin-bottom:7px;">Week notes</div>
-      <input type="text" id="w-week-ctx" class="ruled-input" placeholder="e.g. big presentation Wednesday, cold all week…" style="margin-bottom:13px;"/>
-      <button onclick="wGenerateWeek()" class="solid-btn">Generate week →</button>
+
+    <!-- Generate prompt -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;">
+        <div class="label-caps">Step 1 — Generate your Claude prompt</div>
+        <button onclick="wGenerateWeekPrompt()" class="solid-btn" style="padding:7px 16px;font-size:9px;">Copy prompt ↗</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Sets up your vibe, weather, and closet into a ready-to-send prompt. Paste it into Claude with any extra context.</div>
+      <div id="w-week-copy-confirm" style="font-size:11px;color:var(--sage);margin-top:6px;display:none;">✓ Copied! Paste into Claude.</div>
     </div>
-    <div id="w-week-result" style="margin-top:14px;"></div>
+
+    <!-- Paste Claude response -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;">
+      <div class="label-caps" style="margin-bottom:8px;">Step 2 — Paste Claude's response</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:12px;">Paste the full week of outfits back here. Each outfit auto-assigns to its day and updates your Weekly Planner.</div>
+      <textarea id="w-week-paste" class="paste-area" style="min-height:140px;" placeholder="OUTFIT: Monday&#10;Vibe: Work / Office&#10;Top: Cream linen blazer&#10;Bottom: Navy trousers&#10;Shoes: White loafers&#10;Note: Layer over white tee, polished but easy.&#10;&#10;OUTFIT: Tuesday&#10;..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+        <button onclick="wParseWeekResponse()" class="solid-btn">Import week →</button>
+        <div id="w-week-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
+      </div>
+    </div>
+    <div id="w-week-result" style="margin-top:16px;"></div>
   </div>
 </div>
 
@@ -573,13 +640,8 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
         </div>
         <div id="aug-ideas-list"></div>
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);">
-          <div class="label-caps" style="margin-bottom:8px;">AI Idea Generator</div>
-          <select id="aug-format" class="ruled-input" style="padding:3px 0;margin-bottom:7px;font-size:12px;">
-            <option>Carousel</option><option>Reel / TikTok</option><option>Single Post</option><option>Story Series</option>
-          </select>
-          <input type="text" id="aug-topic" class="ruled-input" placeholder="Topic or angle (optional)…" style="margin-bottom:9px;font-size:12px;"/>
-          <button onclick="aGenerateIdeas()" class="solid-btn" style="width:100%;padding:8px;">Generate ideas →</button>
-          <div id="aug-idea-result" style="margin-top:10px;font-size:11px;line-height:1.7;color:var(--ink-light);white-space:pre-wrap;"></div>
+          <div class="label-caps" style="margin-bottom:8px;">Need ideas?</div>
+          <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Ask me in our chat for content ideas — just say what format (carousel, reel, etc.) and any topic or angle. I'll generate ideas you can paste into the bank above.</div>
         </div>
       </div>
     </div>
@@ -778,28 +840,45 @@ function renderTracker(){
       btn.onclick=function(){toggleHabitDay(parseInt(this.dataset.hi),parseInt(this.dataset.day),this);};
       td.appendChild(btn);
     }
+    // Per-habit pct cell with toggle
+    var effectiveMode = pctMode==='individual' ? (h.pctMode||'all') : pctMode;
     var pctTd=tr.insertCell();pctTd.className='pct-cell';
-    pctTd.textContent=calcPct(h,daysInMonth)+'%';
+    pctTd.innerHTML='<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start;">'+
+      '<span id="pct-val-'+hi+'" style="font-size:11px;font-weight:400;">'+calcPct(h,daysInMonth,effectiveMode)+'%</span>'+
+      (pctMode==='individual'?
+        '<div style="display:flex;gap:3px;">'+
+          '<button class="pct-toggle-btn'+(effectiveMode==='all'?' active':'')+'" style="font-size:7px;padding:1px 5px;" onclick="setHabitPctMode('+hi+',\'all\')">All</button>'+
+          '<button class="pct-toggle-btn'+(effectiveMode==='weekdays'?' active':'')+'" style="font-size:7px;padding:1px 5px;" onclick="setHabitPctMode('+hi+',\'weekdays\')">Wkd</button>'+
+        '</div>'
+      :'')
+    +'</div>';
   });
 }
-function calcPct(h,daysInMonth){
+function calcPct(h,daysInMonth,mode){
+  if(!mode)mode=pctMode;
   var count=0,total=0;
-  if(pctMode==='all'){total=daysInMonth;}
-  else if(pctMode==='weekdays'){
+  if(mode==='weekdays'){
     var firstDay=new Date(currentYear,currentMonth,1).getDay();
     for(var i=0;i<daysInMonth;i++){var wd=(firstDay+i)%7;if(wd>=1&&wd<=5){total++;if(h.days[i])count++;}}
     return total?Math.round(count/total*100):0;
   }
+  total=daysInMonth;
   for(var j=0;j<daysInMonth;j++)if(h.days[j])count++;
   return total?Math.round(count/total*100):0;
+}
+function setHabitPctMode(hi,mode){
+  var d=load('tracker-'+mk())||{habits:[]};
+  if(d.habits[hi]){d.habits[hi].pctMode=mode;hubSave('tracker-'+mk(),d);}
+  renderTracker();
 }
 function toggleHabitDay(hi,day,btn){
   var d=load('tracker-'+mk())||{habits:[]};
   d.habits[hi].days[day]=!d.habits[hi].days[day];
   btn.classList.toggle('filled',d.habits[hi].days[day]);
   hubSave('tracker-'+mk(),d);
-  var row=btn.closest('tr');
-  if(row){var pctTd=row.querySelector('.pct-cell');if(pctTd)pctTd.textContent=calcPct(d.habits[hi],new Date(currentYear,currentMonth+1,0).getDate())+'%';}
+  var effectiveMode=pctMode==='individual'?(d.habits[hi].pctMode||'all'):pctMode;
+  var pctVal=document.getElementById('pct-val-'+hi);
+  if(pctVal)pctVal.textContent=calcPct(d.habits[hi],new Date(currentYear,currentMonth+1,0).getDate(),effectiveMode)+'%';
 }
 function saveHabitName(el){var d=load('tracker-'+mk())||{habits:[]};d.habits[el.dataset.hi].name=el.value;hubSave('tracker-'+mk(),d);}
 function addHabit(){
@@ -859,51 +938,184 @@ function renderWeekly(){
   document.getElementById('weekRange').textContent=
     (MONTHS[start.getMonth()].slice(0,3)+' '+start.getDate()+' – '+MONTHS[end.getMonth()].slice(0,3)+' '+end.getDate()+', '+end.getFullYear()).toUpperCase();
   var wd=load(wk())||{days:{},intention:'',focus:'',priorities:['','','','',''],personalTasks:[],workTasks:[],braindump:''};
-  // Schedule col
-  var col=document.getElementById('schedule-col');col.innerHTML='';
+  var wWeatherAll=load('wardrobe_weather_all')||{};
+  var mealData=load('meals_current')||{};
+  var outfitData=load('outfit_week_'+currentWeekStart)||{};
+  var auggieData=load('auggie_scheduled_'+getAuggieWeekKey(0))||{};
+
+  var rows=[
+    {key:'schedule',label:'Schedule',cls:'wg-sched'},
+    {key:'lunch',    label:'Lunch',   cls:'wg-lunch'},
+    {key:'dinner',   label:'Dinner',  cls:'wg-dinner'},
+    {key:'workout',  label:'Workout', cls:'wg-workout'},
+    {key:'outfit',   label:'Outfit',  cls:'wg-outfit'},
+    {key:'auggie',   label:'🐶 Post', cls:'wg-auggie'},
+  ];
+
+  // Build table
+  var html='<table class="wg-table"><thead><tr><th class="wg-row-label"></th>';
   dates.forEach(function(date,idx){
     var iso=date.toISOString().slice(0,10);
-    var dd=(wd.days&&wd.days[iso])||{};
-    var dayName=DAYS_FULL[idx];
-    // Pull integrated data
-    var mealData=load('meals_current')||{};
-    var mealDay=(mealData.days&&mealData.days[dayName])||{};
-    var outfitData=load('outfit_week_'+currentWeekStart)||{};
-    var outfitDay=(outfitData[dayName])||{};
-    var auggieData=load('auggie_scheduled_'+getAuggieWeekKey(0))||{};
-    var auggieDay=(auggieData[dayName])||[];
-    var row=document.createElement('div');row.className='day-row-w';
-    var leftHTML='<div><div class="day-num">'+date.getDate()+'</div><div class="day-name">'+DAYS_SHORT[idx]+'</div></div>';
-    var fields=[
-      {label:'Schedule',field:'schedule',ph:''},
-      {label:'Lunch',field:'lunch',ph:''},
-      {label:'Dinner',field:'dinner',ph:''},
-      {label:'Workout',field:'workout',ph:''},
-      {label:'🐾',field:'auggie',ph:''},
-    ];
-    var fieldsHTML=fields.map(function(f){
-      return '<div class="day-field-row">'+
-        '<div class="day-field-label">'+f.label+'</div>'+
-        '<textarea class="day-field-input" data-iso="'+iso+'" data-field="'+f.field+'" onchange="saveDayField(this)" rows="1" placeholder="'+f.ph+'" oninput="autoGrow(this)">'+esc(dd[f.field]||'')+'</textarea>'+
-      '</div>';
-    }).join('');
-    // Integrated pills
-    var pills='';
-    if(mealDay.lunch)pills+='<span class="int-pill meal">🥗 '+esc(mealDay.lunch)+'</span>';
-    if(mealDay.dinner)pills+='<span class="int-pill meal">🍽 '+esc(mealDay.dinner)+'</span>';
-    if(outfitDay.title)pills+='<span class="int-pill outfit">👗 '+esc(outfitDay.title)+'</span>';
-    auggieDay.forEach(function(p){pills+='<span class="int-pill auggie">🐶 '+esc(p.text||'')+'</span>';});
-    if(pills)fieldsHTML+='<div class="day-integrated">'+pills+'</div>';
-    row.innerHTML=leftHTML+'<div class="day-content">'+fieldsHTML+'</div>';
-    col.appendChild(row);
+    var wx=wWeatherAll[iso]||'';
+    var wxIcon=wx?wx.includes('Sunny')?'☀️':wx.includes('Partly')?'⛅':wx.includes('Overcast')?'☁️':wx.includes('Rain')||wx.includes('Drizzle')?'🌧':wx.includes('Snow')?'❄️':'🌡':'';
+    var wxShort=wx?wx.split(',')[1]?.trim()||wx:'';
+    html+='<th class="wg-day-header">'+
+      '<div class="wg-day-num">'+date.getDate()+'</div>'+
+      '<div class="wg-day-name">'+DAYS_SHORT[idx]+'</div>'+
+      (wxShort?'<div class="wg-day-wx">'+wxIcon+' '+esc(wxShort)+'</div>':'')+
+    '</th>';
   });
-  // Right panel
+  html+='</tr></thead><tbody>';
+
+  rows.forEach(function(row){
+    html+='<tr class="'+row.cls+'"><td class="wg-row-label"><span class="wg-row-label-inner">'+row.label+'</span></td>';
+    dates.forEach(function(date,idx){
+      var iso=date.toISOString().slice(0,10);
+      var dayName=DAYS_FULL[idx];
+      var dd=(wd.days&&wd.days[iso])||{};
+      var mealDay=(mealData.days&&mealData.days[dayName])||{};
+      var outfitDay=outfitData[dayName]||{};
+      var auggieDay=auggieData[dayName]||[];
+
+      html+='<td class="wg-cell"><div class="wg-card">';
+
+      if(row.key==='lunch'){
+        var val=mealDay.lunch||dd.lunch||'';
+        html+=mealDay.lunch
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.lunch)+'</div>'
+          :'<textarea rows="2" data-iso="'+iso+'" data-field="lunch" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add lunch">'+esc(val)+'</textarea>';
+      } else if(row.key==='dinner'){
+        var val=mealDay.dinner||dd.dinner||'';
+        html+=mealDay.dinner
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.dinner)+'</div>'
+          :'<textarea rows="2" data-iso="'+iso+'" data-field="dinner" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add dinner">'+esc(val)+'</textarea>';
+      } else if(row.key==='outfit'){
+        if(outfitDay.pieces&&outfitDay.pieces.length){
+          html+='<div class="wg-outfit-content">'+
+            outfitDay.pieces.map(function(p){
+              return '<span class="wg-outfit-piece"><span class="wg-outfit-role">'+esc(p.role)+'</span>'+esc(p.item)+'</span>';
+            }).join('')+
+          '</div>'+
+          '<div class="wg-outfit-actions">'+
+            '<button class="wg-outfit-btn" onclick="editOutfitDay(\''+dayName+'\')">✎ edit</button>'+
+            '<button class="wg-outfit-btn" onclick="deleteOutfitDay(\''+dayName+'\');renderWeekly()">✕</button>'+
+          '</div>';
+        } else {
+          html+='<div style="font-size:10px;opacity:.4;">no outfit</div>';
+        }
+      } else if(row.key==='auggie'){
+        if(auggieDay.length){
+          html+=auggieDay.filter(function(p){return p.text;}).map(function(p){
+            return '<div style="font-size:10px;font-weight:300;line-height:1.4;">'+esc(p.text)+'</div>';
+          }).join('');
+        } else {
+          html+='<div style="font-size:10px;opacity:.4;">—</div>';
+        }
+      } else {
+        // Editable field (schedule, workout)
+        html+='<textarea rows="2" data-iso="'+iso+'" data-field="'+row.key+'" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="">'+esc(dd[row.key]||'')+'</textarea>';
+      }
+
+      html+='</div></td>';
+    });
+    html+='</tr>';
+  });
+
+  html+='</tbody></table>';
+  document.getElementById('week-grid').innerHTML=html;
+
+  // Bottom section
   var wi=document.getElementById('w-intention');if(wi)wi.value=wd.intention||'';
-  var wf=document.getElementById('w-focus');if(wf)wf.value=wd.focus||'';
-  var wp=document.getElementById('w-priorities');if(wp){wp.innerHTML='';(wd.priorities||['','','','','']).forEach(function(p,i){var div=document.createElement('div');div.className='priority-item';div.innerHTML='<div class="priority-num">'+(i+1)+'</div><input class="priority-input" value="'+esc(p)+'" data-i="'+i+'" onchange="savePriority(this)" placeholder=""/>';wp.appendChild(div);});}
+  var wp=document.getElementById('w-priorities');
+  if(wp){wp.innerHTML='';(wd.priorities||['','','','','']).forEach(function(p,i){
+    var div=document.createElement('div');div.className='priority-item';
+    div.innerHTML='<div class="priority-num">'+(i+1)+'</div><input class="priority-input" value="'+esc(p)+'" data-i="'+i+'" onchange="savePriority(this)" placeholder=""/>';
+    wp.appendChild(div);
+  });}
   renderWeekTasks('personal',wd.personalTasks||[]);
   renderWeekTasks('work',wd.workTasks||[]);
   var wb=document.getElementById('w-braindump');if(wb)wb.value=wd.braindump||'';
+}
+function deleteOutfitDay(dayName){
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  delete outfitWeek[dayName];
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+  renderWeekly();
+}
+function editOutfitDay(dayName){
+  // Switch to wardrobe week tab and open inline editor
+  switchTab('wardrobe',document.querySelectorAll('.nav-tab')[3]);
+  wSwitchView('week',null);
+  // Slight delay to let tab render
+  setTimeout(function(){
+    var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+    var outfit=outfitWeek[dayName];
+    if(!outfit)return;
+    // Show inline editor
+    var existing=document.getElementById('w-inline-editor');
+    if(existing)existing.remove();
+    var editor=document.createElement('div');
+    editor.id='w-inline-editor';
+    editor.style.cssText='background:var(--paper);border:1px solid var(--coral);padding:18px;margin-top:14px;';
+    editor.innerHTML='<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;">'+
+      '<div class="label-caps">Editing '+dayName+' outfit</div>'+
+      '<button onclick="document.getElementById(\'w-inline-editor\').remove()" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:12px;">✕ Close</button>'+
+    '</div>'+
+    '<div id="w-edit-pieces" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">'+
+      (outfit.pieces||[]).map(function(p,i){
+        return '<div style="display:flex;gap:8px;align-items:center;">'+
+          '<input class="ruled-input" style="max-width:90px;font-size:11px;" value="'+esc(p.role)+'" id="edit-role-'+i+'" placeholder="Role"/>'+
+          '<input class="ruled-input" style="flex:1;font-size:12px;" value="'+esc(p.item)+'" id="edit-item-'+i+'" placeholder="Item"/>'+
+          '<button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:12px;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'var(--rule)\'">✕</button>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px;">'+
+      '<button onclick="wAddEditPiece()" class="ghost-btn" style="font-size:9px;padding:5px 12px;">+ Add piece</button>'+
+    '</div>'+
+    '<div style="display:flex;gap:8px;">'+
+      '<button onclick="wSaveEditedOutfit(\''+dayName+'\')" class="solid-btn" style="padding:8px 20px;">Save changes</button>'+
+      '<button onclick="deleteOutfitDay(\''+dayName+'\');document.getElementById(\'w-inline-editor\').remove();" class="ghost-btn" style="font-size:9px;color:var(--coral);border-color:var(--coral-light);">Delete outfit</button>'+
+    '</div>'+
+    '<div id="w-edit-status" style="font-size:11px;color:var(--sage);margin-top:8px;"></div>';
+    var resultEl=document.getElementById('w-week-result');
+    if(resultEl)resultEl.parentNode.insertBefore(editor,resultEl);
+    editor.scrollIntoView({behavior:'smooth',block:'start'});
+  },150);
+}
+function wAddEditPiece(){
+  var container=document.getElementById('w-edit-pieces');
+  if(!container)return;
+  var i=container.children.length;
+  var div=document.createElement('div');
+  div.style.cssText='display:flex;gap:8px;align-items:center;';
+  div.innerHTML='<input class="ruled-input" style="max-width:90px;font-size:11px;" id="edit-role-'+i+'" placeholder="Role"/>'+
+    '<input class="ruled-input" style="flex:1;font-size:12px;" id="edit-item-'+i+'" placeholder="Item"/>'+
+    '<button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:12px;">✕</button>';
+  container.appendChild(div);
+}
+function wSaveEditedOutfit(dayName){
+  var container=document.getElementById('w-edit-pieces');
+  if(!container)return;
+  var pieces=[];
+  Array.from(container.children).forEach(function(row,i){
+    var role=row.querySelector('[id^="edit-role"]');
+    var item=row.querySelector('[id^="edit-item"]');
+    if(role&&item&&item.value.trim()){
+      pieces.push({role:role.value.trim()||'Item',item:item.value.trim()});
+    }
+  });
+  if(!pieces.length)return;
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  if(!outfitWeek[dayName])outfitWeek[dayName]={};
+  outfitWeek[dayName].pieces=pieces;
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+  var status=document.getElementById('w-edit-status');
+  if(status)status.textContent='✓ Saved!';
+  setTimeout(function(){
+    var editor=document.getElementById('w-inline-editor');
+    if(editor)editor.remove();
+  },800);
 }
 function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 function saveDayField(el){var wd=load(wk())||{days:{}};if(!wd.days)wd.days={};if(!wd.days[el.dataset.iso])wd.days[el.dataset.iso]={};wd.days[el.dataset.iso][el.dataset.field]=el.value;hubSave(wk(),wd);}
@@ -932,23 +1144,19 @@ function parseMealPlan(){
   var raw=document.getElementById('meal-paste-input').value.trim();
   if(!raw){return;}
   var status=document.getElementById('meal-import-status');
-  status.textContent='Parsing…';
-  // Use AI to parse the meal plan text into structured JSON
-  fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:
-      'Parse this meal plan into structured JSON. Return ONLY valid JSON, no markdown.\n\nFormat:\n{"weekLabel":"Week of [dates]","summary":"[brief summary line]","plants":{"count":35,"list":"plant1, plant2..."},"budget":{"total":"~$105","proteins":"~$42","produce":"~$28","pantry":"~$35","note":"..."},"days":{"Monday":{"dinner":{"name":"","desc":"","serves":"","tags":["High Protein","Anti-Inflammatory"],"bf_night":false,"ingredients":[{"section":"","items":[""]}],"steps":[""],"note":""},"lunch":{"name":"","desc":"","serves":"","tags":[],"ingredients":[{"section":"","items":[""]}],"steps":[""],"note":""}},...},"grocery":{"Proteins":["..."],"Produce":["..."],"Dairy & Eggs":["..."],"Pantry":["..."],"Frozen":["..."]}}\n\nMeal plan to parse:\n\n'+raw
-    }]})
-  }).then(function(r){return r.json();}).then(function(d){
-    var text=d.content?.map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
-    try{
-      var parsed=JSON.parse(text);
-      hubSave('meals_current',parsed);
-      status.textContent='✓ Imported successfully!';
-      renderMealPlan(parsed);
-      mSwitchView('plan',document.getElementById('m-plan-btn'));
-    }catch(e){status.textContent='Parse error — try pasting just the text from our chat.';}
-  }).catch(function(){status.textContent='Something went wrong — try again.';});
+  // Strip markdown code fences if present
+  var clean=raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+  try{
+    var parsed=JSON.parse(clean);
+    hubSave('meals_current',parsed);
+    status.textContent='✓ Imported!';
+    status.style.color='var(--sage)';
+    renderMealPlan(parsed);
+    mSwitchView('plan',document.getElementById('m-plan-btn'));
+  }catch(e){
+    status.textContent='Not valid JSON — paste the code block from our chat exactly as sent.';
+    status.style.color='var(--coral)';
+  }
 }
 
 function renderMealPlan(data){
@@ -1085,6 +1293,88 @@ function wAddItem(){
   wActiveTags={color:[],vibe:[]};wRenderCloset();
 }
 function wDeleteItem(idx){var c=load('wardrobe_closet')||[];c.splice(idx,1);hubSave('wardrobe_closet',c);wRenderCloset();}
+
+function wCopyClosetForClaude(){
+  var closet=load('wardrobe_closet')||[];
+  if(!closet.length){
+    var btn=document.getElementById('w-copy-btn');if(btn)btn.textContent='No items yet!';setTimeout(function(){if(btn)btn.textContent='Copy closet prompt';},2000);return;
+  }
+  // Group by category
+  var grouped={};
+  closet.forEach(function(item){
+    var cat=item.category||'Other';
+    if(!grouped[cat])grouped[cat]=[];
+    grouped[cat].push(item.name+(item.colors&&item.colors.length?' ('+item.colors.join(', ')+')':(item.vibes&&item.vibes.length?' ['+item.vibes.join(', ')+']':'')));
+  });
+  var closetText='MY CLOSET:\n';
+  Object.keys(grouped).forEach(function(cat){
+    closetText+='\n'+cat+':\n'+grouped[cat].map(function(i){return'  - '+i;}).join('\n');
+  });
+  var prompt=closetText+'\n\n---\nPlease generate 2 outfits from my closet above. Tell me the vibe, occasion, and any context (weather, plans) and I\'ll style accordingly.\n\nRespond in this exact format:\n\nOUTFIT 1: [name]\nVibe: [vibe]\n[Role]: [exact item name from closet]\n[Role]: [exact item name from closet]\nNote: [one sentence styling tip]\n\nOUTFIT 2: [name]\n...';
+  navigator.clipboard.writeText(prompt).then(function(){
+    var confirm=document.getElementById('w-copy-confirm');if(confirm)confirm.style.display='block';
+    setTimeout(function(){if(confirm)confirm.style.display='none';},3000);
+  }).catch(function(){
+    // Fallback: show in a textarea the user can manually copy
+    prompt='Copy failed — here is your closet prompt:\n\n'+prompt;
+    alert(prompt);
+  });
+}
+
+function wParseOutfitResponse(){
+  var raw=document.getElementById('w-outfit-paste').value.trim();
+  var status=document.getElementById('w-outfit-import-status');
+  var result=document.getElementById('w-outfit-result');
+  if(!raw){status.textContent='Paste Claude\'s response first.';return;}
+
+  // Parse plain text format:
+  // OUTFIT 1: Name
+  // Vibe: ...
+  // Top: item
+  // Bottom: item
+  // Note: ...
+  var outfits=[];
+  var blocks=raw.split(/\n(?=OUTFIT\s*\d+\s*:)/i).filter(function(b){return b.trim();});
+
+  blocks.forEach(function(block){
+    var lines=block.trim().split('\n').map(function(l){return l.trim();}).filter(Boolean);
+    var outfit={title:'',vibe:'',pieces:[],note:''};
+    lines.forEach(function(line){
+      var titleMatch=line.match(/^OUTFIT\s*\d+\s*:\s*(.+)/i);
+      if(titleMatch){outfit.title=titleMatch[1].trim();return;}
+      var vibeMatch=line.match(/^Vibe\s*:\s*(.+)/i);
+      if(vibeMatch){outfit.vibe=vibeMatch[1].trim();return;}
+      var noteMatch=line.match(/^Note\s*:\s*(.+)/i);
+      if(noteMatch){outfit.note=noteMatch[1].trim();return;}
+      // Any other "Role: Item" line
+      var pieceMatch=line.match(/^([^:]+)\s*:\s*(.+)/);
+      if(pieceMatch){outfit.pieces.push({role:pieceMatch[1].trim(),item:pieceMatch[2].trim()});return;}
+    });
+    if(outfit.title||outfit.pieces.length)outfits.push(outfit);
+  });
+
+  if(!outfits.length){
+    status.textContent='Could not parse — make sure the format matches the template.';
+    status.style.color='var(--coral)';return;
+  }
+
+  status.textContent='✓ '+outfits.length+' outfit'+(outfits.length>1?'s':'')+' imported!';
+  status.style.color='var(--sage)';
+
+  result.innerHTML=outfits.map(function(o){return wOutfitCardHTML(o,o.vibe);}).join('')+
+    '<button onclick="wParseOutfitResponse()" class="ghost-btn" style="margin-top:8px;">↻ Re-import</button>';
+
+  // Save to outfit_week storage for weekly planner integration
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  outfits.forEach(function(o,i){
+    // Try to match to a day — if vibe mentions a day use it, else use index
+    var days=DAYS_FULL;
+    var dayMatch=null;
+    days.forEach(function(d){if(o.title.toLowerCase().includes(d.toLowerCase()))dayMatch=d;});
+    if(dayMatch)outfitWeek[dayMatch]={title:o.title,pieces:o.pieces};
+  });
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+}
 function wFilter(cat,btn){
   wCurrentFilter=cat;
   document.querySelectorAll('#w-filter-bar .pct-toggle-btn').forEach(function(b){b.classList.remove('active');});
@@ -1109,41 +1399,135 @@ function wOutfitCardHTML(o,vibe){
       '<div style="font-size:12px;font-weight:300;">'+esc(p.item||'')+(p.remixed?'<span style="font-size:8px;background:var(--coral-fill);color:var(--coral);padding:1px 5px;margin-left:5px;">remix</span>':'')+'</div></div>';}).join('')+
     '<div style="background:var(--paper2);padding:8px 11px;margin-top:9px;font-size:11px;font-weight:300;font-style:italic;color:var(--ink-faint);">'+esc(o.note||'')+'</div></div>';
 }
-async function wGenerateOutfit(){
-  if(!wSelectedVibe)return;
-  var ctx=document.getElementById('w-outfit-ctx').value.trim();
-  var result=document.getElementById('w-outfit-result');
-  result.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);padding:16px 0;">Styling your closet…</div>';
-  var prompt='You are a personal stylist. Vibe: '+wSelectedVibe+'.'+(ctx?'\nContext: '+ctx:'')+'\n\nCloset:\n'+wClosetText()+'\n\nOnly use closet items. Return 2 outfits. ONLY valid JSON array, no markdown:\n[{"title":"name","vibe":"'+wSelectedVibe+'","pieces":[{"role":"Top","item":"exact name","remixed":false}],"note":"one sentence"}]\n3-5 pieces. Roles: Top, Bottom, Layer, Shoes, Bag, Accessory.';
-  try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    var d=await res.json();
-    var raw=d.content?.map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
-    var outfits=JSON.parse(raw);
-    // Save to week storage for integration
-    var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
-    result.innerHTML=outfits.map(function(o){return wOutfitCardHTML(o,wSelectedVibe);}).join('')+
-      '<button onclick="wGenerateOutfit()" class="ghost-btn" style="margin-top:7px;">↻ Regenerate</button>';
-  }catch(e){result.innerHTML='<div style="font-size:11px;color:var(--coral);">Something went wrong — try again.</div>';}
-}
 function wBuildWeekRows(){
   var container=document.getElementById('w-week-rows');if(!container)return;
   container.innerHTML=DAYS_FULL.map(function(day){
     var isWd=WEEKDAYS.includes(day);
     var skipped=wDaySkipped[day];
-    return'<div style="background:var(--paper);border:1px solid var(--rule);padding:11px 15px;display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:start;opacity:'+(skipped?.35:1)+';" id="wrow-'+day+'">'+
-      '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:var(--ink-light);">'+day.slice(0,3)+'</div>'+
-        '<div class="label-caps" style="font-size:7.5px;">'+(wDayVibes[day]?wDayVibes[day].split(' /')[0].toLowerCase():'—')+'</div></div>'+
-      '<div style="display:flex;flex-wrap:wrap;gap:3px;">'+
-        W_VIBES_S.map(function(v,i){return'<button class="pct-toggle-btn'+(wDayVibes[day]===W_VIBES_F[i]?' active':'')+'" style="font-size:8px;padding:2px 8px;" onclick="wSetDayVibe(\''+day+'\',\''+W_VIBES_F[i]+'\',this)">'+v+'</button>';}).join('')+
-        (wWeatherData[day]?'<div style="font-size:9px;color:var(--ink-faint);width:100%;margin-top:3px;">'+esc(wWeatherData[day])+'</div>':'')+
+    var savedCtx=(load('wardrobe_day_ctx')||{})[day]||'';
+    return'<div style="background:var(--paper);border:1px solid var(--rule);padding:11px 15px;border-radius:2px;opacity:'+(skipped?.35:1)+';" id="wrow-'+day+'">'+
+      '<div style="display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:start;">'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:var(--ink-light);">'+day.slice(0,3)+'</div>'+
+          '<div class="label-caps" style="font-size:7.5px;">'+(wDayVibes[day]?wDayVibes[day].split(' /')[0].toLowerCase():'—')+'</div></div>'+
+        '<div>'+
+          '<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;">'+
+            W_VIBES_S.map(function(v,i){return'<button class="pct-toggle-btn'+(wDayVibes[day]===W_VIBES_F[i]?' active':'')+'" style="font-size:8px;padding:2px 8px;" onclick="wSetDayVibe(\''+day+'\',\''+W_VIBES_F[i]+'\',this)">'+v+'</button>';}).join('')+
+          '</div>'+
+          (wWeatherData[day]?'<div style="font-size:9px;color:var(--ink-faint);margin-bottom:4px;">'+esc(wWeatherData[day])+'</div>':'')+
+          '<input type="text" class="ruled-input" style="font-size:11px;" placeholder="Day notes (e.g. big presentation, dinner after work…)" value="'+esc(savedCtx)+'" data-day="'+day+'" oninput="wSaveDayCtx(this)"/>'+
+        '</div>'+
+        '<button onclick="wToggleSkip(\''+day+'\')" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:13px;padding:2px;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'var(--rule)\'">✕</button>'+
       '</div>'+
-      '<button onclick="wToggleSkip(\''+day+'\')" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:13px;padding:2px;">✕</button>'+
     '</div>';
   }).join('');
 }
 function wSetDayVibe(day,vibe,btn){wDayVibes[day]=vibe;wDaySkipped[day]=false;wBuildWeekRows();}
 function wToggleSkip(day){wDaySkipped[day]=!wDaySkipped[day];if(!wDaySkipped[day]&&WEEKDAYS.includes(day)&&!wDayVibes[day])wDayVibes[day]='Work / Office';wBuildWeekRows();}
+
+function wSaveDayCtx(el){
+  var d=load('wardrobe_day_ctx')||{};
+  d[el.dataset.day]=el.value;
+  hubSave('wardrobe_day_ctx',d);
+}
+
+function wGenerateWeekPrompt(){
+  var closet=load('wardrobe_closet')||[];
+  var activeDays=DAYS_FULL.filter(function(d){return !wDaySkipped[d]&&wDayVibes[d];});
+  if(!activeDays.length){alert('Set a vibe for at least one day first.');return;}
+
+  // Build closet text grouped by category
+  var grouped={};
+  closet.forEach(function(item){
+    var cat=item.category||'Other';
+    if(!grouped[cat])grouped[cat]=[];
+    var tags=[].concat(item.colors||[]).concat(item.vibes||[]);
+    grouped[cat].push(item.name+(tags.length?' ('+tags.join(', ')+')':''));
+  });
+  var closetText='MY CLOSET:\n';
+  Object.keys(grouped).forEach(function(cat){
+    closetText+='\n'+cat+':\n'+grouped[cat].map(function(i){return'  - '+i;}).join('\n');
+  });
+
+  // Build day list
+  var dayCtx=load('wardrobe_day_ctx')||{};
+  var dayLines=activeDays.map(function(day){
+    var parts=[day+': '+wDayVibes[day]];
+    if(wWeatherData[day])parts.push(wWeatherData[day]);
+    if(dayCtx[day])parts.push(dayCtx[day]);
+    return parts.join(' | ');
+  }).join('\n');
+
+  var prompt=closetText+'\n\n---\nPLAN MY WEEK:\n'+dayLines+
+    '\n\n---\nInstructions: Generate one outfit per day above using ONLY items from My Closet. Minimize repeating pieces across the week but intentionally remix versatile staples. Factor in weather and day notes.\n\nUse this exact format for each day (no extra text, no markdown):\n\nOUTFIT: [Day name]\nVibe: [vibe]\n[Role]: [exact item name from closet]\n[Role]: [exact item name from closet]\nNote: [one sentence]\n\nRoles to use: Top, Bottom, Layer, Shoes, Bag, Accessory\nInclude 3-5 pieces per outfit.';
+
+  navigator.clipboard.writeText(prompt).then(function(){
+    var confirm=document.getElementById('w-week-copy-confirm');
+    if(confirm){confirm.style.display='block';setTimeout(function(){confirm.style.display='none';},3000);}
+  }).catch(function(){alert('Copy failed. Here is your prompt:\n\n'+prompt);});
+}
+
+function wParseWeekResponse(){
+  var raw=document.getElementById('w-week-paste').value.trim();
+  var status=document.getElementById('w-week-import-status');
+  var result=document.getElementById('w-week-result');
+  if(!raw){status.textContent='Paste my response first.';return;}
+
+  // Parse blocks starting with "OUTFIT: DayName"
+  var blocks=raw.split(/\n(?=OUTFIT\s*:\s*(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday))/i).filter(function(b){return b.trim();});
+  var outfits=[];
+
+  blocks.forEach(function(block){
+    var lines=block.trim().split('\n').map(function(l){return l.trim();}).filter(Boolean);
+    var outfit={day:'',vibe:'',pieces:[],note:''};
+    lines.forEach(function(line){
+      var dayMatch=line.match(/^OUTFIT\s*:\s*(.+)/i);
+      if(dayMatch){outfit.day=dayMatch[1].trim();return;}
+      var vibeMatch=line.match(/^Vibe\s*:\s*(.+)/i);
+      if(vibeMatch){outfit.vibe=vibeMatch[1].trim();return;}
+      var noteMatch=line.match(/^Note\s*:\s*(.+)/i);
+      if(noteMatch){outfit.note=noteMatch[1].trim();return;}
+      var pieceMatch=line.match(/^([A-Za-z ]+)\s*:\s*(.+)/);
+      if(pieceMatch&&pieceMatch[1].trim().toLowerCase()!=='outfit'&&pieceMatch[1].trim().toLowerCase()!=='vibe'){
+        outfit.pieces.push({role:pieceMatch[1].trim(),item:pieceMatch[2].trim()});
+      }
+    });
+    if(outfit.day&&outfit.pieces.length)outfits.push(outfit);
+  });
+
+  if(!outfits.length){
+    status.textContent='Could not parse — make sure the format matches.';
+    status.style.color='var(--coral)';return;
+  }
+
+  // Save to outfit_week storage — keyed by day name
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  outfits.forEach(function(o){
+    // Find matching full day name
+    var matched=DAYS_FULL.find(function(d){return d.toLowerCase()===o.day.toLowerCase();});
+    if(matched)outfitWeek[matched]={title:o.vibe||o.day,pieces:o.pieces,note:o.note};
+  });
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+
+  status.textContent='✓ '+outfits.length+' outfit'+(outfits.length>1?'s':'')+' saved to your week!';
+  status.style.color='var(--sage)';
+
+  // Render cards
+  result.innerHTML='<div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;">Saved to Weekly Planner ✓</div>'+
+    outfits.map(function(o){
+      var w=wWeatherData[o.day];
+      return'<div style="margin-bottom:16px;">'+
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--rule);">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:17px;font-style:italic;">'+esc(o.day)+'</div>'+
+          '<div class="label-caps" style="font-size:7.5px;">'+esc(o.vibe)+(w?' · '+esc(w):'')+'</div>'+
+        '</div>'+
+        wOutfitCardHTML({title:o.vibe,vibe:o.vibe,pieces:o.pieces,note:o.note},o.vibe)+
+      '</div>';
+    }).join('')+
+    '<button onclick="document.getElementById(\'w-week-paste\').value=\'\';document.getElementById(\'w-week-result\').innerHTML=\'\';document.getElementById(\'w-week-import-status\').textContent=\'\';" class="ghost-btn" style="margin-top:4px;">Clear</button>';
+
+  // Re-render weekly planner if it's active
+  if(document.getElementById('panel-weekly').classList.contains('active'))renderWeekly();
+}
 async function wFetchWeather(){
   var city=document.getElementById('w-weather-city').value.trim();
   var unit=document.getElementById('w-weather-unit').value;
@@ -1158,49 +1542,28 @@ async function wFetchWeather(){
     var wx=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit='+tu+'&timezone=auto&forecast_days=7');
     var wd=await wx.json();var d=wd.daily;
     wWeatherData={};
+    var wWeatherByDate={};
     for(var i=0;i<d.time.length;i++){
-      var date=new Date(d.time[i]+'T12:00:00');
-      var dn=DAYS_FULL[date.getDay()===0?6:date.getDay()-1];
+      var date2=new Date(d.time[i]+'T12:00:00');
+      var dn=DAYS_FULL[date2.getDay()===0?6:date2.getDay()-1];
       if(DAYS_FULL.includes(dn)){
         var hi=Math.round(d.temperature_2m_max[i]),lo=Math.round(d.temperature_2m_min[i]);
         var code=d.weathercode[i];
         var c=code===0?'Sunny':code<=2?'Partly cloudy':code<=3?'Overcast':code<=49?'Foggy':code<=59?'Drizzle':code<=69?'Rainy':code<=79?'Snowy':'Stormy';
         wWeatherData[dn]=c+', '+lo+'–'+hi+'°'+unit;
+        wWeatherByDate[d.time[i]]=c+', '+lo+'–'+hi+'°'+unit;
       }
     }
     wWeatherSummary=name+': '+DAYS_FULL.filter(function(d){return wWeatherData[d];}).map(function(d){return d.slice(0,3)+' '+wWeatherData[d].split(',')[1]?.trim();}).join(' · ');
     preview.textContent='✓ '+wWeatherSummary;
+    // Save by ISO date so weekly planner matches correctly regardless of week
+    var existingWeather=load('wardrobe_weather_all')||{};
+    Object.keys(wWeatherByDate).forEach(function(k){existingWeather[k]=wWeatherByDate[k];});
+    hubSave('wardrobe_weather_all',existingWeather);
+    hubSave('wardrobe_weather_'+currentWeekStart,wWeatherData);
     wBuildWeekRows();
   }catch(e){preview.textContent='Could not fetch — add in notes.';}
 }
-async function wGenerateWeek(){
-  var closet=load('wardrobe_closet')||[];if(!closet.length)return;
-  var activeDays=DAYS_FULL.filter(function(d){return !wDaySkipped[d]&&wDayVibes[d];});
-  if(!activeDays.length)return;
-  var ctx=document.getElementById('w-week-ctx').value.trim();
-  var result=document.getElementById('w-week-result');
-  result.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);padding:16px 0;">Planning your week…</div>';
-  var dayList=activeDays.map(function(d){return d+': '+wDayVibes[d]+(wWeatherData[d]?' ['+wWeatherData[d]+']':'');}).join('\n');
-  var prompt='You are a personal stylist. Week plan:\n'+dayList+(ctx?'\nNotes: '+ctx:'')+'\n\nCloset:\n'+wClosetText()+'\n\nOnly use closet items. Remix versatile staples (remixed:true). 3-5 pieces each.\nOnly JSON array, no markdown:\n[{"day":"Monday","vibe":"Work / Office","title":"name","pieces":[{"role":"Top","item":"exact name","remixed":false}],"note":"one sentence"}]';
-  try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:prompt}]})});
-    var d=await res.json();
-    var raw=d.content?.map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
-    var week=JSON.parse(raw);
-    // Save for integration
-    var outfitWeek={};
-    week.forEach(function(o){outfitWeek[o.day]={title:o.title,pieces:o.pieces};});
-    hubSave('outfit_week_'+currentWeekStart,outfitWeek);
-    result.innerHTML=week.map(function(o){
-      var w=wWeatherData[o.day];
-      return'<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--rule);">'+
-        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-style:italic;">'+esc(o.day)+'</div>'+
-        '<div class="label-caps" style="font-size:7.5px;">'+esc(o.vibe)+(w?' · '+esc(w):'')+'</div></div>'+
-        wOutfitCardHTML(o,o.vibe)+'</div>';
-    }).join('')+'<button onclick="wGenerateWeek()" class="ghost-btn" style="margin-top:4px;">↻ Regenerate</button>';
-  }catch(e){result.innerHTML='<div style="font-size:11px;color:var(--coral);">Something went wrong — try again.</div>';}
-}
-
 // ══ AUGGIE ══
 function getAuggieWeekKey(offset){
   var d=new Date(currentWeekStart+'T12:00:00');
@@ -1300,19 +1663,6 @@ function aRemovePost(day,pi){
   if(scheduled[day])scheduled[day].splice(pi,1);
   hubSave('auggie_scheduled_'+key,scheduled);aRenderWeekGrid();
 }
-async function aGenerateIdeas(){
-  var format=document.getElementById('aug-format').value;
-  var topic=document.getElementById('aug-topic').value.trim();
-  var result=document.getElementById('aug-idea-result');
-  result.textContent='Generating…';
-  var prompt='You are a social media strategist for @AuggieDoggieBK — a creator brand on Instagram and TikTok. Auggie is a cockapoo service dog who goes to a Brooklyn startup office daily. Content themes: ADHD executive function support, anxiety in the workplace, office dog life, dog mom routines in Brooklyn, behind the scenes at a startup.\n\nGenerate 4 specific '+format+' content ideas'+(topic?' about: '+topic:'')+'.\n\nFor each, give:\n- Hook (opening line/frame)\n- Format (e.g. Slide 1: …, Slide 2: … OR scene description)\n- CTA\n\nKeep it concrete, platform-native, actionable. Plain text only, numbered.';
-  try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompt}]})});
-    var d=await res.json();
-    result.textContent=d.content?.map(function(b){return b.text||'';}).join('');
-  }catch(e){result.textContent='Something went wrong — try again.';}
-}
-
 // ══ GOOGLE DRIVE ══
 var driveState='idle';var driveFileId=null;var driveTokenClient=null;var driveGapiReady=false;
 var DRIVE_FILE='lifehub_data.json';
@@ -1426,6 +1776,15 @@ function driveSetUI(state){
 }
 
 // ══ INIT ══
+// Handle ?reset URL parameter — clears Drive credentials
+(function(){
+  if(window.location.search.includes('reset')){
+    localStorage.removeItem('hub_gdrive_cid');
+    localStorage.removeItem('hub_gdrive_key');
+    // Remove the ?reset from URL without reloading
+    window.history.replaceState({},'',window.location.pathname);
+  }
+})();
 updateMonthLabel();renderGoals();
 // Auto-reconnect Drive
 (function(){
