@@ -610,6 +610,7 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
       <div><div class="label-caps" style="margin-bottom:5px;">API Key</div><input type="text" id="drive-api-key" class="ruled-input" placeholder="AIzaSy…"/></div>
     </div>
     <div class="modal-actions">
+      <button class="cancel-btn" onclick="driveReset()" style="color:var(--coral);border-color:var(--coral-light);">Reset credentials</button>
       <button class="cancel-btn" onclick="document.getElementById('drive-modal').classList.remove('open')">Cancel</button>
       <button class="solid-btn" onclick="driveSaveAndConnect()">Connect →</button>
     </div>
@@ -1319,6 +1320,13 @@ var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','me
 
 function handleDriveClick(){
   var cid=localStorage.getItem('hub_gdrive_cid');var key=localStorage.getItem('hub_gdrive_key');
+  if(driveState==='error'||driveState==='idle'){
+    // Always show modal so user can re-enter or fix credentials
+    if(cid) document.getElementById('drive-client-id').value=cid;
+    if(key) document.getElementById('drive-api-key').value=key;
+    document.getElementById('drive-modal').classList.add('open');
+    return;
+  }
   if(!cid||!key){document.getElementById('drive-modal').classList.add('open');return;}
   if(driveState==='synced'){driveSync();return;}
   driveInitGapi(cid,key);
@@ -1395,11 +1403,25 @@ async function driveSync(initial){
     driveSetUI('synced');
   }catch(e){console.error('driveSync error:',e);driveSetUI('error');}
 }
+function driveReset(){
+  localStorage.removeItem('hub_gdrive_cid');
+  localStorage.removeItem('hub_gdrive_key');
+  driveFileId=null;driveGapiReady=false;driveTokenClient=null;
+  driveSetUI('idle');
+  document.getElementById('drive-client-id').value='';
+  document.getElementById('drive-api-key').value='';
+}
 function driveSetUI(state){
   driveState=state;
   var dot=document.getElementById('drive-dot');var lbl=document.getElementById('drive-lbl');
   if(!dot||!lbl)return;
-  var map={idle:['var(--rule)','Drive'],connecting:['var(--coral)','Connecting…'],syncing:['var(--coral)','Syncing…'],synced:['var(--sage)','Synced ✓'],error:['var(--coral)','Sync error']};
+  var map={
+    idle:['var(--rule)','Connect Drive'],
+    connecting:['var(--coral)','Connecting…'],
+    syncing:['var(--coral)','Syncing…'],
+    synced:['var(--sage)','Synced ✓'],
+    error:['var(--coral)','Sync error — click to fix']
+  };
   var m=map[state]||map.idle;dot.style.background=m[0];lbl.textContent=m[1];
 }
 
