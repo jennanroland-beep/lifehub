@@ -148,10 +148,20 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .wg-day-name{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);margin-top:1px;}
 .wg-day-wx{font-size:9px;color:var(--ink-faint);margin-top:3px;line-height:1.3;}
 .wg-cell{padding:3px 4px;vertical-align:top;}
-.wg-card{border-radius:4px;padding:7px 9px;min-height:36px;position:relative;transition:box-shadow .15s;}
+.wg-card{border-radius:4px;padding:7px 9px;position:relative;transition:box-shadow .15s;}
 .wg-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .wg-card textarea,.wg-card input{background:none;border:none;outline:none;width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;color:inherit;resize:none;padding:0;line-height:1.5;}
-.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.25);}
+.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.2);}
+/* Fixed heights per row type so all cells align */
+.wg-sched td.wg-cell .wg-card{min-height:52px;}
+.wg-lunch td.wg-cell .wg-card{min-height:52px;}
+.wg-dinner td.wg-cell .wg-card{min-height:64px;}
+.wg-workout td.wg-cell .wg-card{min-height:48px;}
+.wg-outfit td.wg-cell .wg-card{min-height:110px;}
+.wg-auggie td.wg-cell .wg-card{min-height:40px;}
+/* Make all cells in a row the same height via table layout */
+.wg-table{table-layout:fixed;}
+.wg-cell{vertical-align:top;width:calc((100% - 72px) / 7);}
 /* Row color schemes */
 .wg-sched .wg-card{background:#EDEBE4;color:#3A3525;}
 .wg-sched .wg-card textarea{color:#3A3525;}
