@@ -182,6 +182,16 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .wg-workout .wg-row-label-inner{background:var(--blue);}
 .wg-outfit .wg-row-label-inner{background:var(--coral);}
 .wg-auggie .wg-row-label-inner{background:var(--blue);}
+.wg-clean .wg-card{background:#F0EDE6;color:#3A3525;}
+.wg-clean td.wg-cell .wg-card{min-height:80px;}
+.wg-clean .wg-row-label-inner{background:#A09880;}
+.clean-task{display:flex;align-items:center;gap:5px;padding:1px 0;cursor:pointer;}
+.clean-task input[type=checkbox]{appearance:none;-webkit-appearance:none;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(58,53,37,.35);flex-shrink:0;cursor:pointer;transition:all .15s;background:none;}
+.clean-task input[type=checkbox]:checked{background:#A09880;border-color:#A09880;}
+.clean-task-label{font-size:10px;font-weight:300;line-height:1.3;transition:opacity .15s;}
+.clean-task input:checked~.clean-task-label{text-decoration:line-through;opacity:.4;}
+.clean-add-input{background:none;border:none;border-bottom:1px solid rgba(58,53,37,.2);outline:none;font-family:'Jost',sans-serif;font-size:10px;font-weight:300;color:#3A3525;width:100%;padding:2px 0;}
+.clean-add-input::placeholder{color:rgba(58,53,37,.35);}
 /* outfit cell special */
 .wg-outfit-content{font-size:10px;font-weight:300;line-height:1.5;}
 .wg-outfit-piece{display:block;}
@@ -959,6 +969,7 @@ function renderWeekly(){
     {key:'dinner',   label:'Dinner',  cls:'wg-dinner'},
     {key:'workout',  label:'Workout', cls:'wg-workout'},
     {key:'outfit',   label:'Outfit',  cls:'wg-outfit'},
+    {key:'clean',    label:'Clean',   cls:'wg-clean'},
     {key:'auggie',   label:'🐶 Post', cls:'wg-auggie'},
   ];
 
@@ -1016,7 +1027,19 @@ function renderWeekly(){
         } else {
           html+='<div style="font-size:10px;opacity:.4;">no outfit</div>';
         }
-      } else if(row.key==='auggie'){
+      } else if(row.key==='clean'){
+        var cleanData=load('clean_'+wk())||{};
+        var dayTasks=cleanData[iso]||[];
+        html+=dayTasks.map(function(task,ti){
+          var uid='ct_'+iso.replace(/-/g,'')+'_'+ti;
+          return '<label class="clean-task">'+
+            '<input type="checkbox" '+(task.done?'checked':'')+' onchange="toggleCleanTask(\''+iso+'\','+ti+',this.checked)"/>'+
+            '<span class="clean-task-label">'+esc(task.text)+'</span>'+
+          '</label>';
+        }).join('')+
+        '<div style="margin-top:3px;display:flex;gap:3px;">'+
+          '<input type="text" class="clean-add-input" placeholder="+ add task" onkeydown="if(event.key===\'Enter\'){addCleanTask(\''+iso+'\',this);event.preventDefault();}"/>'+
+        '</div>';
         if(auggieDay.length){
           html+=auggieDay.filter(function(p){return p.text;}).map(function(p){
             return '<div style="font-size:10px;font-weight:300;line-height:1.4;">'+esc(p.text)+'</div>';
@@ -1132,6 +1155,22 @@ function wSaveEditedOutfit(dayName){
 }
 function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 function saveDayField(el){var wd=load(wk())||{days:{}};if(!wd.days)wd.days={};if(!wd.days[el.dataset.iso])wd.days[el.dataset.iso]={};wd.days[el.dataset.iso][el.dataset.field]=el.value;hubSave(wk(),wd);}
+function toggleCleanTask(iso,taskIdx,checked){
+  var cleanData=load('clean_'+wk())||{};
+  if(!cleanData[iso])cleanData[iso]=[];
+  if(cleanData[iso][taskIdx])cleanData[iso][taskIdx].done=checked;
+  hubSave('clean_'+wk(),cleanData);
+}
+function addCleanTask(iso,input){
+  var text=input.value.trim();
+  if(!text)return;
+  var cleanData=load('clean_'+wk())||{};
+  if(!cleanData[iso])cleanData[iso]=[];
+  cleanData[iso].push({text:text,done:false});
+  hubSave('clean_'+wk(),cleanData);
+  input.value='';
+  renderWeekly();
+}
 function saveWeekly(){
   var wd=load(wk())||{days:{}};
   var wi=document.getElementById('w-intention');var wf=document.getElementById('w-focus');var wb=document.getElementById('w-braindump');
@@ -1729,7 +1768,7 @@ function aRemovePost(day,pi){
 // ══ GOOGLE DRIVE ══
 var driveState='idle';var driveFileId=null;var driveTokenClient=null;var driveGapiReady=false;
 var DRIVE_FILE='lifehub_data.json';
-var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_'];
+var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_','clean_'];
 
 function handleDriveClick(){
   var cid=localStorage.getItem('hub_gdrive_cid');var key=localStorage.getItem('hub_gdrive_key');
