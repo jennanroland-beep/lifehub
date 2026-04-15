@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>My Life Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant:ital,wght@1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F3EC;--paper2:#EDE8DE;--ink:#1A1917;--ink-light:#3A3835;--ink-faint:#6B6760;
+  --rule:#B0AAA0;--sage:#8BA888;--sage-light:#C8D9C6;--sage-fill:#D8E8D6;
+  --coral:#C8826A;--coral-light:#E8C0B0;--coral-fill:#F0D4CA;
+  --blue:#8892B0;--blue-light:#C0C8DC;--blue-fill:#D4DAEC;
+  --gold:#B8A070;--gold-light:#DDD0B8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min-height:100vh;font-weight:300;}
+
+/* NAV */
+.nav{background:var(--paper);border-bottom:1px solid var(--rule);padding:0 24px;position:sticky;top:0;z-index:100;display:flex;align-items:stretch;justify-content:space-between;gap:8px;flex-wrap:nowrap;overflow-x:auto;}
+.nav-brand{padding:14px 0;flex-shrink:0;}
+.nav-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;letter-spacing:.02em;}
+.nav-sub{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-top:1px;}
+.nav-tabs{display:flex;gap:0;flex-shrink:0;}
+.nav-tab{font-family:'Jost',sans-serif;font-size:9px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);background:none;border:none;padding:12px 14px 10px;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;}
+.nav-tab:hover{color:var(--ink);}
+.nav-tab.active{color:var(--ink);border-bottom-color:var(--ink);}
+.nav-right{display:flex;align-items:center;gap:8px;padding:10px 0;flex-shrink:0;}
+.drive-btn{font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.14em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:5px 11px;cursor:pointer;color:var(--ink-faint);display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;}
+.drive-btn:hover{border-color:var(--ink-faint);color:var(--ink-light);}
+.drive-dot{width:5px;height:5px;border-radius:50%;background:var(--rule);}
+.month-nav{display:flex;align-items:center;gap:8px;}
+.month-label{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.05em;min-width:100px;text-align:center;}
+.month-btn{background:none;border:1px solid var(--rule);width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:11px;color:var(--ink-light);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.month-btn:hover{border-color:var(--ink-light);color:var(--ink);}
+
+/* PANELS */
+.panel{display:none;padding:32px 24px;max-width:1200px;margin:0 auto;}
+.panel.active{display:block;}
+
+/* SHARED */
+.section-script{font-family:'Cormorant',serif;font-style:italic;font-weight:400;font-size:26px;color:var(--ink);margin-bottom:20px;letter-spacing:.01em;}
+.label-caps{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);font-weight:500;}
+.ruled-input{background:none;border:none;border-bottom:1px solid var(--rule);width:100%;padding:5px 0 4px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);outline:none;transition:border-color .15s;}
+.ruled-input:focus{border-bottom-color:var(--ink-light);}
+.ruled-input::placeholder{color:var(--ink-faint);}
+.ruled-textarea{background:none;border:none;outline:none;resize:none;width:100%;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);line-height:2;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--rule) 27px,var(--rule) 28px);min-height:112px;}
+.ruled-textarea::placeholder{color:var(--ink-faint);}
+.circle-cb{appearance:none;-webkit-appearance:none;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-faint);cursor:pointer;flex-shrink:0;margin-top:2px;transition:all .15s;background:none;}
+.circle-cb:checked{background:var(--ink);border-color:var(--ink);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-size:10px;background-position:center;background-repeat:no-repeat;}
+.ghost-btn{background:none;border:1px dashed var(--rule);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.1em;color:var(--ink-light);padding:7px 14px;cursor:pointer;transition:all .15s;border-radius:2px;}
+.ghost-btn:hover{border-color:var(--ink-light);color:var(--ink);}
+.solid-btn{font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:none;padding:10px 22px;cursor:pointer;transition:background .15s;}
+.solid-btn:hover{background:var(--coral);}
+.pill-tag{font-size:8px;letter-spacing:.1em;text-transform:uppercase;background:var(--paper2);border:1px solid var(--rule);padding:2px 8px;cursor:pointer;color:var(--ink-faint);transition:all .15s;}
+.pill-tag:hover{border-color:var(--ink-faint);color:var(--ink-light);}
+.pill-tag.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:28px;}
+.sub-tab{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px 8px;cursor:pointer;transition:all .15s;margin-bottom:-1px;}
+.sub-tab:hover{color:var(--ink-light);}
+.sub-tab.active{color:var(--ink);border-bottom-color:var(--coral);}
+.panel-section{display:none;}.panel-section.active{display:block;}
+
+/* ── JOURNAL ── */
+.goals-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+.goals-col-header{font-family:'Cormorant',serif;font-style:italic;font-size:19px;color:var(--ink);text-align:center;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid var(--rule);}
+.goal-block{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--rule);}
+.goal-title-input{background:none;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;font-style:italic;color:var(--ink);width:100%;border-bottom:1px solid var(--rule);padding-bottom:3px;margin-bottom:8px;}
+.goal-title-input::placeholder{color:var(--ink-faint);font-weight:300;}
+.goal-items{display:flex;flex-direction:column;gap:5px;margin-bottom:8px;}
+.goal-item{display:flex;align-items:center;gap:7px;}
+.goal-item-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);flex:1;padding:3px 0;}
+.goal-item-input::placeholder{color:var(--ink-faint);}
+.reward-row{display:flex;align-items:baseline;gap:7px;margin-top:6px;}
+.reward-label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);flex-shrink:0;}
+.reward-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);flex:1;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ink);padding:2px 0;}
+.reward-input::placeholder{color:var(--ink-faint);font-size:12px;}
+.intention-card{background:var(--paper2);border:1px solid var(--rule);border-radius:3px;padding:12px 14px 10px;margin-bottom:8px;}
+.intention-category{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-light);margin-bottom:5px;}
+.intention-input{background:none;border:none;outline:none;resize:none;width:100%;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.5;min-height:40px;}
+.intention-input::placeholder{color:var(--ink-faint);font-style:italic;}
+/* Habit tracker */
+.tracker-section{margin-bottom:44px;}
+.tracker-section-title{font-family:'Cormorant',serif;font-style:italic;font-size:22px;margin-bottom:18px;padding-bottom:9px;border-bottom:1px solid var(--rule);display:flex;align-items:baseline;justify-content:space-between;}
+.habit-grid-wrap{overflow-x:auto;}
+.habit-grid{border-collapse:collapse;width:100%;}
+.habit-grid th{font-size:8px;font-weight:400;letter-spacing:.12em;color:var(--ink-light);text-align:center;padding:4px 2px;border-bottom:1px solid var(--rule);min-width:24px;}
+.habit-grid td{padding:2px;text-align:center;}
+.habit-name-cell{text-align:left!important;min-width:180px;padding-left:0!important;position:sticky;left:0;background:var(--paper2);z-index:2;}
+.habit-grid thead th:first-child{position:sticky;left:0;background:var(--paper2);z-index:3;min-width:180px;text-align:left;}
+.habit-name-input{background:none;border:none;outline:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);width:100%;padding:5px 0;border-bottom:1px solid var(--rule);}
+.habit-name-input::placeholder{color:var(--ink-faint);}
+.habit-dot{width:19px;height:19px;border-radius:3px;border:1.5px solid var(--rule);cursor:pointer;margin:0 auto;transition:all .15s;background:transparent;display:block;}
+.habit-dot:hover{border-color:var(--ink-faint);}
+.habit-dot.filled{border-color:transparent;}
+.pct-cell{font-size:10px;font-weight:400;color:var(--ink-light);padding-left:10px!important;text-align:left!important;white-space:nowrap;}
+.pct-toggle-btn{font-size:8px;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:3px 9px;border-radius:20px;cursor:pointer;color:var(--ink-light);transition:all .15s;}
+.pct-toggle-btn.active{background:var(--ink);color:white;border-color:var(--ink);}
+.hc-sage .habit-dot.filled{background:var(--sage);border-color:var(--sage);}
+.hc-coral .habit-dot.filled{background:var(--coral);border-color:var(--coral);}
+.hc-blue .habit-dot.filled{background:var(--blue);border-color:var(--blue);}
+.hc-gold .habit-dot.filled{background:var(--gold);border-color:var(--gold);}
+.hc-sage .habit-name-input{color:var(--sage);}
+.hc-coral .habit-name-input{color:var(--coral);}
+.hc-blue .habit-name-input{color:var(--blue);}
+.hc-gold .habit-name-input{color:var(--gold);}
+/* Reflection */
+.reflection-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+.rating-row{display:flex;align-items:center;gap:5px;margin:12px 0 18px;}
+.rating-circle{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--ink-faint);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--ink-light);transition:all .15s;flex-shrink:0;background:none;}
+.rating-circle:hover{border-color:var(--ink);color:var(--ink);}
+.rating-circle.selected{background:var(--ink);color:white;border-color:var(--ink);}
+.life-area-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--rule);}
+.life-area-name{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-light);}
+.star-row{display:flex;gap:3px;}
+.star-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--ink-faint);transition:color .15s;line-height:1;padding:0;}
+.star-btn.filled{color:var(--gold);}
+.star-btn:hover{color:var(--gold);}
+.reflection-q{margin-bottom:20px;}
+.reflection-q-label{font-size:12px;font-weight:400;color:var(--ink);margin-bottom:7px;line-height:1.5;}
+.reflection-textarea{background:none;border:none;outline:none;resize:none;width:100%;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);line-height:2;background-image:repeating-linear-gradient(transparent,transparent 30px,var(--rule) 30px,var(--rule) 31px);min-height:92px;}
+.reflection-textarea::placeholder{color:var(--ink-faint);}
+.numbered-list{display:flex;flex-direction:column;gap:12px;margin-top:7px;}
+.numbered-item{display:flex;align-items:baseline;gap:9px;}
+.numbered-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--ink-light);flex-shrink:0;width:15px;}
+.numbered-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);flex:1;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);padding:3px 0;}
+.numbered-input::placeholder{color:var(--ink-faint);}
+
+/* ── WEEKLY ── */
+.weekly-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);}
+.week-nav-btns{display:flex;gap:7px;align-items:center;}
+.week-nav-btn{background:none;border:1px solid var(--rule);width:26px;height:26px;border-radius:50%;cursor:pointer;color:var(--ink-light);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.week-nav-btn:hover{border-color:var(--ink);color:var(--ink);}
+.week-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);}
+.week-range{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
+/* ── WEEKLY GRID ── */
+.weekly-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);}
+.week-nav-btns{display:flex;gap:7px;align-items:center;}
+.week-nav-btn{background:none;border:1px solid var(--rule);width:26px;height:26px;border-radius:50%;cursor:pointer;color:var(--ink-light);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.week-nav-btn:hover{border-color:var(--ink);color:var(--ink);}
+.week-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);}
+.week-range{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
+.wg-table{width:100%;border-collapse:collapse;min-width:700px;}
+.wg-row-label{width:72px;padding:8px 10px 8px 0;vertical-align:top;}
+.wg-row-label-inner{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:white;padding:3px 8px;border-radius:2px;white-space:nowrap;display:inline-block;}
+.wg-day-header{text-align:center;padding:0 4px 10px;vertical-align:bottom;}
+.wg-day-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink);line-height:1;}
+.wg-day-name{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);margin-top:1px;}
+.wg-day-wx{font-size:9px;color:var(--ink-faint);margin-top:3px;line-height:1.3;}
+.wg-cell{padding:3px 4px;vertical-align:top;}
+.wg-card{border-radius:4px;padding:7px 9px;min-height:36px;position:relative;transition:box-shadow .15s;}
+.wg-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.wg-card textarea,.wg-card input{background:none;border:none;outline:none;width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;color:inherit;resize:none;padding:0;line-height:1.5;}
+.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.25);}
+/* Row color schemes */
+.wg-sched .wg-card{background:#EAE6F8;color:#3D3060;}
+.wg-sched .wg-card textarea{color:#3D3060;}
+.wg-lunch .wg-card{background:#E8F3E8;color:#2A5A2A;}
+.wg-lunch .wg-card textarea{color:#2A5A2A;}
+.wg-dinner .wg-card{background:#FDF0E6;color:#6B3A1F;}
+.wg-dinner .wg-card textarea{color:#6B3A1F;}
+.wg-workout .wg-card{background:#E6F0F8;color:#1A3D5C;}
+.wg-workout .wg-card textarea{color:#1A3D5C;}
+.wg-outfit .wg-card{background:var(--coral-fill);color:#5C2A1A;}
+.wg-outfit .wg-card textarea{color:#5C2A1A;}
+.wg-auggie .wg-card{background:var(--blue-fill);color:#1A2A5C;}
+.wg-auggie .wg-card textarea{color:#1A2A5C;}
+/* label colors */
+.wg-sched .wg-row-label-inner{background:#7B68C8;}
+.wg-lunch .wg-row-label-inner{background:var(--sage);}
+.wg-dinner .wg-row-label-inner{background:#C8824A;}
+.wg-workout .wg-row-label-inner{background:var(--blue);}
+.wg-outfit .wg-row-label-inner{background:var(--coral);}
+.wg-auggie .wg-row-label-inner{background:var(--blue);}
+/* outfit cell special */
+.wg-outfit-content{font-size:10px;font-weight:300;line-height:1.5;}
+.wg-outfit-piece{display:block;}
+.wg-outfit-role{font-size:7px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-right:3px;}
+.wg-outfit-actions{display:flex;gap:4px;margin-top:4px;}
+.wg-outfit-btn{background:rgba(0,0,0,.08);border:none;cursor:pointer;font-size:9px;padding:1px 6px;border-radius:2px;color:inherit;opacity:.7;transition:opacity .15s;}
+.wg-outfit-btn:hover{opacity:1;}
+.weekly-right{display:flex;flex-direction:column;gap:20px;}
+.right-section{}
+.right-section-label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:9px;padding-bottom:5px;border-bottom:1.5px solid var(--rule);}
+.intention-input-single{background:none;border:none;outline:none;resize:none;width:100%;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--ink);line-height:1.5;min-height:48px;}
+.intention-input-single::placeholder{color:var(--ink-faint);}
+.priority-list{display:flex;flex-direction:column;gap:6px;}
+.priority-item{display:flex;align-items:center;gap:7px;}
+.priority-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--ink-light);flex-shrink:0;width:13px;}
+.priority-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);flex:1;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);padding:3px 0;}
+.priority-input::placeholder{color:var(--ink-faint);}
+.task-list{display:flex;flex-direction:column;gap:5px;}
+.task-item{display:flex;align-items:center;gap:7px;}
+.task-item-input{background:none;border:none;outline:none;border-bottom:1px solid var(--rule);flex:1;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--ink);padding:3px 0;}
+.task-item-input::placeholder{color:var(--ink-faint);}
+.task-item-input.done{text-decoration:line-through;color:var(--ink-faint);}
+
+/* ── MEALS ── */
+.meal-week-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);}
+.meal-stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.meal-stat-chip{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:10px 14px;flex:1;min-width:120px;}
+.meal-stat-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;line-height:1;}
+.meal-stat-label{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px;}
+/* Recipe cards — matches sent file style adapted to hub palette */
+.meal-card{background:var(--paper);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-bottom:10px;}
+.meal-card.bf-night{border-left:3px solid var(--coral);}
+.meal-card-top{padding:18px 20px;display:grid;grid-template-columns:1fr auto;align-items:start;gap:14px;}
+.meal-tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--coral);background:var(--coral-fill);padding:3px 9px;border-radius:10px;margin-bottom:7px;}
+.meal-name-rc{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--ink);margin-bottom:5px;line-height:1.3;}
+.meal-desc{font-size:12px;color:var(--ink-faint);line-height:1.6;font-weight:300;}
+.meal-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.meal-pill{background:var(--sage-fill);color:var(--sage);font-size:9px;padding:2px 8px;border-radius:7px;font-weight:500;}
+.meal-pill.protein{background:var(--coral-fill);color:var(--coral);}
+.meal-pill.new{background:var(--blue-fill);color:var(--blue);}
+.meal-serves{font-size:10px;color:var(--ink-faint);white-space:nowrap;font-weight:300;padding-top:2px;}
+.recipe-toggle{display:flex;align-items:center;gap:7px;padding:10px 20px;border-top:1px solid var(--rule);cursor:pointer;font-size:11px;font-weight:500;color:var(--sage);background:none;border-left:none;border-right:none;border-bottom:none;width:100%;text-align:left;transition:background .15s;letter-spacing:.02em;}
+.recipe-toggle:hover{background:var(--sage-fill);}
+.recipe-toggle.open{color:var(--ink);background:var(--sage-fill);}
+.toggle-icon{width:17px;height:17px;border-radius:50%;background:var(--sage-fill);display:flex;align-items:center;justify-content:center;font-size:9px;transition:transform .25s;flex-shrink:0;}
+.recipe-toggle.open .toggle-icon{transform:rotate(180deg);background:var(--sage-light);}
+.recipe-panel{max-height:0;overflow:hidden;transition:max-height .5s ease;background:var(--paper2);}
+.recipe-panel.open{max-height:3000px;border-top:1px solid var(--rule);}
+.recipe-inner{padding:20px 24px 24px;}
+.recipe-section-title{font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:var(--coral);margin-bottom:9px;margin-top:18px;}
+.recipe-section-title:first-child{margin-top:0;}
+.recipe-ingredients{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.recipe-ingredients li{font-size:12px;font-weight:300;color:var(--ink);display:flex;gap:7px;line-height:1.4;}
+.recipe-ingredients li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--coral);flex-shrink:0;margin-top:5px;}
+.recipe-steps{list-style:none;display:flex;flex-direction:column;gap:9px;counter-reset:steps;}
+.recipe-steps li{font-size:12px;font-weight:300;color:var(--ink);line-height:1.65;display:grid;grid-template-columns:22px 1fr;gap:9px;align-items:start;}
+.recipe-steps li::before{counter-increment:steps;content:counter(steps);font-size:10px;font-weight:500;color:white;background:var(--sage);border-radius:50%;width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.recipe-note-text{font-size:11px;font-weight:300;color:var(--ink-faint);font-style:italic;margin-top:12px;line-height:1.6;}
+.grocery-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.grocery-cat{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:14px 16px;}
+.grocery-cat-title{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:500;color:var(--coral);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--rule);}
+.grocery-cat ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.grocery-cat ul li{font-size:12px;font-weight:300;display:flex;align-items:flex-start;gap:7px;line-height:1.4;cursor:pointer;}
+.grocery-cat ul li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--sage-light);flex-shrink:0;margin-top:5px;}
+.grocery-cat ul li.checked{text-decoration:line-through;color:var(--ink-faint);}
+/* paste modal */
+.paste-area{width:100%;min-height:120px;background:var(--paper2);border:1px solid var(--rule);font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--ink);padding:14px;outline:none;resize:vertical;}
+.paste-area::placeholder{color:var(--ink-faint);}
+
+/* ── WARDROBE ── */
+.w-card{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:13px;position:relative;}
+.w-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px;}
+.w-outfit-card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--coral);border-radius:3px;padding:16px;margin-bottom:10px;}
+
+/* ── AUGGIE ── */
+.aug-board{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;}
+.ideas-bank{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:16px;}
+.idea-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--rule);cursor:grab;}
+.idea-item:last-child{border-bottom:none;}
+.idea-item:active{cursor:grabbing;}
+.idea-drag-handle{color:var(--rule);font-size:12px;flex-shrink:0;user-select:none;}
+.idea-text{font-size:12px;font-weight:300;color:var(--ink);flex:1;}
+.aug-week-grid{display:flex;flex-direction:column;gap:8px;}
+.aug-day-col{background:var(--paper);border:1px solid var(--rule);border-radius:3px;min-height:80px;}
+.aug-day-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--rule);}
+.aug-day-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ink-light);}
+.aug-day-drop{padding:8px 10px;min-height:54px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;}
+.aug-day-drop.drag-over{background:var(--sage-fill);}
+.aug-scheduled-post{display:flex;align-items:center;gap:6px;background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:4px 8px;}
+.aug-post-status{font-size:8px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--rule);padding:1px 6px;cursor:pointer;color:var(--ink-faint);}
+.aug-post-status.idea{color:var(--ink-faint);}
+.aug-post-status.drafting{color:var(--blue);border-color:var(--blue);}
+.aug-post-status.scheduled{color:var(--sage);border-color:var(--sage);}
+.aug-post-status.posted{color:var(--coral);border-color:var(--coral);}
+.aug-post-text{font-size:11px;font-weight:300;color:var(--ink);flex:1;}
+.aug-post-del{background:none;border:none;cursor:pointer;color:var(--rule);font-size:11px;padding:0 2px;transition:color .15s;}
+/* import modal */
+.import-modal-bg{position:fixed;inset:0;background:rgba(44,43,40,.5);z-index:400;display:none;align-items:center;justify-content:center;}
+.import-modal-bg.open{display:flex;}
+.import-modal-box{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:28px;width:min(620px,94vw);max-height:90vh;overflow-y:auto;}
+.import-modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px;}
+.import-modal-sub{font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:18px;}
+.import-format-box{background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:10px 13px;font-family:monospace;font-size:10px;color:var(--ink-light);line-height:1.8;margin-bottom:18px;white-space:pre;}
+.import-textarea{width:100%;min-height:200px;background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:12px;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--ink);line-height:1.7;resize:vertical;outline:none;}
+.import-textarea:focus{border-color:var(--ink-faint);}
+.import-result{font-size:11px;margin-top:10px;min-height:18px;color:var(--sage);}
+.import-result.err{color:var(--coral);}
+.import-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px;align-items:center;}
+.import-actions .cancel-btn{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:7px 14px;cursor:pointer;color:var(--ink-faint);transition:all .15s;}
+.import-actions .cancel-btn:hover{border-color:var(--ink-faint);color:var(--ink-light);}
+.aug-post-del:hover{color:var(--coral);}
+
+/* DRIVE MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(44,43,40,.45);z-index:300;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--paper);width:460px;max-height:88vh;overflow-y:auto;padding:32px;box-shadow:0 16px 48px rgba(0,0,0,.2);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:8px;}
+.modal-body{font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:18px;}
+.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;}
+.cancel-btn{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:9px 16px;cursor:pointer;color:var(--ink-light);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px;}
+
+/* MOBILE */
+@media(max-width:700px){
+  .nav{padding:0 14px;}
+  .nav-title{font-size:16px;}
+  .panel{padding:18px 14px 60px;}
+  .weekly-layout{grid-template-columns:1fr;}
+  .goals-layout{grid-template-columns:1fr;}
+  .reflection-layout{grid-template-columns:1fr;}
+  .grocery-grid{grid-template-columns:1fr;}
+  .aug-board{grid-template-columns:1fr;}
+  .ideas-bank{order:2;}
+  .aug-week-grid{order:1;}
+  .modal-box{width:95vw;padding:22px;}
+  .nav-tabs{overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+
+<script src="https://apis.google.com/js/api.js" async></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-title">My Life Hub</div>
+    <div class="nav-sub">Personal Planner</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('journal')">Journal</button>
+    <button class="nav-tab" onclick="switchTab('weekly')">Weekly Planner</button>
+    <button class="nav-tab" onclick="switchTab('meals')">Meals</button>
+    <button class="nav-tab" onclick="switchTab('wardrobe')">Wardrobe</button>
+    <button class="nav-tab" onclick="switchTab('auggie')">Auggie</button>
+  </div>
+  <div class="nav-right">
+    <button class="drive-btn" id="drive-btn" onclick="handleDriveClick()">
+      <span class="drive-dot" id="drive-dot"></span>
+      <span id="drive-lbl">Drive</span>
+    </button>
+    <div class="month-nav">
+      <button class="month-btn" onclick="shiftMonth(-1)">‹</button>
+      <div class="month-label" id="monthLabel"></div>
+      <button class="month-btn" onclick="shiftMonth(1)">›</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ JOURNAL ══ -->
+<div class="panel active" id="panel-journal">
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchSub('journal','goals',this)">Goals & Intentions</button>
+    <button class="sub-tab" onclick="switchSub('journal','habits',this)">Habit Tracker</button>
+    <button class="sub-tab" onclick="switchSub('journal','reflection',this)">Reflection</button>
+  </div>
+  <!-- Goals -->
+  <div class="panel-section active" id="journal-goals">
+    <div class="goals-layout">
+      <div>
+        <div class="goals-col-header">Monthly goals</div>
+        <div id="goals-list"></div>
+      </div>
+      <div>
+        <div class="goals-col-header">Monthly intentions</div>
+        <div id="intentions-list"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Habits -->
+  <div class="panel-section" id="journal-habits">
+    <div class="tracker-section">
+      <div class="tracker-section-title">
+        <span>Habit Tracker</span>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <span style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-right:3px;">% of</span>
+          <button class="pct-toggle-btn active" id="pct-all-btn" onclick="setPctMode('all')">All days</button>
+          <button class="pct-toggle-btn" id="pct-wkd-btn" onclick="setPctMode('weekdays')">Weekdays</button>
+          <button class="pct-toggle-btn" id="pct-individual-btn" onclick="setPctMode('individual')">Per habit</button>
+        </div>
+      </div>
+      <div class="habit-grid-wrap"><table class="habit-grid" id="habit-table"></table></div>
+      <button class="ghost-btn" onclick="addHabit()" style="margin-top:9px;">+ Add habit</button>
+    </div>
+  </div>
+  <!-- Reflection -->
+  <div class="panel-section" id="journal-reflection">
+    <div style="margin-bottom:24px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);">
+      <div style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink);font-weight:500;margin-bottom:3px;">Monthly Reflection</div>
+      <div style="font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);" id="reflection-month-label"></div>
+    </div>
+    <div class="reflection-layout">
+      <div>
+        <div style="font-size:12px;color:var(--ink);margin-bottom:5px;">How would I rate my month out of ten?</div>
+        <div class="rating-row" id="rating-row"></div>
+        <div class="reflection-q" style="margin-top:14px;"><div class="reflection-q-label">How did I feel emotionally and physically this month?</div><textarea class="reflection-textarea" id="r-emotional" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label">How did I manage my time, responsibilities, and priorities?</div><textarea class="reflection-textarea" id="r-time" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label">What went well for me this month?</div><textarea class="reflection-textarea" id="r-wellgood" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label">Did I reach my goals this month? Why or why not?</div><textarea class="reflection-textarea" id="r-goals" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label" style="margin-bottom:10px;">What am I grateful for this month?</div>
+          <div class="numbered-list">
+            <div class="numbered-item"><span class="numbered-num">1.</span><input class="numbered-input" id="r-grateful-1" oninput="saveReflection()"></div>
+            <div class="numbered-item"><span class="numbered-num">2.</span><input class="numbered-input" id="r-grateful-2" oninput="saveReflection()"></div>
+            <div class="numbered-item"><span class="numbered-num">3.</span><input class="numbered-input" id="r-grateful-3" oninput="saveReflection()"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label-caps" style="margin-bottom:12px;">Life Areas</div>
+        <div id="life-areas" style="margin-bottom:20px;"></div>
+        <div class="reflection-q"><div class="reflection-q-label">How did I care for my mental health this month?</div><textarea class="reflection-textarea" id="r-mental" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label">What didn't go so well?</div><textarea class="reflection-textarea" id="r-notwell" oninput="saveReflection()"></textarea></div>
+        <div class="reflection-q"><div class="reflection-q-label">What do I want to change or simplify next month?</div>
+          <div class="numbered-list">
+            <div class="numbered-item"><span class="numbered-num">1.</span><input class="numbered-input" id="r-change-1" oninput="saveReflection()"></div>
+            <div class="numbered-item"><span class="numbered-num">2.</span><input class="numbered-input" id="r-change-2" oninput="saveReflection()"></div>
+            <div class="numbered-item"><span class="numbered-num">3.</span><input class="numbered-input" id="r-change-3" oninput="saveReflection()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WEEKLY PLANNER ══ -->
+<div class="panel" id="panel-weekly">
+  <div class="weekly-header">
+    <div>
+      <div style="font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);">Week</div>
+      <div class="week-num" id="weekNum">—</div>
+      <div class="week-range" id="weekRange"></div>
+    </div>
+    <div class="week-nav-btns">
+      <button class="week-nav-btn" onclick="shiftWeek(-1)">‹</button>
+      <button class="week-nav-btn" onclick="shiftWeek(1)">›</button>
+      <button class="ghost-btn" style="margin-left:7px;font-size:8.5px;padding:5px 11px;" onclick="goThisWeek()">This week</button>
+    </div>
+  </div>
+
+  <!-- WEEK GRID -->
+  <div id="week-grid-wrap" style="overflow-x:auto;margin-bottom:28px;">
+    <div id="week-grid"></div>
+  </div>
+
+  <!-- SIDEBAR BELOW -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:8px;" id="weekly-bottom">
+    <div class="right-section">
+      <div class="right-section-label">Weekly intention</div>
+      <textarea class="intention-input-single" id="w-intention" rows="2" placeholder="Set your intention…" onchange="saveWeekly()"></textarea>
+    </div>
+    <div class="right-section">
+      <div class="right-section-label">Top Priorities</div>
+      <div class="priority-list" id="w-priorities"></div>
+    </div>
+    <div>
+      <div class="right-section" style="margin-bottom:14px;">
+        <div class="right-section-label">Personal Tasks</div>
+        <div class="task-list" id="w-personal-tasks"></div>
+        <button class="ghost-btn" style="margin-top:6px;font-size:8.5px;" onclick="addWeekTask('personal')">+ Add</button>
+      </div>
+      <div class="right-section">
+        <div class="right-section-label">Work Tasks</div>
+        <div class="task-list" id="w-work-tasks"></div>
+        <button class="ghost-btn" style="margin-top:6px;font-size:8.5px;" onclick="addWeekTask('work')">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-section" style="margin-top:20px;">
+    <div class="right-section-label">Brain Dump</div>
+    <textarea class="ruled-textarea" id="w-braindump" rows="3" onchange="saveWeekly()" style="min-height:72px;"></textarea>
+  </div>
+</div>
+
+<!-- ══ MEALS ══ -->
+<div class="panel" id="panel-meals">
+  <div class="meal-week-header">
+    <div class="section-script" style="margin-bottom:0;">Meal Planner</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="sub-tab active" onclick="mSwitchView('plan',this)" id="m-plan-btn">This Week</button>
+      <button class="sub-tab" onclick="mSwitchView('grocery',this)" id="m-grocery-btn">Grocery List</button>
+      <button class="sub-tab" onclick="mSwitchView('import',this)" id="m-import-btn">Import Plan</button>
+    </div>
+  </div>
+
+  <!-- Plan view -->
+  <div id="m-view-plan">
+    <div class="meal-stats-bar" id="meal-stats-bar"></div>
+    <div id="meal-plan-content">
+      <div style="text-align:center;padding:48px 20px;color:var(--ink-faint);">
+        <div style="font-size:28px;margin-bottom:10px;">🥗</div>
+        <div style="font-size:12px;line-height:1.8;">No meal plan loaded yet.<br>Go to <strong>Import Plan</strong> to paste in the week's plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grocery view -->
+  <div id="m-view-grocery" style="display:none;">
+    <div id="grocery-content">
+      <div style="text-align:center;padding:48px 20px;color:var(--ink-faint);">
+        <div style="font-size:12px;">Import a meal plan first to auto-generate your grocery list.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import view -->
+  <div id="m-view-import" style="display:none;">
+    <div style="max-width:640px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;margin-bottom:8px;">Paste your meal plan JSON</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:16px;">When I send you a meal plan, I'll include a JSON block at the bottom. Copy the whole block (including the curly braces) and paste it here — it'll populate instantly with full recipe cards.</div>
+      <textarea class="paste-area" id="meal-paste-input" placeholder='Paste the JSON block from our chat here. It starts with { and ends with }&#10;&#10;Example:&#10;{&#10;  "weekLabel": "Week of April 7",&#10;  "days": { ... }&#10;}'></textarea>
+      <div style="display:flex;gap:10px;margin-top:12px;align-items:center;">
+        <button class="solid-btn" onclick="parseMealPlan()">Import →</button>
+        <div id="meal-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WARDROBE ══ -->
+<div class="panel" id="panel-wardrobe">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);">
+    <div class="section-script" style="margin-bottom:0;">Wardrobe</div>
+    <div style="display:flex;gap:6px;">
+      <button class="sub-tab active" onclick="wSwitchView('closet',this)">Closet</button>
+      <button class="sub-tab" onclick="wSwitchView('outfit',this)">Single Outfit</button>
+      <button class="sub-tab" onclick="wSwitchView('week',this)">Week Plan</button>
+    </div>
+  </div>
+
+  <!-- Closet -->
+  <div id="wb-closet">
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div><div class="label-caps" style="margin-bottom:5px;">Item name</div><input type="text" id="w-item-name" class="ruled-input" placeholder="e.g. Cream linen blazer"/></div>
+        <div><div class="label-caps" style="margin-bottom:5px;">Category</div>
+          <select id="w-item-cat" class="ruled-input" style="padding:4px 0;">
+            <option value="">Select…</option><option>Top</option><option>Bottom</option><option>Dress / Jumpsuit</option><option>Outerwear</option><option>Shoes</option><option>Bag</option><option>Accessory</option><option>Activewear</option>
+          </select>
+        </div>
+      </div>
+      <div class="label-caps" style="margin-bottom:5px;">Color</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;" id="w-color-tags">
+        <button class="pill-tag" onclick="wToggleTag(this,'color')">Black</button><button class="pill-tag" onclick="wToggleTag(this,'color')">White</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Cream</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Tan/Camel</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Brown</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Navy</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Grey</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Blue</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Green</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Blush/Pink</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Pattern</button><button class="pill-tag" onclick="wToggleTag(this,'color')">Stripe</button>
+      </div>
+      <div class="label-caps" style="margin-bottom:5px;">Vibe</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">
+        <button class="pill-tag" onclick="wToggleTag(this,'vibe')">Casual</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Work</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Evening</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Weekend</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Date night</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Year-round</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Spring/Summer</button><button class="pill-tag" onclick="wToggleTag(this,'vibe')">Fall/Winter</button>
+      </div>
+      <input type="text" id="w-item-notes" class="ruled-input" placeholder="Notes (e.g. runs large, dry clean only…)" style="margin-bottom:13px;"/>
+      <button onclick="wAddItem()" class="solid-btn">+ Add to closet</button>
+    </div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center;" id="w-filter-bar">
+      <button class="pct-toggle-btn active" onclick="wFilter('all',this)">All</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Top',this)">Tops</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Bottom',this)">Bottoms</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Dress / Jumpsuit',this)">Dresses</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Outerwear',this)">Outerwear</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Shoes',this)">Shoes</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Bag',this)">Bags</button>
+      <button class="pct-toggle-btn" onclick="wFilter('Accessory',this)">Accessories</button>
+      <button onclick="wCopyClosetForClaude()" class="ghost-btn" style="margin-left:auto;font-size:8.5px;padding:4px 12px;">Copy closet for Claude ↗</button>
+    </div>
+    <div class="w-grid" id="w-closet-grid"></div>
+  </div>
+
+  <!-- Single outfit -->
+  <div id="wb-outfit" style="display:none;">
+    <!-- Step 1: Copy closet for Claude -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;">
+        <div class="label-caps">Step 1 — Copy your closet for Claude</div>
+        <button onclick="wCopyClosetForClaude()" class="solid-btn" style="padding:7px 16px;font-size:9px;" id="w-copy-btn">Copy closet prompt</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Copies a ready-to-send prompt to your clipboard. Paste it into Claude (extension or claude.ai) with your vibe and context — e.g. <em>"Work outfit, Brooklyn, 55°F, need to walk Auggie first."</em></div>
+      <div id="w-copy-confirm" style="font-size:11px;color:var(--sage);margin-top:6px;display:none;">✓ Copied! Paste into Claude.</div>
+    </div>
+
+    <!-- Step 2: Paste Claude's response -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;">
+      <div class="label-caps" style="margin-bottom:8px;">Step 2 — Paste Claude's response</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:12px;">Copy Claude's outfit response and paste it here. It'll parse into outfit cards automatically.</div>
+      <textarea id="w-outfit-paste" class="paste-area" style="min-height:120px;" placeholder="OUTFIT 1: Tuesday Work Look&#10;Top: Cream linen blazer&#10;Bottom: Navy straight-leg trousers&#10;Shoes: White leather loafers&#10;Note: Layer over a fitted white tee — polished but easy.&#10;&#10;OUTFIT 2: ..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+        <button onclick="wParseOutfitResponse()" class="solid-btn">Import outfits →</button>
+        <div id="w-outfit-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
+      </div>
+    </div>
+    <div id="w-outfit-result" style="margin-top:16px;"></div>
+  </div>
+
+  <!-- Week plan -->
+  <div id="wb-week" style="display:none;">
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div class="label-caps" style="white-space:nowrap;">Weather</div>
+      <input type="text" id="w-weather-city" class="ruled-input" placeholder="City (e.g. Brooklyn)" style="flex:1;min-width:110px;max-width:180px;"/>
+      <select id="w-weather-unit" class="ruled-input" style="max-width:65px;padding:3px 0;"><option value="F">°F</option><option value="C">°C</option></select>
+      <button onclick="wFetchWeather()" class="ghost-btn" style="margin:0;font-size:9px;">Fetch →</button>
+      <div id="w-weather-preview" style="font-size:10px;color:var(--ink-faint);width:100%;"></div>
+    </div>
+    <div id="w-week-rows" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;"></div>
+
+    <!-- Generate prompt -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;margin-bottom:14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;">
+        <div class="label-caps">Step 1 — Generate your Claude prompt</div>
+        <button onclick="wGenerateWeekPrompt()" class="solid-btn" style="padding:7px 16px;font-size:9px;">Copy prompt ↗</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Sets up your vibe, weather, and closet into a ready-to-send prompt. Paste it into Claude with any extra context.</div>
+      <div id="w-week-copy-confirm" style="font-size:11px;color:var(--sage);margin-top:6px;display:none;">✓ Copied! Paste into Claude.</div>
+    </div>
+
+    <!-- Paste Claude response -->
+    <div style="background:var(--paper);border:1px solid var(--rule);padding:18px;">
+      <div class="label-caps" style="margin-bottom:8px;">Step 2 — Paste Claude's response</div>
+      <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:12px;">Paste the full week of outfits back here. Each outfit auto-assigns to its day and updates your Weekly Planner.</div>
+      <textarea id="w-week-paste" class="paste-area" style="min-height:140px;" placeholder="OUTFIT: Monday&#10;Vibe: Work / Office&#10;Top: Cream linen blazer&#10;Bottom: Navy trousers&#10;Shoes: White loafers&#10;Note: Layer over white tee, polished but easy.&#10;&#10;OUTFIT: Tuesday&#10;..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+        <button onclick="wParseWeekResponse()" class="solid-btn">Import week →</button>
+        <div id="w-week-import-status" style="font-size:11px;color:var(--ink-faint);"></div>
+      </div>
+    </div>
+    <div id="w-week-result" style="margin-top:16px;"></div>
+  </div>
+</div>
+
+<!-- ══ AUGGIE ══ -->
+<div class="panel" id="panel-auggie">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);">
+    <div class="section-script" style="margin-bottom:0;">@AuggieDoggieBK</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="openImportModal()">&#8595; Import Calendar</button>
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(-1)">&#8249;</button>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.05em;" id="auggie-week-label">This week</span>
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(1)">&#8250;</button>
+    </div>
+  </div>
+
+  <div class="aug-board">
+    <!-- Left: ideas bank -->
+    <div>
+      <div class="ideas-bank">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule);">
+          <div class="label-caps">Ideas Bank</div>
+          <button class="ghost-btn" style="font-size:8.5px;padding:4px 10px;" onclick="aAddIdea()">+ Add</button>
+        </div>
+        <div id="aug-ideas-list"></div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);">
+          <div class="label-caps" style="margin-bottom:8px;">Need ideas?</div>
+          <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Ask me in our chat for content ideas — just say what format (carousel, reel, etc.) and any topic or angle. I'll generate ideas you can paste into the bank above.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: weekly content calendar -->
+    <div>
+      <div class="label-caps" style="margin-bottom:12px;">Content Calendar — drag ideas onto days</div>
+      <div class="aug-week-grid" id="aug-week-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT CALENDAR MODAL -->
+<div class="import-modal-bg" id="import-modal">
+  <div class="import-modal-box">
+    <div class="import-modal-title">Import content calendar</div>
+    <div class="import-modal-sub">Paste a calendar in the format below. Each line is one post. Dates are matched to the right week automatically — you can paste multiple weeks at once. Existing posts on those days are kept; new ones are added.</div>
+    <div class="import-format-box">Mon Apr 21 | Auggie's Q1 performance review | carousel | office dog
+Tue Apr 22 | Unpopular opinion: cockapoos are better than goldendoodles | reel | hot take
+Wed Apr 23 | Things I packed for Auggie's first week at the office | carousel | office dog</div>
+    <div class="label-caps" style="margin-bottom:7px;">Format: Day Date | Post title | Format | Pillar</div>
+    <textarea class="import-textarea" id="import-text" placeholder="Mon Apr 20 | Auggie's first day of the week | reel | office dog&#10;Tue Apr 21 | Cockapoo hot take | carousel | hot take&#10;..."></textarea>
+    <div class="import-result" id="import-result"></div>
+    <div class="import-actions">
+      <span style="font-size:11px;color:var(--ink-faint);flex:1;">Tip: copy the full two-week calendar from Claude and paste it here.</span>
+      <button class="cancel-btn" onclick="closeImportModal()">Cancel</button>
+      <button class="solid-btn" onclick="doImport()">Import posts</button>
+    </div>
+  </div>
+</div>
+
+<!-- DRIVE MODAL -->
+<div class="modal-bg" id="drive-modal">
+  <div class="modal-box">
+    <div class="modal-title">Connect Google Drive</div>
+    <div class="modal-body">
+      Everything in your hub — planner, meals, wardrobe, Auggie — syncs to a private file in your Google Drive. Open the same HTML file on any device and your data loads automatically.<br><br>
+      <strong>To get credentials (~5 min):</strong><br>
+      1. Go to <strong>console.cloud.google.com</strong><br>
+      2. APIs &amp; Services → Library → enable <strong>Google Drive API</strong><br>
+      3. Credentials → + Create Credentials → <strong>API Key</strong> → copy it<br>
+      4. Credentials → + Create Credentials → <strong>OAuth Client ID</strong> → type: Web application → add <code>http://localhost</code> and your file's URL to Authorized JavaScript Origins<br>
+      5. Paste both below
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div><div class="label-caps" style="margin-bottom:5px;">OAuth Client ID</div><input type="text" id="drive-client-id" class="ruled-input" placeholder="123456789.apps.googleusercontent.com"/></div>
+      <div><div class="label-caps" style="margin-bottom:5px;">API Key</div><input type="text" id="drive-api-key" class="ruled-input" placeholder="AIzaSy…"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="cancel-btn" onclick="driveReset()" style="color:var(--coral);border-color:var(--coral-light);">Reset credentials</button>
+      <button class="cancel-btn" onclick="document.getElementById('drive-modal').classList.remove('open')">Cancel</button>
+      <button class="solid-btn" onclick="driveSaveAndConnect()">Connect →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ CONSTANTS ══
+var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DAYS_SHORT=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+var DAYS_FULL=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var WEEKDAYS=['Monday','Tuesday','Wednesday','Thursday','Friday'];
+var HABIT_COLORS=['hc-sage','hc-coral','hc-blue','hc-gold','hc-sage','hc-coral','hc-blue','hc-gold'];
+var LIFE_AREAS=['Mental & Emotional','Relationships','Health & Fitness','Your Environment','Personal Development','Fun & Recreation','Money & Finances','Career or Business'];
+var INTENTION_CATS=['Personal Growth','Health & Fitness','Fun & Recreation','Relationships','Career / Business','Finances'];
+var W_VIBES_S=['Work','Casual','Date Night','Errands','Brunch','Workout','Evening','Travel'];
+var W_VIBES_F=['Work / Office','Casual Day','Date Night','Weekend Errands','Brunch','Gym / Workout','Evening Out','Travel Day'];
+var W_CAT_EMOJI={'Top':'👕','Bottom':'👖','Dress / Jumpsuit':'👗','Outerwear':'🧥','Shoes':'👟','Bag':'👜','Accessory':'💍','Activewear':'🩳','':'🏷️'};
+
+// ══ STATE ══
+var currentMonth=new Date().getMonth();
+var currentYear=new Date().getFullYear();
+var currentWeekStart=getThisMonday();
+var pctMode='all';
+var wCurrentFilter='all';
+var wSelectedVibe='';
+var wActiveTags={color:[],vibe:[]};
+var wDayVibes={Monday:'Work / Office',Tuesday:'Work / Office',Wednesday:'Work / Office',Thursday:'Work / Office',Friday:'Work / Office'};
+var wDaySkipped={Saturday:true,Sunday:true};
+var wWeatherData={};
+var wWeatherSummary='';
+var auggieWeekOffset=0;
+var draggedIdeaId=null;
+
+// ══ STORAGE ══
+function mk(){return currentYear+'-'+String(currentMonth+1).padStart(2,'0');}
+function wk(){return 'week-'+currentWeekStart;}
+function load(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function hubSave(k,v){save(k,v);if(driveState==='synced')driveSync();}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ══ NAV ══
+function switchTab(t){
+  ['journal','weekly','meals','wardrobe','auggie'].forEach(function(id,i){
+    document.querySelectorAll('.nav-tab')[i].classList.toggle('active',id===t);
+    document.getElementById('panel-'+id).classList.toggle('active',id===t);
+  });
+  if(t==='journal')renderGoals();
+  if(t==='weekly')renderWeekly();
+  if(t==='wardrobe')wRenderCloset();
+  if(t==='auggie')aRenderAll();
+}
+function switchSub(panel,sec,btn){
+  document.querySelectorAll('#panel-'+panel+' .panel-section').forEach(function(el){el.classList.remove('active');});
+  document.getElementById(panel+'-'+sec).classList.add('active');
+  document.querySelectorAll('#panel-'+panel+' .sub-tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  if(sec==='habits')renderTracker();
+  if(sec==='reflection')renderReflection();
+}
+function mSwitchView(v,btn){
+  ['plan','grocery','import'].forEach(function(id){document.getElementById('m-view-'+id).style.display=id===v?'':'none';});
+  document.querySelectorAll('#panel-meals .sub-tab').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+}
+function wSwitchView(v,btn){
+  ['closet','outfit','week'].forEach(function(id){document.getElementById('wb-'+id).style.display=id===v?'':'none';});
+  document.querySelectorAll('#panel-wardrobe .sub-tab').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  if(v==='closet')wRenderCloset();
+  if(v==='week')wBuildWeekRows();
+}
+function shiftMonth(d){
+  currentMonth+=d;
+  if(currentMonth>11){currentMonth=0;currentYear++;}
+  if(currentMonth<0){currentMonth=11;currentYear--;}
+  updateMonthLabel();
+  var active=document.querySelector('.panel.active');
+  if(active)switchTab(active.id.replace('panel-',''));
+}
+function updateMonthLabel(){document.getElementById('monthLabel').textContent=MONTHS[currentMonth]+' '+currentYear;}
+
+// ══ DATE UTILS ══
+function getThisMonday(){
+  var d=new Date();
+  var day=d.getDay();
+  var diff=d.getDate()-day+(day===0?-6:1);
+  var mon=new Date(d.setDate(diff));
+  return mon.toISOString().slice(0,10);
+}
+function getWeekDates(){
+  var start=new Date(currentWeekStart+'T12:00:00');
+  return Array.from({length:7},function(_,i){var d=new Date(start);d.setDate(d.getDate()+i);return d;});
+}
+function shiftWeek(d){
+  var s=new Date(currentWeekStart+'T12:00:00');
+  s.setDate(s.getDate()+d*7);
+  currentWeekStart=s.toISOString().slice(0,10);
+  renderWeekly();
+}
+function goThisWeek(){currentWeekStart=getThisMonday();renderWeekly();}
+function getWeekNum(d){
+  var date=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  var dayNum=date.getUTCDay()||7;
+  date.setUTCDate(date.getUTCDate()+4-dayNum);
+  var yearStart=new Date(Date.UTC(date.getUTCFullYear(),0,1));
+  return Math.ceil((((date-yearStart)/86400000)+1)/7);
+}
+
+// ══ GOALS ══
+function renderGoals(){
+  var d=load('goals-'+mk())||{goals:[],intentions:[]};
+  if(!d.goals||!d.goals.length)d.goals=[{title:'',items:['','','','',''],reward:''},{title:'',items:['','','','',''],reward:''},{title:'',items:['','','','',''],reward:''}];
+  if(!d.intentions||!d.intentions.length)d.intentions=INTENTION_CATS.map(function(c){return{cat:c,text:''};});
+  save('goals-'+mk(),d);
+  var gl=document.getElementById('goals-list');gl.innerHTML='';
+  d.goals.forEach(function(g,gi){
+    var block=document.createElement('div');block.className='goal-block';
+    block.innerHTML='<div class="label-caps" style="margin-bottom:8px;">Goal</div>'+
+      '<input class="goal-title-input" placeholder="Goal title…" value="'+esc(g.title)+'" data-gi="'+gi+'" data-field="title" oninput="saveGoalField(this)">'+
+      '<div class="goal-items">'+g.items.map(function(item,ii){
+        return '<div class="goal-item"><div style="width:7px;height:7px;border-radius:50%;border:1.5px solid var(--ink-faint);flex-shrink:0;margin-top:3px;"></div>'+
+          '<input class="goal-item-input" placeholder="" value="'+esc(item)+'" data-gi="'+gi+'" data-ii="'+ii+'" oninput="saveGoalItem(this)"></div>';
+      }).join('')+'</div>'+
+      '<div class="reward-row"><span class="reward-label">Reward:</span><input class="reward-input" placeholder="treat yourself…" value="'+esc(g.reward)+'" data-gi="'+gi+'" data-field="reward" oninput="saveGoalField(this)"></div>';
+    gl.appendChild(block);
+  });
+  var il=document.getElementById('intentions-list');il.innerHTML='';
+  d.intentions.forEach(function(intent,ii){
+    var card=document.createElement('div');card.className='intention-card';
+    card.innerHTML='<div class="intention-category">'+esc(intent.cat)+'</div>'+
+      '<textarea class="intention-input" data-ii="'+ii+'" oninput="saveIntention(this)" placeholder="Your intention…">'+esc(intent.text)+'</textarea>';
+    il.appendChild(card);
+  });
+}
+function saveGoalField(el){var d=load('goals-'+mk())||{goals:[]};d.goals[el.dataset.gi][el.dataset.field]=el.value;hubSave('goals-'+mk(),d);}
+function saveGoalItem(el){var d=load('goals-'+mk())||{goals:[]};d.goals[el.dataset.gi].items[el.dataset.ii]=el.value;hubSave('goals-'+mk(),d);}
+function saveIntention(el){var d=load('goals-'+mk())||{intentions:[]};if(!d.intentions)d.intentions=[];d.intentions[el.dataset.ii].text=el.value;hubSave('goals-'+mk(),d);}
+
+// ══ HABIT TRACKER ══
+function renderTracker(){
+  var d=load('tracker-'+mk())||{habits:[]};
+  if(!d.habits||!d.habits.length){
+    d.habits=[{name:'',color:'hc-sage',days:Array(31).fill(false),pctMode:'all'},{name:'',color:'hc-coral',days:Array(31).fill(false),pctMode:'all'}];
+    save('tracker-'+mk(),d);
+  }
+  var daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
+  var tbl=document.getElementById('habit-table');tbl.innerHTML='';
+  var thead=tbl.createTHead();var hr=thead.insertRow();
+  hr.insertCell().innerHTML='<th class="habit-name-cell label-caps">Habit</th>';
+  for(var i=1;i<=daysInMonth;i++){var th=document.createElement('th');th.textContent=i;hr.appendChild(th);}
+  var th2=document.createElement('th');th2.textContent='%';hr.appendChild(th2);
+  var tbody=tbl.createTBody();
+  d.habits.forEach(function(h,hi){
+    var tr=tbody.insertRow();tr.className=h.color||'hc-sage';
+    var nameTd=tr.insertCell();nameTd.className='habit-name-cell';
+    nameTd.innerHTML='<input class="habit-name-input" placeholder="Habit name…" value="'+esc(h.name||'')+'" data-hi="'+hi+'" oninput="saveHabitName(this)">';
+    for(var d2=0;d2<daysInMonth;d2++){
+      var td=tr.insertCell();
+      var btn=document.createElement('button');btn.type='button';
+      btn.className='habit-dot'+(h.days[d2]?' filled':'');
+      btn.dataset.hi=hi;btn.dataset.day=d2;
+      btn.onclick=function(){toggleHabitDay(parseInt(this.dataset.hi),parseInt(this.dataset.day),this);};
+      td.appendChild(btn);
+    }
+    // Per-habit pct cell with toggle
+    var effectiveMode = pctMode==='individual' ? (h.pctMode||'all') : pctMode;
+    var pctTd=tr.insertCell();pctTd.className='pct-cell';
+    pctTd.innerHTML='<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start;">'+
+      '<span id="pct-val-'+hi+'" style="font-size:11px;font-weight:400;">'+calcPct(h,daysInMonth,effectiveMode)+'%</span>'+
+      (pctMode==='individual'?
+        '<div style="display:flex;gap:3px;">'+
+          '<button class="pct-toggle-btn'+(effectiveMode==='all'?' active':'')+'" style="font-size:7px;padding:1px 5px;" onclick="setHabitPctMode('+hi+',\'all\')">All</button>'+
+          '<button class="pct-toggle-btn'+(effectiveMode==='weekdays'?' active':'')+'" style="font-size:7px;padding:1px 5px;" onclick="setHabitPctMode('+hi+',\'weekdays\')">Wkd</button>'+
+        '</div>'
+      :'')
+    +'</div>';
+  });
+}
+function calcPct(h,daysInMonth,mode){
+  if(!mode)mode=pctMode;
+  var count=0,total=0;
+  if(mode==='weekdays'){
+    var firstDay=new Date(currentYear,currentMonth,1).getDay();
+    for(var i=0;i<daysInMonth;i++){var wd=(firstDay+i)%7;if(wd>=1&&wd<=5){total++;if(h.days[i])count++;}}
+    return total?Math.round(count/total*100):0;
+  }
+  total=daysInMonth;
+  for(var j=0;j<daysInMonth;j++)if(h.days[j])count++;
+  return total?Math.round(count/total*100):0;
+}
+function setHabitPctMode(hi,mode){
+  var d=load('tracker-'+mk())||{habits:[]};
+  if(d.habits[hi]){d.habits[hi].pctMode=mode;hubSave('tracker-'+mk(),d);}
+  renderTracker();
+}
+function toggleHabitDay(hi,day,btn){
+  var d=load('tracker-'+mk())||{habits:[]};
+  d.habits[hi].days[day]=!d.habits[hi].days[day];
+  btn.classList.toggle('filled',d.habits[hi].days[day]);
+  hubSave('tracker-'+mk(),d);
+  var effectiveMode=pctMode==='individual'?(d.habits[hi].pctMode||'all'):pctMode;
+  var pctVal=document.getElementById('pct-val-'+hi);
+  if(pctVal)pctVal.textContent=calcPct(d.habits[hi],new Date(currentYear,currentMonth+1,0).getDate(),effectiveMode)+'%';
+}
+function saveHabitName(el){var d=load('tracker-'+mk())||{habits:[]};d.habits[el.dataset.hi].name=el.value;hubSave('tracker-'+mk(),d);}
+function addHabit(){
+  var d=load('tracker-'+mk())||{habits:[]};
+  var ci=d.habits.length%HABIT_COLORS.length;
+  d.habits.push({name:'',color:HABIT_COLORS[ci],days:Array(31).fill(false),pctMode:'all'});
+  hubSave('tracker-'+mk(),d);renderTracker();
+}
+function setPctMode(m){
+  pctMode=m;
+  ['all','wkd','individual'].forEach(function(k){var b=document.getElementById('pct-'+k+'-btn');if(b)b.classList.toggle('active',k===m||('wkd'===k&&m==='weekdays'));});
+  document.getElementById('pct-wkd-btn').classList.toggle('active',m==='weekdays');
+  document.getElementById('pct-individual-btn').classList.toggle('active',m==='individual');
+  renderTracker();
+}
+
+// ══ REFLECTION ══
+function renderReflection(){
+  document.getElementById('reflection-month-label').textContent=MONTHS[currentMonth].toUpperCase()+' '+currentYear;
+  var d=load('reflection-'+mk())||{rating:0,areas:{},emotional:'',time:'',wellgood:'',goals:'',mental:'',notwell:'',grateful:['','',''],change:['','','']};
+  var rrow=document.getElementById('rating-row');rrow.innerHTML='';
+  for(var n=1;n<=10;n++){
+    var btn=document.createElement('button');btn.className='rating-circle'+(d.rating===n?' selected':'');
+    btn.textContent=n;btn.dataset.n=n;
+    btn.onclick=function(){setRating(parseInt(this.dataset.n));};
+    rrow.appendChild(btn);
+  }
+  var la=document.getElementById('life-areas');la.innerHTML='';
+  LIFE_AREAS.forEach(function(area){
+    var stars=(d.areas&&d.areas[area])||0;
+    var row=document.createElement('div');row.className='life-area-row';
+    row.innerHTML='<div class="life-area-name">'+area+'</div><div class="star-row">'+
+      [1,2,3,4,5].map(function(s){return '<button class="star-btn'+(s<=stars?' filled':'')+'" data-area="'+encodeURIComponent(area)+'" data-s="'+s+'" onclick="setStar(this)">★</button>';}).join('')+'</div>';
+    la.appendChild(row);
+  });
+  ['emotional','time','wellgood','goals','mental','notwell'].forEach(function(f){var el=document.getElementById('r-'+f);if(el)el.value=d[f]||'';});
+  [1,2,3].forEach(function(n){
+    var g=document.getElementById('r-grateful-'+n);var c=document.getElementById('r-change-'+n);
+    if(g)g.value=(d.grateful||[])[n-1]||'';if(c)c.value=(d.change||[])[n-1]||'';
+  });
+}
+function setRating(n){var d=load('reflection-'+mk())||{};d.rating=n;hubSave('reflection-'+mk(),d);document.querySelectorAll('.rating-circle').forEach(function(b){b.classList.toggle('selected',parseInt(b.dataset.n)===n);});}
+function setStar(el){var area=decodeURIComponent(el.dataset.area);var s=parseInt(el.dataset.s);var d=load('reflection-'+mk())||{areas:{}};if(!d.areas)d.areas={};d.areas[area]=s;hubSave('reflection-'+mk(),d);el.parentElement.querySelectorAll('.star-btn').forEach(function(b){b.classList.toggle('filled',parseInt(b.dataset.s)<=s);});}
+function saveReflection(){
+  var d=load('reflection-'+mk())||{};
+  ['emotional','time','wellgood','goals','mental','notwell'].forEach(function(f){var el=document.getElementById('r-'+f);if(el)d[f]=el.value;});
+  d.grateful=[1,2,3].map(function(n){var el=document.getElementById('r-grateful-'+n);return el?el.value:'';});
+  d.change=[1,2,3].map(function(n){var el=document.getElementById('r-change-'+n);return el?el.value:'';});
+  hubSave('reflection-'+mk(),d);
+}
+
+// ══ WEEKLY PLANNER ══
+function renderWeekly(){
+  var dates=getWeekDates();
+  var start=dates[0],end=dates[6];
+  document.getElementById('weekNum').textContent=getWeekNum(start);
+  document.getElementById('weekRange').textContent=
+    (MONTHS[start.getMonth()].slice(0,3)+' '+start.getDate()+' – '+MONTHS[end.getMonth()].slice(0,3)+' '+end.getDate()+', '+end.getFullYear()).toUpperCase();
+  var wd=load(wk())||{days:{},intention:'',focus:'',priorities:['','','','',''],personalTasks:[],workTasks:[],braindump:''};
+  var wWeatherAll=load('wardrobe_weather_all')||{};
+  var mealData=load('meals_current')||{};
+  var outfitData=load('outfit_week_'+currentWeekStart)||{};
+  var auggieData=load('auggie_scheduled_'+currentWeekStart)||{};
+
+  var rows=[
+    {key:'schedule',label:'Schedule',cls:'wg-sched'},
+    {key:'lunch',    label:'Lunch',   cls:'wg-lunch'},
+    {key:'dinner',   label:'Dinner',  cls:'wg-dinner'},
+    {key:'workout',  label:'Workout', cls:'wg-workout'},
+    {key:'outfit',   label:'Outfit',  cls:'wg-outfit'},
+    {key:'auggie',   label:'🐶 Post', cls:'wg-auggie'},
+  ];
+
+  // Build table
+  var html='<table class="wg-table"><thead><tr><th class="wg-row-label"></th>';
+  dates.forEach(function(date,idx){
+    var iso=date.toISOString().slice(0,10);
+    var wx=wWeatherAll[iso]||'';
+    var wxIcon=wx?wx.includes('Sunny')?'☀️':wx.includes('Partly')?'⛅':wx.includes('Overcast')?'☁️':wx.includes('Rain')||wx.includes('Drizzle')?'🌧':wx.includes('Snow')?'❄️':'🌡':'';
+    var wxShort=wx?wx.split(',')[1]?.trim()||wx:'';
+    html+='<th class="wg-day-header">'+
+      '<div class="wg-day-num">'+date.getDate()+'</div>'+
+      '<div class="wg-day-name">'+DAYS_SHORT[idx]+'</div>'+
+      (wxShort?'<div class="wg-day-wx">'+wxIcon+' '+esc(wxShort)+'</div>':'')+
+    '</th>';
+  });
+  html+='</tr></thead><tbody>';
+
+  rows.forEach(function(row){
+    html+='<tr class="'+row.cls+'"><td class="wg-row-label"><span class="wg-row-label-inner">'+row.label+'</span></td>';
+    dates.forEach(function(date,idx){
+      var iso=date.toISOString().slice(0,10);
+      var dayName=DAYS_FULL[idx];
+      var dd=(wd.days&&wd.days[iso])||{};
+      var mealDay=(mealData.days&&mealData.days[dayName])||{};
+      var outfitDay=outfitData[dayName]||{};
+      var auggieDay=auggieData[dayName]||[];
+
+      html+='<td class="wg-cell"><div class="wg-card">';
+
+      if(row.key==='lunch'){
+        var val=mealDay.lunch||dd.lunch||'';
+        html+=mealDay.lunch
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.lunch)+'</div>'
+          :'<textarea rows="2" data-iso="'+iso+'" data-field="lunch" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add lunch">'+esc(val)+'</textarea>';
+      } else if(row.key==='dinner'){
+        var val=mealDay.dinner||dd.dinner||'';
+        html+=mealDay.dinner
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.dinner)+'</div>'
+          :'<textarea rows="2" data-iso="'+iso+'" data-field="dinner" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add dinner">'+esc(val)+'</textarea>';
+      } else if(row.key==='outfit'){
+        if(outfitDay.pieces&&outfitDay.pieces.length){
+          html+='<div class="wg-outfit-content">'+
+            outfitDay.pieces.map(function(p){
+              return '<span class="wg-outfit-piece"><span class="wg-outfit-role">'+esc(p.role)+'</span>'+esc(p.item)+'</span>';
+            }).join('')+
+          '</div>'+
+          '<div class="wg-outfit-actions">'+
+            '<button class="wg-outfit-btn" onclick="editOutfitDay(\''+dayName+'\')">✎ edit</button>'+
+            '<button class="wg-outfit-btn" onclick="deleteOutfitDay(\''+dayName+'\');renderWeekly()">✕</button>'+
+          '</div>';
+        } else {
+          html+='<div style="font-size:10px;opacity:.4;">no outfit</div>';
+        }
+      } else if(row.key==='auggie'){
+        if(auggieDay.length){
+          html+=auggieDay.filter(function(p){return p.text;}).map(function(p){
+            var st=(p.status||'Idea').toLowerCase();
+            return '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;cursor:pointer;" onclick="switchTab(\'auggie\')" title="Edit in Auggie tab">'+
+              '<span class="aug-post-status '+st+'" style="flex-shrink:0;">'+esc(p.status||'Idea')+'</span>'+
+              '<span style="font-size:10px;font-weight:300;line-height:1.4;color:inherit;">'+esc(p.text)+'</span>'+
+            '</div>';
+          }).join('');
+          html+='<div style="font-size:9px;opacity:.45;margin-top:3px;cursor:pointer;" onclick="switchTab(\'auggie\')">edit in Auggie tab →</div>';
+        } else {
+          html+='<div style="font-size:10px;opacity:.35;cursor:pointer;" onclick="switchTab(\'auggie\')">— add post →</div>';
+        }
+      } else {
+        // Editable field (schedule, workout)
+        html+='<textarea rows="2" data-iso="'+iso+'" data-field="'+row.key+'" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="">'+esc(dd[row.key]||'')+'</textarea>';
+      }
+
+      html+='</div></td>';
+    });
+    html+='</tr>';
+  });
+
+  html+='</tbody></table>';
+  document.getElementById('week-grid').innerHTML=html;
+
+  // Bottom section
+  var wi=document.getElementById('w-intention');if(wi)wi.value=wd.intention||'';
+  var wp=document.getElementById('w-priorities');
+  if(wp){wp.innerHTML='';(wd.priorities||['','','','','']).forEach(function(p,i){
+    var div=document.createElement('div');div.className='priority-item';
+    div.innerHTML='<div class="priority-num">'+(i+1)+'</div><input class="priority-input" value="'+esc(p)+'" data-i="'+i+'" onchange="savePriority(this)" placeholder=""/>';
+    wp.appendChild(div);
+  });}
+  renderWeekTasks('personal',wd.personalTasks||[]);
+  renderWeekTasks('work',wd.workTasks||[]);
+  var wb=document.getElementById('w-braindump');if(wb)wb.value=wd.braindump||'';
+}
+function deleteOutfitDay(dayName){
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  delete outfitWeek[dayName];
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+  renderWeekly();
+}
+function editOutfitDay(dayName){
+  // Switch to wardrobe week tab and open inline editor
+  switchTab('wardrobe',document.querySelectorAll('.nav-tab')[3]);
+  wSwitchView('week',null);
+  // Slight delay to let tab render
+  setTimeout(function(){
+    var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+    var outfit=outfitWeek[dayName];
+    if(!outfit)return;
+    // Show inline editor
+    var existing=document.getElementById('w-inline-editor');
+    if(existing)existing.remove();
+    var editor=document.createElement('div');
+    editor.id='w-inline-editor';
+    editor.style.cssText='background:var(--paper);border:1px solid var(--coral);padding:18px;margin-top:14px;';
+    editor.innerHTML='<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;">'+
+      '<div class="label-caps">Editing '+dayName+' outfit</div>'+
+      '<button onclick="document.getElementById(\'w-inline-editor\').remove()" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:12px;">✕ Close</button>'+
+    '</div>'+
+    '<div id="w-edit-pieces" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">'+
+      (outfit.pieces||[]).map(function(p,i){
+        return '<div style="display:flex;gap:8px;align-items:center;">'+
+          '<input class="ruled-input" style="max-width:90px;font-size:11px;" value="'+esc(p.role)+'" id="edit-role-'+i+'" placeholder="Role"/>'+
+          '<input class="ruled-input" style="flex:1;font-size:12px;" value="'+esc(p.item)+'" id="edit-item-'+i+'" placeholder="Item"/>'+
+          '<button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:12px;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'var(--rule)\'">✕</button>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px;">'+
+      '<button onclick="wAddEditPiece()" class="ghost-btn" style="font-size:9px;padding:5px 12px;">+ Add piece</button>'+
+    '</div>'+
+    '<div style="display:flex;gap:8px;">'+
+      '<button onclick="wSaveEditedOutfit(\''+dayName+'\')" class="solid-btn" style="padding:8px 20px;">Save changes</button>'+
+      '<button onclick="deleteOutfitDay(\''+dayName+'\');document.getElementById(\'w-inline-editor\').remove();" class="ghost-btn" style="font-size:9px;color:var(--coral);border-color:var(--coral-light);">Delete outfit</button>'+
+    '</div>'+
+    '<div id="w-edit-status" style="font-size:11px;color:var(--sage);margin-top:8px;"></div>';
+    var resultEl=document.getElementById('w-week-result');
+    if(resultEl)resultEl.parentNode.insertBefore(editor,resultEl);
+    editor.scrollIntoView({behavior:'smooth',block:'start'});
+  },150);
+}
+function wAddEditPiece(){
+  var container=document.getElementById('w-edit-pieces');
+  if(!container)return;
+  var i=container.children.length;
+  var div=document.createElement('div');
+  div.style.cssText='display:flex;gap:8px;align-items:center;';
+  div.innerHTML='<input class="ruled-input" style="max-width:90px;font-size:11px;" id="edit-role-'+i+'" placeholder="Role"/>'+
+    '<input class="ruled-input" style="flex:1;font-size:12px;" id="edit-item-'+i+'" placeholder="Item"/>'+
+    '<button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:12px;">✕</button>';
+  container.appendChild(div);
+}
+function wSaveEditedOutfit(dayName){
+  var container=document.getElementById('w-edit-pieces');
+  if(!container)return;
+  var pieces=[];
+  Array.from(container.children).forEach(function(row,i){
+    var role=row.querySelector('[id^="edit-role"]');
+    var item=row.querySelector('[id^="edit-item"]');
+    if(role&&item&&item.value.trim()){
+      pieces.push({role:role.value.trim()||'Item',item:item.value.trim()});
+    }
+  });
+  if(!pieces.length)return;
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  if(!outfitWeek[dayName])outfitWeek[dayName]={};
+  outfitWeek[dayName].pieces=pieces;
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+  var status=document.getElementById('w-edit-status');
+  if(status)status.textContent='✓ Saved!';
+  setTimeout(function(){
+    var editor=document.getElementById('w-inline-editor');
+    if(editor)editor.remove();
+  },800);
+}
+function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+function saveDayField(el){var wd=load(wk())||{days:{}};if(!wd.days)wd.days={};if(!wd.days[el.dataset.iso])wd.days[el.dataset.iso]={};wd.days[el.dataset.iso][el.dataset.field]=el.value;hubSave(wk(),wd);}
+function saveWeekly(){
+  var wd=load(wk())||{days:{}};
+  var wi=document.getElementById('w-intention');var wf=document.getElementById('w-focus');var wb=document.getElementById('w-braindump');
+  if(wi)wd.intention=wi.value;if(wf)wd.focus=wf.value;if(wb)wd.braindump=wb.value;
+  hubSave(wk(),wd);
+}
+function savePriority(el){var wd=load(wk())||{days:{}};if(!wd.priorities)wd.priorities=['','','','',''];wd.priorities[el.dataset.i]=el.value;hubSave(wk(),wd);}
+function renderWeekTasks(type,tasks){
+  var container=document.getElementById('w-'+type+'-tasks');if(!container)return;container.innerHTML='';
+  tasks.forEach(function(t,i){
+    var div=document.createElement('div');div.className='task-item';
+    div.innerHTML='<input type="checkbox" class="circle-cb"'+(t.done?' checked':'')+' onchange="toggleWeekTask(\''+type+'\','+i+',this)">'+
+      '<input class="task-item-input'+(t.done?' done':'')+'" value="'+esc(t.text||'')+'" data-type="'+type+'" data-i="'+i+'" onchange="saveWeekTask(this)">';
+    container.appendChild(div);
+  });
+}
+function addWeekTask(type){var wd=load(wk())||{days:{}};var key=type+'Tasks';if(!wd[key])wd[key]=[];wd[key].push({text:'',done:false});hubSave(wk(),wd);renderWeekly();}
+function saveWeekTask(el){var wd=load(wk())||{days:{}};var key=el.dataset.type+'Tasks';if(wd[key]&&wd[key][el.dataset.i])wd[key][el.dataset.i].text=el.value;hubSave(wk(),wd);}
+function toggleWeekTask(type,i,cb){var wd=load(wk())||{days:{}};var key=type+'Tasks';if(wd[key]&&wd[key][i]){wd[key][i].done=cb.checked;hubSave(wk(),wd);if(cb.nextElementSibling)cb.nextElementSibling.classList.toggle('done',cb.checked);}}
+
+// ══ MEALS ══
+function parseMealPlan(){
+  var raw=document.getElementById('meal-paste-input').value.trim();
+  if(!raw){return;}
+  var status=document.getElementById('meal-import-status');
+  // Strip markdown code fences if present
+  var clean=raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+  try{
+    var parsed=JSON.parse(clean);
+    hubSave('meals_current',parsed);
+    status.textContent='✓ Imported!';
+    status.style.color='var(--sage)';
+    renderMealPlan(parsed);
+    mSwitchView('plan',document.getElementById('m-plan-btn'));
+  }catch(e){
+    status.textContent='Not valid JSON — paste the code block from our chat exactly as sent.';
+    status.style.color='var(--coral)';
+  }
+}
+
+function renderMealPlan(data){
+  if(!data){data=load('meals_current');if(!data)return;}
+  // Stats bar
+  var statsBar=document.getElementById('meal-stats-bar');
+  statsBar.innerHTML='<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--sage);">'+(data.plants&&data.plants.count||'—')+'</div><div class="meal-stat-label">Plants this week</div></div>'+
+    '<div class="meal-stat-chip"><div class="meal-stat-val" style="font-size:14px;font-weight:300;line-height:1.3;">'+esc(data.weekLabel||'This Week')+'</div><div class="meal-stat-label">Week label</div></div>'+
+    (data.budget?'<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--coral);">'+esc(data.budget.total||'')+'</div><div class="meal-stat-label">Estimated grocery</div></div>':'');
+  // Meal content
+  var content=document.getElementById('meal-plan-content');
+  var daysWithMeals=Object.keys(data.days||{}).filter(function(d){return data.days[d].dinner&&data.days[d].dinner.name;});
+  if(!daysWithMeals.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No meals found in the imported plan.</div>';return;}
+  // Group: dinners then lunches
+  var html='';
+  // Plants line
+  if(data.plants&&data.plants.list){
+    html+='<div style="background:var(--sage-fill);border:1px solid var(--sage-light);border-radius:3px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:300;color:var(--sage);line-height:1;">'+(data.plants.count||'')+'</div>'+
+      '<div><div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:4px;">Distinct plants this week</div>'+
+      '<div style="font-size:12px;font-weight:300;color:var(--ink-light);line-height:1.6;">'+esc(data.plants.list)+'</div></div></div>';
+  }
+  // Dinners
+  html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:4px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Dinners</div>';
+  DAYS_FULL.forEach(function(day){
+    var dd=data.days&&data.days[day];
+    if(dd&&dd.dinner&&dd.dinner.name)html+=buildMealCard(day,dd.dinner,dd.dinner.bf_night);
+  });
+  // Lunches
+  var lunchDays=DAYS_FULL.filter(function(d){return data.days&&data.days[d]&&data.days[d].lunch&&data.days[d].lunch.name;});
+  if(lunchDays.length){
+    html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:24px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Lunches</div>';
+    lunchDays.forEach(function(day){html+=buildMealCard(day,data.days[day].lunch,false);});
+  }
+  content.innerHTML=html;
+  // Grocery
+  renderGrocery(data.grocery||{});
+}
+
+function buildMealCard(day,meal,bfNight){
+  if(!meal||!meal.name)return'';
+  var tags=(meal.tags||[]).map(function(t){
+    var cls=t.toLowerCase().includes('protein')?'protein':t.toLowerCase().includes('new')||t.toLowerCase().includes('pinterest')?'new':'';
+    return'<span class="meal-pill '+cls+'">'+esc(t)+'</span>';
+  }).join('');
+  var ingredients=(meal.ingredients||[]).map(function(section){
+    return'<div class="recipe-section-title">'+esc(section.section||'Ingredients')+'</div>'+
+      '<ul class="recipe-ingredients">'+((section.items||section)||[]).map(function(i){return'<li>'+esc(i)+'</li>';}).join('')+'</ul>';
+  }).join('');
+  if(!ingredients&&meal.ingredients&&Array.isArray(meal.ingredients)&&typeof meal.ingredients[0]==='string'){
+    ingredients='<div class="recipe-section-title">Ingredients</div><ul class="recipe-ingredients">'+meal.ingredients.map(function(i){return'<li>'+esc(i)+'</li>';}).join('')+'</ul>';
+  }
+  var steps=(meal.steps||[]).map(function(s){return'<li>'+esc(s)+'</li>';}).join('');
+  return'<div class="meal-card'+(bfNight?' bf-night':'')+'">'+
+    '<div class="meal-card-top"><div>'+
+      (bfNight?'<div class="meal-tag">🌿 Bf Night</div>':'')+
+      '<div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;">'+esc(day)+'</div>'+
+      '<div class="meal-name-rc">'+esc(meal.name)+'</div>'+
+      '<div class="meal-desc">'+esc(meal.desc||'')+'</div>'+
+      (tags?'<div class="meal-pills">'+tags+'</div>':'')+
+    '</div><div class="meal-serves">'+esc(meal.serves||'')+'</div></div>'+
+    '<button class="recipe-toggle" onclick="toggleRecipe(this)">'+
+      '<span class="toggle-icon">▾</span> <span>View Recipe</span></button>'+
+    '<div class="recipe-panel">'+
+      '<div class="recipe-inner">'+
+        ingredients+
+        (steps?'<div class="recipe-section-title">Steps</div><ol class="recipe-steps">'+steps+'</ol>':'')+
+        (meal.note?'<div class="recipe-note-text">'+esc(meal.note)+'</div>':'')+
+      '</div></div></div>';
+}
+
+function toggleRecipe(btn){
+  btn.classList.toggle('open');
+  var panel=btn.nextElementSibling;
+  panel.classList.toggle('open');
+  var lbl=btn.querySelector('span:last-child');
+  if(lbl)lbl.textContent=btn.classList.contains('open')?'Hide Recipe':'View Recipe';
+}
+
+function renderGrocery(grocery){
+  var content=document.getElementById('grocery-content');
+  if(!content)return;
+  var keys=Object.keys(grocery);
+  if(!keys.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No grocery list in this plan.</div>';return;}
+  var saved=load('grocery_checked_'+mk())||{};
+  content.innerHTML='<div class="grocery-grid">'+keys.map(function(cat){
+    return'<div class="grocery-cat"><div class="grocery-cat-title">'+esc(cat)+'</div><ul>'+
+      (grocery[cat]||[]).map(function(item){
+        var key=cat+'_'+item;var checked=saved[key];
+        return'<li class="'+(checked?'checked':'')+'" onclick="toggleGroceryItem(this,\''+esc(key)+'\')" style="cursor:pointer;">'+esc(item)+'</li>';
+      }).join('')+'</ul></div>';
+  }).join('')+'</div>';
+}
+
+function toggleGroceryItem(el,key){
+  el.classList.toggle('checked');
+  var saved=load('grocery_checked_'+mk())||{};
+  saved[key]=el.classList.contains('checked');
+  hubSave('grocery_checked_'+mk(),saved);
+}
+
+// ══ WARDROBE ══
+function wRenderCloset(){
+  var closet=load('wardrobe_closet')||[];
+  var grid=document.getElementById('w-closet-grid');if(!grid)return;
+  var items=wCurrentFilter==='all'?closet:closet.filter(function(i){return i.category===wCurrentFilter;});
+  if(!items.length){grid.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:40px 0;text-align:center;">Your closet is empty. Add your first piece above.</div>';return;}
+  grid.innerHTML=items.map(function(item){
+    var ri=closet.indexOf(item);
+    var tags=[].concat(item.colors||[]).concat(item.vibes||[]);
+    return'<div class="w-card">'+
+      '<button onclick="wDeleteItem('+ri+')" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;color:var(--rule);font-size:11px;transition:color .15s;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'var(--rule)\'">✕</button>'+
+      '<div style="font-size:20px;margin-bottom:7px;">'+(W_CAT_EMOJI[item.category]||'🏷️')+'</div>'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;margin-bottom:2px;">'+esc(item.name)+'</div>'+
+      '<div class="label-caps" style="margin-bottom:6px;">'+esc(item.category||'')+'</div>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:3px;">'+tags.map(function(t){return'<span style="font-size:9px;background:var(--paper2);border:1px solid var(--rule);padding:1px 6px;color:var(--ink-faint);">'+esc(t)+'</span>';}).join('')+'</div></div>';
+  }).join('');
+}
+function wToggleTag(btn,group){
+  btn.classList.toggle('on');
+  var val=btn.textContent;var arr=wActiveTags[group];var i=arr.indexOf(val);
+  if(i>-1)arr.splice(i,1);else arr.push(val);
+}
+function wAddItem(){
+  var name=document.getElementById('w-item-name').value.trim();
+  var cat=document.getElementById('w-item-cat').value;
+  var notes=document.getElementById('w-item-notes').value.trim();
+  if(!name)return;
+  var closet=load('wardrobe_closet')||[];
+  closet.push({id:Date.now(),name:name,category:cat,colors:[].concat(wActiveTags.color),vibes:[].concat(wActiveTags.vibe),notes:notes});
+  hubSave('wardrobe_closet',closet);
+  document.getElementById('w-item-name').value='';document.getElementById('w-item-cat').value='';document.getElementById('w-item-notes').value='';
+  document.querySelectorAll('#wb-closet .pill-tag.on').forEach(function(b){b.classList.remove('on');});
+  wActiveTags={color:[],vibe:[]};wRenderCloset();
+}
+function wDeleteItem(idx){var c=load('wardrobe_closet')||[];c.splice(idx,1);hubSave('wardrobe_closet',c);wRenderCloset();}
+
+function wCopyClosetForClaude(){
+  var closet=load('wardrobe_closet')||[];
+  if(!closet.length){
+    var btn=document.getElementById('w-copy-btn');if(btn)btn.textContent='No items yet!';setTimeout(function(){if(btn)btn.textContent='Copy closet prompt';},2000);return;
+  }
+  // Group by category
+  var grouped={};
+  closet.forEach(function(item){
+    var cat=item.category||'Other';
+    if(!grouped[cat])grouped[cat]=[];
+    grouped[cat].push(item.name+(item.colors&&item.colors.length?' ('+item.colors.join(', ')+')':(item.vibes&&item.vibes.length?' ['+item.vibes.join(', ')+']':'')));
+  });
+  var closetText='MY CLOSET:\n';
+  Object.keys(grouped).forEach(function(cat){
+    closetText+='\n'+cat+':\n'+grouped[cat].map(function(i){return'  - '+i;}).join('\n');
+  });
+  var prompt=closetText+'\n\n---\nPlease generate 2 outfits from my closet above. Tell me the vibe, occasion, and any context (weather, plans) and I\'ll style accordingly.\n\nRespond in this exact format:\n\nOUTFIT 1: [name]\nVibe: [vibe]\n[Role]: [exact item name from closet]\n[Role]: [exact item name from closet]\nNote: [one sentence styling tip]\n\nOUTFIT 2: [name]\n...';
+  navigator.clipboard.writeText(prompt).then(function(){
+    var confirm=document.getElementById('w-copy-confirm');if(confirm)confirm.style.display='block';
+    setTimeout(function(){if(confirm)confirm.style.display='none';},3000);
+  }).catch(function(){
+    // Fallback: show in a textarea the user can manually copy
+    prompt='Copy failed — here is your closet prompt:\n\n'+prompt;
+    alert(prompt);
+  });
+}
+
+function wParseOutfitResponse(){
+  var raw=document.getElementById('w-outfit-paste').value.trim();
+  var status=document.getElementById('w-outfit-import-status');
+  var result=document.getElementById('w-outfit-result');
+  if(!raw){status.textContent='Paste Claude\'s response first.';return;}
+
+  // Parse plain text format:
+  // OUTFIT 1: Name
+  // Vibe: ...
+  // Top: item
+  // Bottom: item
+  // Note: ...
+  var outfits=[];
+  var blocks=raw.split(/\n(?=OUTFIT\s*\d+\s*:)/i).filter(function(b){return b.trim();});
+
+  blocks.forEach(function(block){
+    var lines=block.trim().split('\n').map(function(l){return l.trim();}).filter(Boolean);
+    var outfit={title:'',vibe:'',pieces:[],note:''};
+    lines.forEach(function(line){
+      var titleMatch=line.match(/^OUTFIT\s*\d+\s*:\s*(.+)/i);
+      if(titleMatch){outfit.title=titleMatch[1].trim();return;}
+      var vibeMatch=line.match(/^Vibe\s*:\s*(.+)/i);
+      if(vibeMatch){outfit.vibe=vibeMatch[1].trim();return;}
+      var noteMatch=line.match(/^Note\s*:\s*(.+)/i);
+      if(noteMatch){outfit.note=noteMatch[1].trim();return;}
+      // Any other "Role: Item" line
+      var pieceMatch=line.match(/^([^:]+)\s*:\s*(.+)/);
+      if(pieceMatch){outfit.pieces.push({role:pieceMatch[1].trim(),item:pieceMatch[2].trim()});return;}
+    });
+    if(outfit.title||outfit.pieces.length)outfits.push(outfit);
+  });
+
+  if(!outfits.length){
+    status.textContent='Could not parse — make sure the format matches the template.';
+    status.style.color='var(--coral)';return;
+  }
+
+  status.textContent='✓ '+outfits.length+' outfit'+(outfits.length>1?'s':'')+' imported!';
+  status.style.color='var(--sage)';
+
+  result.innerHTML=outfits.map(function(o){return wOutfitCardHTML(o,o.vibe);}).join('')+
+    '<button onclick="wParseOutfitResponse()" class="ghost-btn" style="margin-top:8px;">↻ Re-import</button>';
+
+  // Save to outfit_week storage for weekly planner integration
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  outfits.forEach(function(o,i){
+    // Try to match to a day — if vibe mentions a day use it, else use index
+    var days=DAYS_FULL;
+    var dayMatch=null;
+    days.forEach(function(d){if(o.title.toLowerCase().includes(d.toLowerCase()))dayMatch=d;});
+    if(dayMatch)outfitWeek[dayMatch]={title:o.title,pieces:o.pieces};
+  });
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+}
+function wFilter(cat,btn){
+  wCurrentFilter=cat;
+  document.querySelectorAll('#w-filter-bar .pct-toggle-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');wRenderCloset();
+}
+function wSelectVibe(card,vibe){
+  document.querySelectorAll('#w-vibe-grid .w-card').forEach(function(c){c.style.borderColor='var(--rule)';});
+  card.style.borderColor='var(--coral)';wSelectedVibe=vibe;
+}
+function wClosetText(){
+  var closet=load('wardrobe_closet')||[];
+  return closet.map(function(i){var tags=[].concat(i.colors||[]).concat(i.vibes||[]).join(', ');return'- '+i.name+' ['+i.category+']'+(tags?' ('+tags+')':'')+(i.notes?' | '+i.notes:'');}).join('\n');
+}
+function wOutfitCardHTML(o,vibe){
+  return'<div class="w-outfit-card">'+
+    '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;gap:8px;">'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:17px;font-style:italic;">'+esc(o.title||'')+'</div>'+
+      '<div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;background:var(--coral-fill);color:var(--coral);padding:2px 8px;">'+esc(o.vibe||vibe||'')+'</div>'+
+    '</div>'+
+    (o.pieces||[]).map(function(p){return'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule);">'+
+      '<div class="label-caps" style="min-width:66px;">'+esc(p.role||'')+'</div>'+
+      '<div style="font-size:12px;font-weight:300;">'+esc(p.item||'')+(p.remixed?'<span style="font-size:8px;background:var(--coral-fill);color:var(--coral);padding:1px 5px;margin-left:5px;">remix</span>':'')+'</div></div>';}).join('')+
+    '<div style="background:var(--paper2);padding:8px 11px;margin-top:9px;font-size:11px;font-weight:300;font-style:italic;color:var(--ink-faint);">'+esc(o.note||'')+'</div></div>';
+}
+function wBuildWeekRows(){
+  var container=document.getElementById('w-week-rows');if(!container)return;
+  container.innerHTML=DAYS_FULL.map(function(day){
+    var isWd=WEEKDAYS.includes(day);
+    var skipped=wDaySkipped[day];
+    var savedCtx=(load('wardrobe_day_ctx')||{})[day]||'';
+    return'<div style="background:var(--paper);border:1px solid var(--rule);padding:11px 15px;border-radius:2px;opacity:'+(skipped?.35:1)+';" id="wrow-'+day+'">'+
+      '<div style="display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:start;">'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:var(--ink-light);">'+day.slice(0,3)+'</div>'+
+          '<div class="label-caps" style="font-size:7.5px;">'+(wDayVibes[day]?wDayVibes[day].split(' /')[0].toLowerCase():'—')+'</div></div>'+
+        '<div>'+
+          '<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;">'+
+            W_VIBES_S.map(function(v,i){return'<button class="pct-toggle-btn'+(wDayVibes[day]===W_VIBES_F[i]?' active':'')+'" style="font-size:8px;padding:2px 8px;" onclick="wSetDayVibe(\''+day+'\',\''+W_VIBES_F[i]+'\',this)">'+v+'</button>';}).join('')+
+          '</div>'+
+          (wWeatherData[day]?'<div style="font-size:9px;color:var(--ink-faint);margin-bottom:4px;">'+esc(wWeatherData[day])+'</div>':'')+
+          '<input type="text" class="ruled-input" style="font-size:11px;" placeholder="Day notes (e.g. big presentation, dinner after work…)" value="'+esc(savedCtx)+'" data-day="'+day+'" oninput="wSaveDayCtx(this)"/>'+
+        '</div>'+
+        '<button onclick="wToggleSkip(\''+day+'\')" style="background:none;border:none;cursor:pointer;color:var(--rule);font-size:13px;padding:2px;" onmouseover="this.style.color=\'var(--coral)\'" onmouseout="this.style.color=\'var(--rule)\'">✕</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function wSetDayVibe(day,vibe,btn){wDayVibes[day]=vibe;wDaySkipped[day]=false;wBuildWeekRows();}
+function wToggleSkip(day){wDaySkipped[day]=!wDaySkipped[day];if(!wDaySkipped[day]&&WEEKDAYS.includes(day)&&!wDayVibes[day])wDayVibes[day]='Work / Office';wBuildWeekRows();}
+
+function wSaveDayCtx(el){
+  var d=load('wardrobe_day_ctx')||{};
+  d[el.dataset.day]=el.value;
+  hubSave('wardrobe_day_ctx',d);
+}
+
+function wGenerateWeekPrompt(){
+  var closet=load('wardrobe_closet')||[];
+  var activeDays=DAYS_FULL.filter(function(d){return !wDaySkipped[d]&&wDayVibes[d];});
+  if(!activeDays.length){alert('Set a vibe for at least one day first.');return;}
+
+  // Build closet text grouped by category
+  var grouped={};
+  closet.forEach(function(item){
+    var cat=item.category||'Other';
+    if(!grouped[cat])grouped[cat]=[];
+    var tags=[].concat(item.colors||[]).concat(item.vibes||[]);
+    grouped[cat].push(item.name+(tags.length?' ('+tags.join(', ')+')':''));
+  });
+  var closetText='MY CLOSET:\n';
+  Object.keys(grouped).forEach(function(cat){
+    closetText+='\n'+cat+':\n'+grouped[cat].map(function(i){return'  - '+i;}).join('\n');
+  });
+
+  // Build day list
+  var dayCtx=load('wardrobe_day_ctx')||{};
+  var dayLines=activeDays.map(function(day){
+    var parts=[day+': '+wDayVibes[day]];
+    if(wWeatherData[day])parts.push(wWeatherData[day]);
+    if(dayCtx[day])parts.push(dayCtx[day]);
+    return parts.join(' | ');
+  }).join('\n');
+
+  var prompt=closetText+'\n\n---\nPLAN MY WEEK:\n'+dayLines+
+    '\n\n---\nInstructions: Generate one outfit per day above using ONLY items from My Closet. Minimize repeating pieces across the week but intentionally remix versatile staples. Factor in weather and day notes.\n\nUse this exact format for each day (no extra text, no markdown):\n\nOUTFIT: [Day name]\nVibe: [vibe]\n[Role]: [exact item name from closet]\n[Role]: [exact item name from closet]\nNote: [one sentence]\n\nRoles to use: Top, Bottom, Layer, Shoes, Bag, Accessory\nInclude 3-5 pieces per outfit.';
+
+  navigator.clipboard.writeText(prompt).then(function(){
+    var confirm=document.getElementById('w-week-copy-confirm');
+    if(confirm){confirm.style.display='block';setTimeout(function(){confirm.style.display='none';},3000);}
+  }).catch(function(){alert('Copy failed. Here is your prompt:\n\n'+prompt);});
+}
+
+function wParseWeekResponse(){
+  var raw=document.getElementById('w-week-paste').value.trim();
+  var status=document.getElementById('w-week-import-status');
+  var result=document.getElementById('w-week-result');
+  if(!raw){status.textContent='Paste my response first.';return;}
+
+  // Parse blocks starting with "OUTFIT: DayName"
+  var blocks=raw.split(/\n(?=OUTFIT\s*:\s*(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday))/i).filter(function(b){return b.trim();});
+  var outfits=[];
+
+  blocks.forEach(function(block){
+    var lines=block.trim().split('\n').map(function(l){return l.trim();}).filter(Boolean);
+    var outfit={day:'',vibe:'',pieces:[],note:''};
+    lines.forEach(function(line){
+      var dayMatch=line.match(/^OUTFIT\s*:\s*(.+)/i);
+      if(dayMatch){outfit.day=dayMatch[1].trim();return;}
+      var vibeMatch=line.match(/^Vibe\s*:\s*(.+)/i);
+      if(vibeMatch){outfit.vibe=vibeMatch[1].trim();return;}
+      var noteMatch=line.match(/^Note\s*:\s*(.+)/i);
+      if(noteMatch){outfit.note=noteMatch[1].trim();return;}
+      var pieceMatch=line.match(/^([A-Za-z ]+)\s*:\s*(.+)/);
+      if(pieceMatch&&pieceMatch[1].trim().toLowerCase()!=='outfit'&&pieceMatch[1].trim().toLowerCase()!=='vibe'){
+        outfit.pieces.push({role:pieceMatch[1].trim(),item:pieceMatch[2].trim()});
+      }
+    });
+    if(outfit.day&&outfit.pieces.length)outfits.push(outfit);
+  });
+
+  if(!outfits.length){
+    status.textContent='Could not parse — make sure the format matches.';
+    status.style.color='var(--coral)';return;
+  }
+
+  // Save to outfit_week storage — keyed by day name
+  var outfitWeek=load('outfit_week_'+currentWeekStart)||{};
+  outfits.forEach(function(o){
+    // Find matching full day name
+    var matched=DAYS_FULL.find(function(d){return d.toLowerCase()===o.day.toLowerCase();});
+    if(matched)outfitWeek[matched]={title:o.vibe||o.day,pieces:o.pieces,note:o.note};
+  });
+  hubSave('outfit_week_'+currentWeekStart,outfitWeek);
+
+  status.textContent='✓ '+outfits.length+' outfit'+(outfits.length>1?'s':'')+' saved to your week!';
+  status.style.color='var(--sage)';
+
+  // Render cards
+  result.innerHTML='<div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;">Saved to Weekly Planner ✓</div>'+
+    outfits.map(function(o){
+      var w=wWeatherData[o.day];
+      return'<div style="margin-bottom:16px;">'+
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--rule);">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:17px;font-style:italic;">'+esc(o.day)+'</div>'+
+          '<div class="label-caps" style="font-size:7.5px;">'+esc(o.vibe)+(w?' · '+esc(w):'')+'</div>'+
+        '</div>'+
+        wOutfitCardHTML({title:o.vibe,vibe:o.vibe,pieces:o.pieces,note:o.note},o.vibe)+
+      '</div>';
+    }).join('')+
+    '<button onclick="document.getElementById(\'w-week-paste\').value=\'\';document.getElementById(\'w-week-result\').innerHTML=\'\';document.getElementById(\'w-week-import-status\').textContent=\'\';" class="ghost-btn" style="margin-top:4px;">Clear</button>';
+
+  // Re-render weekly planner if it's active
+  if(document.getElementById('panel-weekly').classList.contains('active'))renderWeekly();
+}
+async function wFetchWeather(){
+  var city=document.getElementById('w-weather-city').value.trim();
+  var unit=document.getElementById('w-weather-unit').value;
+  var preview=document.getElementById('w-weather-preview');
+  if(!city)return;preview.textContent='Fetching…';
+  try{
+    var geo=await fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city)+'&count=1');
+    var gd=await geo.json();
+    if(!gd.results?.length){preview.textContent='City not found.';return;}
+    var lat=gd.results[0].latitude,lon=gd.results[0].longitude,name=gd.results[0].name;
+    var tu=unit==='F'?'fahrenheit':'celsius';
+    var wx=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit='+tu+'&timezone=auto&forecast_days=7');
+    var wd=await wx.json();var d=wd.daily;
+    wWeatherData={};
+    var wWeatherByDate={};
+    for(var i=0;i<d.time.length;i++){
+      var date2=new Date(d.time[i]+'T12:00:00');
+      var dn=DAYS_FULL[date2.getDay()===0?6:date2.getDay()-1];
+      if(DAYS_FULL.includes(dn)){
+        var hi=Math.round(d.temperature_2m_max[i]),lo=Math.round(d.temperature_2m_min[i]);
+        var code=d.weathercode[i];
+        var c=code===0?'Sunny':code<=2?'Partly cloudy':code<=3?'Overcast':code<=49?'Foggy':code<=59?'Drizzle':code<=69?'Rainy':code<=79?'Snowy':'Stormy';
+        wWeatherData[dn]=c+', '+lo+'–'+hi+'°'+unit;
+        wWeatherByDate[d.time[i]]=c+', '+lo+'–'+hi+'°'+unit;
+      }
+    }
+    wWeatherSummary=name+': '+DAYS_FULL.filter(function(d){return wWeatherData[d];}).map(function(d){return d.slice(0,3)+' '+wWeatherData[d].split(',')[1]?.trim();}).join(' · ');
+    preview.textContent='✓ '+wWeatherSummary;
+    // Save by ISO date so weekly planner matches correctly regardless of week
+    var existingWeather=load('wardrobe_weather_all')||{};
+    Object.keys(wWeatherByDate).forEach(function(k){existingWeather[k]=wWeatherByDate[k];});
+    hubSave('wardrobe_weather_all',existingWeather);
+    hubSave('wardrobe_weather_'+currentWeekStart,wWeatherData);
+    wBuildWeekRows();
+  }catch(e){preview.textContent='Could not fetch — add in notes.';}
+}
+// ══ AUGGIE ══
+function getAuggieWeekKey(offset){
+  var d=new Date(currentWeekStart+'T12:00:00');
+  d.setDate(d.getDate()+(offset||auggieWeekOffset)*7);
+  return d.toISOString().slice(0,10);
+}
+function shiftAuggieWeek(d){
+  auggieWeekOffset+=d;
+  var key=getAuggieWeekKey(0);
+  var dt=new Date(key+'T12:00:00');
+  var end=new Date(dt);end.setDate(end.getDate()+6);
+  document.getElementById('auggie-week-label').textContent=
+    MONTHS[dt.getMonth()].slice(0,3)+' '+dt.getDate()+' – '+end.getDate();
+  aRenderAll();
+}
+function aRenderAll(){
+  // Keep Auggie tab week in sync with weekly planner's current week
+  var auggieKey=getAuggieWeekKey(0);
+  if(auggieKey!==currentWeekStart&&auggieWeekOffset===0){
+    // reset so Auggie tab reflects the same week as the planner
+  }
+  aRenderIdeas();aRenderWeekGrid();aUpdateWeekLabel();
+}
+function aUpdateWeekLabel(){
+  var key=getAuggieWeekKey(0);
+  var dt=new Date(key+'T12:00:00');
+  var end=new Date(dt);end.setDate(end.getDate()+6);
+  var lbl=document.getElementById('auggie-week-label');
+  if(lbl)lbl.textContent=auggieWeekOffset===0?'This week':MONTHS[dt.getMonth()].slice(0,3)+' '+dt.getDate()+' \u2013 '+end.getDate();
+}
+function aRenderIdeas(){
+  var data=load('auggie_ideas')||{ideas:[]};
+  var list=document.getElementById('aug-ideas-list');if(!list)return;
+  if(!data.ideas.length){list.innerHTML='<div style="font-size:11px;color:var(--ink-faint);padding:8px 0;">No ideas yet. Add one or generate below.</div>';return;}
+  list.innerHTML=data.ideas.map(function(idea,i){
+    return'<div class="idea-item" draggable="true" data-id="'+idea.id+'" ondragstart="aDragStart(event,\''+idea.id+'\')">'+
+      '<span class="idea-drag-handle">⠿</span>'+
+      '<input class="task-item-input" style="flex:1;font-size:11px;" value="'+esc(idea.text||'')+'" oninput="aSaveIdeaText('+i+',this.value)" placeholder="Idea…"/>'+
+      '<button onclick="aDeleteIdea('+i+')" class="aug-post-del" style="margin-left:4px;">✕</button>'+
+    '</div>';
+  }).join('');
+}
+function aAddIdea(){
+  var d=load('auggie_ideas')||{ideas:[]};
+  d.ideas.push({id:Date.now(),text:'',format:'Post'});
+  hubSave('auggie_ideas',d);aRenderIdeas();
+}
+function aDeleteIdea(i){var d=load('auggie_ideas')||{ideas:[]};d.ideas.splice(i,1);hubSave('auggie_ideas',d);aRenderIdeas();}
+function aSaveIdeaText(i,val){var d=load('auggie_ideas')||{ideas:[]};if(d.ideas[i])d.ideas[i].text=val;hubSave('auggie_ideas',d);}
+function aDragStart(event,id){draggedIdeaId=id;event.dataTransfer.effectAllowed='copy';}
+function aRenderWeekGrid(){
+  var grid=document.getElementById('aug-week-grid');if(!grid)return;
+  var key=getAuggieWeekKey(0);
+  var scheduled=load('auggie_scheduled_'+key)||{};
+  grid.innerHTML=DAYS_FULL.map(function(day){
+    var posts=(scheduled[day]||[]);
+    var postsHTML=posts.map(function(p,pi){
+      var statuses=['Idea','Drafting','Scheduled','Posted'];
+      var nextStatus=statuses[(statuses.indexOf(p.status)+1)%statuses.length];
+      return'<div class="aug-scheduled-post">'+
+        '<button class="aug-post-status '+((p.status||'idea').toLowerCase())+'" onclick="aCycleStatus(\''+day+'\','+pi+')" title="Click to advance status">'+esc(p.status||'Idea')+'</button>'+
+        '<span class="aug-post-text">'+esc(p.text||'')+'</span>'+
+        '<button class="aug-post-del" onclick="aRemovePost(\''+day+'\','+pi+')">✕</button>'+
+      '</div>';
+    }).join('');
+    return'<div class="aug-day-col">'+
+      '<div class="aug-day-header">'+
+        '<div class="aug-day-name">'+day.slice(0,3)+'</div>'+
+        '<button onclick="aAddPostToDay(\''+day+'\')" style="background:none;border:none;cursor:pointer;font-size:10px;color:var(--ink-faint);" title="Add post">+</button>'+
+      '</div>'+
+      '<div class="aug-day-drop" id="aug-drop-'+day+'" ondragover="event.preventDefault();this.classList.add(\'drag-over\')" ondragleave="this.classList.remove(\'drag-over\')" ondrop="aDrop(event,\''+day+'\')" >'+
+        postsHTML+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function aDrop(event,day){
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag-over');
+  if(!draggedIdeaId)return;
+  var ideas=load('auggie_ideas')||{ideas:[]};
+  var idea=ideas.ideas.find(function(i){return String(i.id)===String(draggedIdeaId);});
+  if(!idea)return;
+  var key=getAuggieWeekKey(0);
+  var scheduled=load('auggie_scheduled_'+key)||{};
+  if(!scheduled[day])scheduled[day]=[];
+  scheduled[day].push({id:Date.now(),text:idea.text,status:'Idea',format:idea.format||'Post'});
+  hubSave('auggie_scheduled_'+key,scheduled);
+  draggedIdeaId=null;aRenderWeekGrid();
+}
+function aAddPostToDay(day){
+  var key=getAuggieWeekKey(0);
+  var scheduled=load('auggie_scheduled_'+key)||{};
+  if(!scheduled[day])scheduled[day]=[];
+  scheduled[day].push({id:Date.now(),text:'',status:'Idea',format:'Post'});
+  hubSave('auggie_scheduled_'+key,scheduled);aRenderWeekGrid();
+}
+function aCycleStatus(day,pi){
+  var key=getAuggieWeekKey(0);
+  var scheduled=load('auggie_scheduled_'+key)||{};
+  var statuses=['Idea','Drafting','Scheduled','Posted'];
+  if(scheduled[day]&&scheduled[day][pi]){
+    var cur=scheduled[day][pi].status||'Idea';
+    scheduled[day][pi].status=statuses[(statuses.indexOf(cur)+1)%statuses.length];
+    hubSave('auggie_scheduled_'+key,scheduled);aRenderWeekGrid();
+  }
+}
+function aRemovePost(day,pi){
+  var key=getAuggieWeekKey(0);
+  var scheduled=load('auggie_scheduled_'+key)||{};
+  if(scheduled[day])scheduled[day].splice(pi,1);
+  hubSave('auggie_scheduled_'+key,scheduled);aRenderWeekGrid();
+}
+// ── IMPORT CALENDAR ──
+function openImportModal(){
+  document.getElementById('import-result').textContent='';
+  document.getElementById('import-text').value='';
+  document.getElementById('import-modal').classList.add('open');
+}
+function closeImportModal(){
+  document.getElementById('import-modal').classList.remove('open');
+}
+var MONTH_MAP={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
+  january:0,february:1,march:2,april:3,may2:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+var DAY_MAP={mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday',sat:'Saturday',sun:'Sunday',
+  monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday',sunday:'Sunday'};
+function parseImportDate(token){
+  // token like "Mon Apr 21" or "Apr 21" or "21 Apr" or "Apr 20"
+  token=token.trim();
+  var parts=token.split(/[\s,\/\-]+/);
+  var dayName='',monthNum=-1,dateNum=-1;
+  parts.forEach(function(p){
+    var pl=p.toLowerCase();
+    if(DAY_MAP[pl]){dayName=DAY_MAP[pl];return;}
+    var mn=MONTH_MAP[pl]||MONTH_MAP[pl.slice(0,3)];
+    if(mn!==undefined){monthNum=mn;return;}
+    var n=parseInt(p,10);
+    if(!isNaN(n)&&n>=1&&n<=31){dateNum=n;}
+  });
+  if(monthNum===-1||dateNum===-1)return null;
+  var now=new Date();
+  var yr=now.getFullYear();
+  // try this year then next
+  var d=new Date(yr,monthNum,dateNum);
+  if(d<new Date(yr,now.getMonth()-1,1))d=new Date(yr+1,monthNum,dateNum);
+  // compute Monday of that week
+  var dow=d.getDay();// 0=Sun
+  var diff=dow===0?-6:1-dow;
+  var mon=new Date(d);mon.setDate(d.getDate()+diff);
+  var weekKey=mon.toISOString().slice(0,10);
+  // compute day name from date
+  var actualDay=DAYS_FULL[dow===0?6:dow-1];
+  if(dayName)actualDay=dayName;
+  return{weekKey:weekKey,day:actualDay};
+}
+function doImport(){
+  var raw=document.getElementById('import-text').value.trim();
+  var result=document.getElementById('import-result');
+  if(!raw){result.className='import-result err';result.textContent='Nothing to import.';return;}
+  var lines=raw.split('\n').map(function(l){return l.trim();}).filter(Boolean);
+  var count=0,skipped=0;
+  var batches={};// weekKey -> {day -> [posts]}
+  lines.forEach(function(line){
+    var parts=line.split('|').map(function(s){return s.trim();});
+    if(parts.length<2){skipped++;return;}
+    var datePart=parts[0];
+    var title=parts[1]||'';
+    var format=parts[2]||'Post';
+    var pillar=parts[3]||'';
+    var parsed=parseImportDate(datePart);
+    if(!parsed){skipped++;return;}
+    if(!batches[parsed.weekKey])batches[parsed.weekKey]={};
+    if(!batches[parsed.weekKey][parsed.day])batches[parsed.weekKey][parsed.day]=[];
+    batches[parsed.weekKey][parsed.day].push({id:Date.now()+Math.random(),text:title+(pillar?' ['+pillar+']':''),status:'Idea',format:format});
+    count++;
+  });
+  // merge into storage
+  Object.keys(batches).forEach(function(wk){
+    var stored=load('auggie_scheduled_'+wk)||{};
+    Object.keys(batches[wk]).forEach(function(day){
+      if(!stored[day])stored[day]=[];
+      stored[day]=stored[day].concat(batches[wk][day]);
+    });
+    hubSave('auggie_scheduled_'+wk,stored);
+  });
+  if(count===0){result.className='import-result err';result.textContent='No valid lines found. Check the format: Day Month Date | Title | Format | Pillar';return;}
+  result.className='import-result';
+  result.textContent=count+' post'+(count!==1?'s':'')+' imported across '+Object.keys(batches).length+' week'+(Object.keys(batches).length!==1?'s':'')+'.'+( skipped?' ('+skipped+' line'+(skipped!==1?'s':'')+' skipped)':'');
+  aRenderAll();
+  setTimeout(closeImportModal,1400);
+}
+// ══ GOOGLE DRIVE ══
+var driveState='idle';var driveFileId=null;var driveTokenClient=null;var driveGapiReady=false;
+var DRIVE_FILE='lifehub_data.json';
+var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_'];
+
+function handleDriveClick(){
+  var cid=localStorage.getItem('hub_gdrive_cid');var key=localStorage.getItem('hub_gdrive_key');
+  if(driveState==='error'||driveState==='idle'){
+    // Always show modal so user can re-enter or fix credentials
+    if(cid) document.getElementById('drive-client-id').value=cid;
+    if(key) document.getElementById('drive-api-key').value=key;
+    document.getElementById('drive-modal').classList.add('open');
+    return;
+  }
+  if(!cid||!key){document.getElementById('drive-modal').classList.add('open');return;}
+  if(driveState==='synced'){driveSync();return;}
+  driveInitGapi(cid,key);
+}
+function driveSaveAndConnect(){
+  var cid=document.getElementById('drive-client-id').value.trim();var key=document.getElementById('drive-api-key').value.trim();
+  if(!cid||!key)return;
+  localStorage.setItem('hub_gdrive_cid',cid);localStorage.setItem('hub_gdrive_key',key);
+  document.getElementById('drive-modal').classList.remove('open');
+  driveInitGapi(cid,key);
+}
+function driveInitGapi(cid,key){
+  driveSetUI('connecting');
+  function tryInit(){
+    if(typeof gapi==='undefined'||typeof google==='undefined'){setTimeout(tryInit,400);return;}
+    gapi.load('client',function(){
+      gapi.client.setApiKey(key);
+      gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest').then(function(){
+        driveTokenClient=google.accounts.oauth2.initTokenClient({
+          client_id:cid,scope:'https://www.googleapis.com/auth/drive.appdata',
+          callback:function(resp){
+            if(resp.error){
+              console.error('OAuth error:',resp.error,resp.error_description);
+              driveSetUI('error');return;
+            }
+            driveLoad();
+          }
+        });
+        driveGapiReady=true;
+        driveTokenClient.requestAccessToken({prompt:'consent'});
+      }).catch(function(e){console.error('Drive API load error:',e);driveSetUI('error');});
+    });
+  }
+  tryInit();
+}
+async function driveLoad(){
+  try{
+    var res=await gapi.client.drive.files.list({spaces:'appDataFolder',q:"name='"+DRIVE_FILE+"'",fields:'files(id,name)'});
+    var files=res.result.files;
+    if(files&&files.length>0){
+      driveFileId=files[0].id;
+      var content=await gapi.client.drive.files.get({fileId:driveFileId,alt:'media'});
+      var data=typeof content.result==='string'?JSON.parse(content.result):content.result;
+      Object.keys(data||{}).forEach(function(k){
+        if(DRIVE_KEYS_PREFIX.some(function(p){return k.startsWith(p);}))
+          localStorage.setItem(k,typeof data[k]==='string'?data[k]:JSON.stringify(data[k]));
+      });
+      var active=document.querySelector('.panel.active');
+      if(active){var t=active.id.replace('panel-','');switchTab(t);}
+      var mp=load('meals_current');if(mp)renderMealPlan(mp);
+    } else {await driveSync(true);}
+    driveSetUI('synced');
+  }catch(e){console.error('driveLoad error:',e);driveSetUI('error');}
+}
+async function driveSync(initial){
+  if(!driveGapiReady)return;driveSetUI('syncing');
+  var data={};
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k&&DRIVE_KEYS_PREFIX.some(function(p){return k.startsWith(p);})){
+      try{data[k]=JSON.parse(localStorage.getItem(k));}catch(e){data[k]=localStorage.getItem(k);}
+    }
+  }
+  var body=JSON.stringify(data);
+  try{
+    if(driveFileId){
+      await gapi.client.request({path:'/upload/drive/v3/files/'+driveFileId,method:'PATCH',params:{uploadType:'media'},headers:{'Content-Type':'application/json'},body:body});
+    }else{
+      var b='---hub314---';var meta=JSON.stringify({name:DRIVE_FILE,parents:['appDataFolder']});
+      var mp='--'+b+'\r\nContent-Type:application/json\r\n\r\n'+meta+'\r\n--'+b+'\r\nContent-Type:application/json\r\n\r\n'+body+'\r\n--'+b+'--';
+      var r=await gapi.client.request({path:'/upload/drive/v3/files',method:'POST',params:{uploadType:'multipart'},headers:{'Content-Type':'multipart/related; boundary="'+b+'"'},body:mp});
+      driveFileId=r.result.id;
+    }
+    driveSetUI('synced');
+  }catch(e){console.error('driveSync error:',e);driveSetUI('error');}
+}
+function driveReset(){
+  localStorage.removeItem('hub_gdrive_cid');
+  localStorage.removeItem('hub_gdrive_key');
+  driveFileId=null;driveGapiReady=false;driveTokenClient=null;
+  driveSetUI('idle');
+  document.getElementById('drive-client-id').value='';
+  document.getElementById('drive-api-key').value='';
+}
+function driveSetUI(state){
+  driveState=state;
+  var dot=document.getElementById('drive-dot');var lbl=document.getElementById('drive-lbl');
+  if(!dot||!lbl)return;
+  var map={
+    idle:['var(--rule)','Connect Drive'],
+    connecting:['var(--coral)','Connecting…'],
+    syncing:['var(--coral)','Syncing…'],
+    synced:['var(--sage)','Synced ✓'],
+    error:['var(--coral)','Sync error — click to fix']
+  };
+  var m=map[state]||map.idle;dot.style.background=m[0];lbl.textContent=m[1];
+}
+
+// ══ INIT ══
+// Handle ?reset URL parameter — clears Drive credentials
+(function(){
+  if(window.location.search.includes('reset')){
+    localStorage.removeItem('hub_gdrive_cid');
+    localStorage.removeItem('hub_gdrive_key');
+    // Remove the ?reset from URL without reloading
+    window.history.replaceState({},'',window.location.pathname);
+  }
+})();
+updateMonthLabel();renderGoals();
+// Auto-reconnect Drive
+(function(){
+  var cid=localStorage.getItem('hub_gdrive_cid');var key=localStorage.getItem('hub_gdrive_key');
+  if(cid&&key)setTimeout(function(){driveInitGapi(cid,key);},900);
+})();
+// Load meal plan if available
+(function(){var mp=load('meals_current');if(mp)setTimeout(function(){renderMealPlan(mp);},100);})();
+// Set auggie week label
+(function(){
+  var dt=new Date(currentWeekStart+'T12:00:00');var end=new Date(dt);end.setDate(end.getDate()+6);
+  var lbl=document.getElementById('auggie-week-label');
+  if(lbl)lbl.textContent=MONTHS[dt.getMonth()].slice(0,3)+' '+dt.getDate()+' – '+end.getDate();
+})();
+</script>
+</body>
+</html>
