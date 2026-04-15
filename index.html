@@ -148,23 +148,13 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .wg-day-name{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);margin-top:1px;}
 .wg-day-wx{font-size:9px;color:var(--ink-faint);margin-top:3px;line-height:1.3;}
 .wg-cell{padding:3px 4px;vertical-align:top;}
-.wg-card{border-radius:4px;padding:7px 9px;position:relative;transition:box-shadow .15s;}
+.wg-card{border-radius:4px;padding:7px 9px;min-height:36px;position:relative;transition:box-shadow .15s;}
 .wg-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .wg-card textarea,.wg-card input{background:none;border:none;outline:none;width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;color:inherit;resize:none;padding:0;line-height:1.5;}
-.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.2);}
-/* Fixed heights per row type so all cells align */
-.wg-sched td.wg-cell .wg-card{min-height:52px;}
-.wg-lunch td.wg-cell .wg-card{min-height:52px;}
-.wg-dinner td.wg-cell .wg-card{min-height:64px;}
-.wg-workout td.wg-cell .wg-card{min-height:48px;}
-.wg-outfit td.wg-cell .wg-card{min-height:110px;}
-.wg-auggie td.wg-cell .wg-card{min-height:40px;}
-/* Make all cells in a row the same height via table layout */
-.wg-table{table-layout:fixed;}
-.wg-cell{vertical-align:top;width:calc((100% - 72px) / 7);}
+.wg-card textarea::placeholder,.wg-card input::placeholder{color:rgba(0,0,0,.25);}
 /* Row color schemes */
-.wg-sched .wg-card{background:#EDEBE4;color:#3A3525;}
-.wg-sched .wg-card textarea{color:#3A3525;}
+.wg-sched .wg-card{background:#EAE6F8;color:#3D3060;}
+.wg-sched .wg-card textarea{color:#3D3060;}
 .wg-lunch .wg-card{background:#E8F3E8;color:#2A5A2A;}
 .wg-lunch .wg-card textarea{color:#2A5A2A;}
 .wg-dinner .wg-card{background:#FDF0E6;color:#6B3A1F;}
@@ -176,22 +166,12 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .wg-auggie .wg-card{background:var(--blue-fill);color:#1A2A5C;}
 .wg-auggie .wg-card textarea{color:#1A2A5C;}
 /* label colors */
-.wg-sched .wg-row-label-inner{background:#8A8470;}
+.wg-sched .wg-row-label-inner{background:#7B68C8;}
 .wg-lunch .wg-row-label-inner{background:var(--sage);}
 .wg-dinner .wg-row-label-inner{background:#C8824A;}
 .wg-workout .wg-row-label-inner{background:var(--blue);}
 .wg-outfit .wg-row-label-inner{background:var(--coral);}
 .wg-auggie .wg-row-label-inner{background:var(--blue);}
-.wg-clean .wg-card{background:#F0EDE6;color:#3A3525;}
-.wg-clean td.wg-cell .wg-card{min-height:80px;}
-.wg-clean .wg-row-label-inner{background:#A09880;}
-.clean-task{display:flex;align-items:center;gap:5px;padding:1px 0;cursor:pointer;}
-.clean-task input[type=checkbox]{appearance:none;-webkit-appearance:none;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(58,53,37,.35);flex-shrink:0;cursor:pointer;transition:all .15s;background:none;}
-.clean-task input[type=checkbox]:checked{background:#A09880;border-color:#A09880;}
-.clean-task-label{font-size:10px;font-weight:300;line-height:1.3;transition:opacity .15s;}
-.clean-task input:checked~.clean-task-label{text-decoration:line-through;opacity:.4;}
-.clean-add-input{background:none;border:none;border-bottom:1px solid rgba(58,53,37,.2);outline:none;font-family:'Jost',sans-serif;font-size:10px;font-weight:300;color:#3A3525;width:100%;padding:2px 0;}
-.clean-add-input::placeholder{color:rgba(58,53,37,.35);}
 /* outfit cell special */
 .wg-outfit-content{font-size:10px;font-weight:300;line-height:1.5;}
 .wg-outfit-piece{display:block;}
@@ -288,6 +268,20 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 .aug-post-status.posted{color:var(--coral);border-color:var(--coral);}
 .aug-post-text{font-size:11px;font-weight:300;color:var(--ink);flex:1;}
 .aug-post-del{background:none;border:none;cursor:pointer;color:var(--rule);font-size:11px;padding:0 2px;transition:color .15s;}
+/* import modal */
+.import-modal-bg{position:fixed;inset:0;background:rgba(44,43,40,.5);z-index:400;display:none;align-items:center;justify-content:center;}
+.import-modal-bg.open{display:flex;}
+.import-modal-box{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:28px;width:min(620px,94vw);max-height:90vh;overflow-y:auto;}
+.import-modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px;}
+.import-modal-sub{font-size:11px;color:var(--ink-faint);line-height:1.7;margin-bottom:18px;}
+.import-format-box{background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:10px 13px;font-family:monospace;font-size:10px;color:var(--ink-light);line-height:1.8;margin-bottom:18px;white-space:pre;}
+.import-textarea{width:100%;min-height:200px;background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:12px;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--ink);line-height:1.7;resize:vertical;outline:none;}
+.import-textarea:focus{border-color:var(--ink-faint);}
+.import-result{font-size:11px;margin-top:10px;min-height:18px;color:var(--sage);}
+.import-result.err{color:var(--coral);}
+.import-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px;align-items:center;}
+.import-actions .cancel-btn{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:7px 14px;cursor:pointer;color:var(--ink-faint);transition:all .15s;}
+.import-actions .cancel-btn:hover{border-color:var(--ink-faint);color:var(--ink-light);}
 .aug-post-del:hover{color:var(--coral);}
 
 /* DRIVE MODAL */
@@ -309,6 +303,7 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   .nav{padding:0 14px;}
   .nav-title{font-size:16px;}
   .panel{padding:18px 14px 60px;}
+  .weekly-layout{grid-template-columns:1fr;}
   .goals-layout{grid-template-columns:1fr;}
   .reflection-layout{grid-template-columns:1fr;}
   .grocery-grid{grid-template-columns:1fr;}
@@ -317,17 +312,6 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   .aug-week-grid{order:1;}
   .modal-box{width:95vw;padding:22px;}
   .nav-tabs{overflow-x:auto;}
-  /* Weekly grid — horizontal scroll on mobile, tighter cells */
-  #week-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .wg-table{min-width:560px;}
-  .wg-row-label{width:54px;}
-  .wg-row-label-inner{font-size:6.5px;padding:2px 5px;}
-  .wg-day-num{font-size:17px;}
-  .wg-day-name{font-size:6.5px;}
-  .wg-day-wx{font-size:8px;}
-  .wg-card{padding:5px 6px;min-height:28px;}
-  .wg-card textarea{font-size:10px;}
-  #weekly-bottom{grid-template-columns:1fr!important;}
 }
 </style>
 </head>
@@ -643,10 +627,11 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 <div class="panel" id="panel-auggie">
   <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);">
     <div class="section-script" style="margin-bottom:0;">@AuggieDoggieBK</div>
-    <div style="display:flex;gap:6px;align-items:center;">
-      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(-1)">‹</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="openImportModal()">&#8595; Import Calendar</button>
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(-1)">&#8249;</button>
       <span style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.05em;" id="auggie-week-label">This week</span>
-      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(1)">›</button>
+      <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(1)">&#8250;</button>
     </div>
   </div>
 
@@ -670,6 +655,25 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
     <div>
       <div class="label-caps" style="margin-bottom:12px;">Content Calendar — drag ideas onto days</div>
       <div class="aug-week-grid" id="aug-week-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT CALENDAR MODAL -->
+<div class="import-modal-bg" id="import-modal">
+  <div class="import-modal-box">
+    <div class="import-modal-title">Import content calendar</div>
+    <div class="import-modal-sub">Paste a calendar in the format below. Each line is one post. Dates are matched to the right week automatically — you can paste multiple weeks at once. Existing posts on those days are kept; new ones are added.</div>
+    <div class="import-format-box">Mon Apr 21 | Auggie's Q1 performance review | carousel | office dog
+Tue Apr 22 | Unpopular opinion: cockapoos are better than goldendoodles | reel | hot take
+Wed Apr 23 | Things I packed for Auggie's first week at the office | carousel | office dog</div>
+    <div class="label-caps" style="margin-bottom:7px;">Format: Day Date | Post title | Format | Pillar</div>
+    <textarea class="import-textarea" id="import-text" placeholder="Mon Apr 20 | Auggie's first day of the week | reel | office dog&#10;Tue Apr 21 | Cockapoo hot take | carousel | hot take&#10;..."></textarea>
+    <div class="import-result" id="import-result"></div>
+    <div class="import-actions">
+      <span style="font-size:11px;color:var(--ink-faint);flex:1;">Tip: copy the full two-week calendar from Claude and paste it here.</span>
+      <button class="cancel-btn" onclick="closeImportModal()">Cancel</button>
+      <button class="solid-btn" onclick="doImport()">Import posts</button>
     </div>
   </div>
 </div>
@@ -961,7 +965,7 @@ function renderWeekly(){
   var wWeatherAll=load('wardrobe_weather_all')||{};
   var mealData=load('meals_current')||{};
   var outfitData=load('outfit_week_'+currentWeekStart)||{};
-  var auggieData=load('auggie_scheduled_'+getAuggieWeekKey(0))||{};
+  var auggieData=load('auggie_scheduled_'+currentWeekStart)||{};
 
   var rows=[
     {key:'schedule',label:'Schedule',cls:'wg-sched'},
@@ -969,7 +973,6 @@ function renderWeekly(){
     {key:'dinner',   label:'Dinner',  cls:'wg-dinner'},
     {key:'workout',  label:'Workout', cls:'wg-workout'},
     {key:'outfit',   label:'Outfit',  cls:'wg-outfit'},
-    {key:'clean',    label:'Clean',   cls:'wg-clean'},
     {key:'auggie',   label:'🐶 Post', cls:'wg-auggie'},
   ];
 
@@ -995,23 +998,20 @@ function renderWeekly(){
       var dayName=DAYS_FULL[idx];
       var dd=(wd.days&&wd.days[iso])||{};
       var mealDay=(mealData.days&&mealData.days[dayName])||{};
-      // Normalize meal values — can be string or object with .name
-      var mealLunch=mealDay.lunch?(typeof mealDay.lunch==='string'?mealDay.lunch:mealDay.lunch.name):'';
-      var mealDinner=mealDay.dinner?(typeof mealDay.dinner==='string'?mealDay.dinner:mealDay.dinner.name):'';
       var outfitDay=outfitData[dayName]||{};
       var auggieDay=auggieData[dayName]||[];
 
       html+='<td class="wg-cell"><div class="wg-card">';
 
       if(row.key==='lunch'){
-        var val=mealLunch||dd.lunch||'';
-        html+=mealLunch
-          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealLunch)+'</div>'
+        var val=mealDay.lunch||dd.lunch||'';
+        html+=mealDay.lunch
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.lunch)+'</div>'
           :'<textarea rows="2" data-iso="'+iso+'" data-field="lunch" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add lunch">'+esc(val)+'</textarea>';
       } else if(row.key==='dinner'){
-        var val=mealDinner||dd.dinner||'';
-        html+=mealDinner
-          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDinner)+'</div>'
+        var val=mealDay.dinner||dd.dinner||'';
+        html+=mealDay.dinner
+          ?'<div style="font-size:11px;font-weight:300;line-height:1.5;">'+esc(mealDay.dinner)+'</div>'
           :'<textarea rows="2" data-iso="'+iso+'" data-field="dinner" onchange="saveDayField(this)" oninput="autoGrow(this)" placeholder="add dinner">'+esc(val)+'</textarea>';
       } else if(row.key==='outfit'){
         if(outfitDay.pieces&&outfitDay.pieces.length){
@@ -1027,25 +1027,18 @@ function renderWeekly(){
         } else {
           html+='<div style="font-size:10px;opacity:.4;">no outfit</div>';
         }
-      } else if(row.key==='clean'){
-        var cleanData=load('clean_'+wk())||{};
-        var dayTasks=cleanData[iso]||[];
-        html+=dayTasks.map(function(task,ti){
-          var uid='ct_'+iso.replace(/-/g,'')+'_'+ti;
-          return '<label class="clean-task">'+
-            '<input type="checkbox" '+(task.done?'checked':'')+' onchange="toggleCleanTask(\''+iso+'\','+ti+',this.checked)"/>'+
-            '<span class="clean-task-label">'+esc(task.text)+'</span>'+
-          '</label>';
-        }).join('')+
-        '<div style="margin-top:3px;display:flex;gap:3px;">'+
-          '<input type="text" class="clean-add-input" placeholder="+ add task" onkeydown="if(event.key===\'Enter\'){addCleanTask(\''+iso+'\',this);event.preventDefault();}"/>'+
-        '</div>';
+      } else if(row.key==='auggie'){
         if(auggieDay.length){
           html+=auggieDay.filter(function(p){return p.text;}).map(function(p){
-            return '<div style="font-size:10px;font-weight:300;line-height:1.4;">'+esc(p.text)+'</div>';
+            var st=(p.status||'Idea').toLowerCase();
+            return '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;cursor:pointer;" onclick="switchTab(\'auggie\')" title="Edit in Auggie tab">'+
+              '<span class="aug-post-status '+st+'" style="flex-shrink:0;">'+esc(p.status||'Idea')+'</span>'+
+              '<span style="font-size:10px;font-weight:300;line-height:1.4;color:inherit;">'+esc(p.text)+'</span>'+
+            '</div>';
           }).join('');
+          html+='<div style="font-size:9px;opacity:.45;margin-top:3px;cursor:pointer;" onclick="switchTab(\'auggie\')">edit in Auggie tab →</div>';
         } else {
-          html+='<div style="font-size:10px;opacity:.4;">—</div>';
+          html+='<div style="font-size:10px;opacity:.35;cursor:pointer;" onclick="switchTab(\'auggie\')">— add post →</div>';
         }
       } else {
         // Editable field (schedule, workout)
@@ -1155,22 +1148,6 @@ function wSaveEditedOutfit(dayName){
 }
 function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 function saveDayField(el){var wd=load(wk())||{days:{}};if(!wd.days)wd.days={};if(!wd.days[el.dataset.iso])wd.days[el.dataset.iso]={};wd.days[el.dataset.iso][el.dataset.field]=el.value;hubSave(wk(),wd);}
-function toggleCleanTask(iso,taskIdx,checked){
-  var cleanData=load('clean_'+wk())||{};
-  if(!cleanData[iso])cleanData[iso]=[];
-  if(cleanData[iso][taskIdx])cleanData[iso][taskIdx].done=checked;
-  hubSave('clean_'+wk(),cleanData);
-}
-function addCleanTask(iso,input){
-  var text=input.value.trim();
-  if(!text)return;
-  var cleanData=load('clean_'+wk())||{};
-  if(!cleanData[iso])cleanData[iso]=[];
-  cleanData[iso].push({text:text,done:false});
-  hubSave('clean_'+wk(),cleanData);
-  input.value='';
-  renderWeekly();
-}
 function saveWeekly(){
   var wd=load(wk())||{days:{}};
   var wi=document.getElementById('w-intention');var wf=document.getElementById('w-focus');var wb=document.getElementById('w-braindump');
@@ -1196,74 +1173,32 @@ function parseMealPlan(){
   var raw=document.getElementById('meal-paste-input').value.trim();
   if(!raw){return;}
   var status=document.getElementById('meal-import-status');
+  // Strip markdown code fences if present
   var clean=raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
   try{
     var parsed=JSON.parse(clean);
-
-    // ── NORMALIZE to hub format ──
-    // Hub expects: { weekLabel, plants:{count,list}, budget:{total}, days:{Monday:{lunch:'',dinner:'',bf_night:false,...}} }
-    // Your format:  { week, meals:{monday:{lunch:{name,..},dinner:{name,..}}}, plants_count, estimated_cost }
-
-    // If already in hub format (has .days), use as-is
-    if(!parsed.days){
-      var dayMap={sunday:'Sunday',monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday'};
-      var normalized={
-        weekLabel: parsed.weekLabel || (parsed.week ? 'Week of '+parsed.week : 'This Week'),
-        plants: {count: parsed.plants_count||parsed.plants&&parsed.plants.count||'—', list: parsed.plants&&parsed.plants.list||''},
-        budget: {total: parsed.estimated_cost||parsed.budget&&parsed.budget.total||''},
-        days: {}
-      };
-
-      var src=parsed.meals||parsed.days||{};
-      Object.keys(src).forEach(function(rawDay){
-        var dayName=dayMap[rawDay.toLowerCase()]||rawDay;
-        var dayData=src[rawDay];
-        var lunch=dayData.lunch;
-        var dinner=dayData.dinner;
-        var breakfast=dayData.breakfast;
-        normalized.days[dayName]={
-          lunch: typeof lunch==='string'?lunch:(lunch&&lunch.name?lunch.name+(lunch.source?' ('+lunch.source+')':''):''),
-          dinner: typeof dinner==='string'?dinner:(dinner&&dinner.name?dinner.name:''),
-          breakfast: typeof breakfast==='string'?breakfast:(breakfast&&breakfast.name?breakfast.name:''),
-          bf_night: !!(dinner&&dinner.bf_night),
-          serves: dinner&&dinner.serves||'',
-          time_min: dinner&&dinner.time_min||''
-        };
-        // Carry over ingredients/steps if present (for recipe cards)
-        if(dinner&&dinner.ingredients)normalized.days[dayName].dinnerIngredients=dinner.ingredients;
-        if(dinner&&dinner.steps)normalized.days[dayName].dinnerSteps=dinner.steps;
-        if(dinner&&dinner.note)normalized.days[dayName].dinnerNote=dinner.note;
-        if(dinner&&dinner.desc)normalized.days[dayName].dinnerDesc=dinner.desc;
-        if(dinner&&dinner.tags)normalized.days[dayName].dinnerTags=dinner.tags;
-      });
-      parsed=normalized;
-    }
-
     hubSave('meals_current',parsed);
     status.textContent='✓ Imported!';
     status.style.color='var(--sage)';
     renderMealPlan(parsed);
     mSwitchView('plan',document.getElementById('m-plan-btn'));
   }catch(e){
-    status.textContent='Could not parse JSON: '+e.message;
+    status.textContent='Not valid JSON — paste the code block from our chat exactly as sent.';
     status.style.color='var(--coral)';
   }
 }
 
 function renderMealPlan(data){
   if(!data){data=load('meals_current');if(!data)return;}
+  // Stats bar
   var statsBar=document.getElementById('meal-stats-bar');
-  var plantCount=(data.plants&&data.plants.count)||data.plants_count||'—';
-  var weekLbl=data.weekLabel||'This Week';
-  var budgetTotal=(data.budget&&data.budget.total)||data.estimated_cost||'';
-  statsBar.innerHTML=
-    '<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--sage);">'+esc(String(plantCount))+'</div><div class="meal-stat-label">Plants this week</div></div>'+
-    '<div class="meal-stat-chip"><div class="meal-stat-val" style="font-size:14px;font-weight:300;line-height:1.3;">'+esc(weekLbl)+'</div><div class="meal-stat-label">Week label</div></div>'+
-    (budgetTotal?'<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--coral);">'+esc(budgetTotal)+'</div><div class="meal-stat-label">Estimated grocery</div></div>':'');
+  statsBar.innerHTML='<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--sage);">'+(data.plants&&data.plants.count||'—')+'</div><div class="meal-stat-label">Plants this week</div></div>'+
+    '<div class="meal-stat-chip"><div class="meal-stat-val" style="font-size:14px;font-weight:300;line-height:1.3;">'+esc(data.weekLabel||'This Week')+'</div><div class="meal-stat-label">Week label</div></div>'+
+    (data.budget?'<div class="meal-stat-chip"><div class="meal-stat-val" style="color:var(--coral);">'+esc(data.budget.total||'')+'</div><div class="meal-stat-label">Estimated grocery</div></div>':'');
+  // Meal content
   var content=document.getElementById('meal-plan-content');
-  var days=data.days||{};
-  var daysWithMeals=Object.keys(days).filter(function(d){return days[d].dinner;});
-  if(!daysWithMeals.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No meals found — check the JSON structure.</div>';return;}
+  var daysWithMeals=Object.keys(data.days||{}).filter(function(d){return data.days[d].dinner&&data.days[d].dinner.name;});
+  if(!daysWithMeals.length){content.innerHTML='<div style="color:var(--ink-faint);font-size:12px;padding:20px 0;">No meals found in the imported plan.</div>';return;}
   // Group: dinners then lunches
   var html='';
   // Plants line
@@ -1276,25 +1211,17 @@ function renderMealPlan(data){
   // Dinners
   html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:4px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Dinners</div>';
   DAYS_FULL.forEach(function(day){
-    var dd=days[day];
-    if(!dd||!dd.dinner)return;
-    // dinner can be a string (normalized) or object (full format)
-    var meal=typeof dd.dinner==='string'
-      ?{name:dd.dinner,desc:dd.dinnerDesc||'',tags:dd.dinnerTags||[],serves:dd.serves||'',ingredients:dd.dinnerIngredients||[],steps:dd.dinnerSteps||[],note:dd.dinnerNote||'',bf_night:dd.bf_night}
-      :dd.dinner;
-    if(meal.name)html+=buildMealCard(day,meal,meal.bf_night||dd.bf_night);
+    var dd=data.days&&data.days[day];
+    if(dd&&dd.dinner&&dd.dinner.name)html+=buildMealCard(day,dd.dinner,dd.dinner.bf_night);
   });
   // Lunches
-  var lunchDays=DAYS_FULL.filter(function(d){return days[d]&&days[d].lunch;});
+  var lunchDays=DAYS_FULL.filter(function(d){return data.days&&data.days[d]&&data.days[d].lunch&&data.days[d].lunch.name;});
   if(lunchDays.length){
     html+='<div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;margin-top:24px;padding-bottom:7px;border-bottom:1.5px solid var(--ink);">Lunches</div>';
-    lunchDays.forEach(function(day){
-      var dd=days[day];
-      var meal=typeof dd.lunch==='string'?{name:dd.lunch}:dd.lunch;
-      if(meal&&meal.name)html+=buildMealCard(day,meal,false);
-    });
+    lunchDays.forEach(function(day){html+=buildMealCard(day,data.days[day].lunch,false);});
   }
   content.innerHTML=html;
+  // Grocery
   renderGrocery(data.grocery||{});
 }
 
@@ -1681,7 +1608,21 @@ function shiftAuggieWeek(d){
     MONTHS[dt.getMonth()].slice(0,3)+' '+dt.getDate()+' – '+end.getDate();
   aRenderAll();
 }
-function aRenderAll(){aRenderIdeas();aRenderWeekGrid();}
+function aRenderAll(){
+  // Keep Auggie tab week in sync with weekly planner's current week
+  var auggieKey=getAuggieWeekKey(0);
+  if(auggieKey!==currentWeekStart&&auggieWeekOffset===0){
+    // reset so Auggie tab reflects the same week as the planner
+  }
+  aRenderIdeas();aRenderWeekGrid();aUpdateWeekLabel();
+}
+function aUpdateWeekLabel(){
+  var key=getAuggieWeekKey(0);
+  var dt=new Date(key+'T12:00:00');
+  var end=new Date(dt);end.setDate(end.getDate()+6);
+  var lbl=document.getElementById('auggie-week-label');
+  if(lbl)lbl.textContent=auggieWeekOffset===0?'This week':MONTHS[dt.getMonth()].slice(0,3)+' '+dt.getDate()+' \u2013 '+end.getDate();
+}
 function aRenderIdeas(){
   var data=load('auggie_ideas')||{ideas:[]};
   var list=document.getElementById('aug-ideas-list');if(!list)return;
@@ -1765,10 +1706,88 @@ function aRemovePost(day,pi){
   if(scheduled[day])scheduled[day].splice(pi,1);
   hubSave('auggie_scheduled_'+key,scheduled);aRenderWeekGrid();
 }
+// ── IMPORT CALENDAR ──
+function openImportModal(){
+  document.getElementById('import-result').textContent='';
+  document.getElementById('import-text').value='';
+  document.getElementById('import-modal').classList.add('open');
+}
+function closeImportModal(){
+  document.getElementById('import-modal').classList.remove('open');
+}
+var MONTH_MAP={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
+  january:0,february:1,march:2,april:3,may2:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+var DAY_MAP={mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday',sat:'Saturday',sun:'Sunday',
+  monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday',sunday:'Sunday'};
+function parseImportDate(token){
+  // token like "Mon Apr 21" or "Apr 21" or "21 Apr" or "Apr 20"
+  token=token.trim();
+  var parts=token.split(/[\s,\/\-]+/);
+  var dayName='',monthNum=-1,dateNum=-1;
+  parts.forEach(function(p){
+    var pl=p.toLowerCase();
+    if(DAY_MAP[pl]){dayName=DAY_MAP[pl];return;}
+    var mn=MONTH_MAP[pl]||MONTH_MAP[pl.slice(0,3)];
+    if(mn!==undefined){monthNum=mn;return;}
+    var n=parseInt(p,10);
+    if(!isNaN(n)&&n>=1&&n<=31){dateNum=n;}
+  });
+  if(monthNum===-1||dateNum===-1)return null;
+  var now=new Date();
+  var yr=now.getFullYear();
+  // try this year then next
+  var d=new Date(yr,monthNum,dateNum);
+  if(d<new Date(yr,now.getMonth()-1,1))d=new Date(yr+1,monthNum,dateNum);
+  // compute Monday of that week
+  var dow=d.getDay();// 0=Sun
+  var diff=dow===0?-6:1-dow;
+  var mon=new Date(d);mon.setDate(d.getDate()+diff);
+  var weekKey=mon.toISOString().slice(0,10);
+  // compute day name from date
+  var actualDay=DAYS_FULL[dow===0?6:dow-1];
+  if(dayName)actualDay=dayName;
+  return{weekKey:weekKey,day:actualDay};
+}
+function doImport(){
+  var raw=document.getElementById('import-text').value.trim();
+  var result=document.getElementById('import-result');
+  if(!raw){result.className='import-result err';result.textContent='Nothing to import.';return;}
+  var lines=raw.split('\n').map(function(l){return l.trim();}).filter(Boolean);
+  var count=0,skipped=0;
+  var batches={};// weekKey -> {day -> [posts]}
+  lines.forEach(function(line){
+    var parts=line.split('|').map(function(s){return s.trim();});
+    if(parts.length<2){skipped++;return;}
+    var datePart=parts[0];
+    var title=parts[1]||'';
+    var format=parts[2]||'Post';
+    var pillar=parts[3]||'';
+    var parsed=parseImportDate(datePart);
+    if(!parsed){skipped++;return;}
+    if(!batches[parsed.weekKey])batches[parsed.weekKey]={};
+    if(!batches[parsed.weekKey][parsed.day])batches[parsed.weekKey][parsed.day]=[];
+    batches[parsed.weekKey][parsed.day].push({id:Date.now()+Math.random(),text:title+(pillar?' ['+pillar+']':''),status:'Idea',format:format});
+    count++;
+  });
+  // merge into storage
+  Object.keys(batches).forEach(function(wk){
+    var stored=load('auggie_scheduled_'+wk)||{};
+    Object.keys(batches[wk]).forEach(function(day){
+      if(!stored[day])stored[day]=[];
+      stored[day]=stored[day].concat(batches[wk][day]);
+    });
+    hubSave('auggie_scheduled_'+wk,stored);
+  });
+  if(count===0){result.className='import-result err';result.textContent='No valid lines found. Check the format: Day Month Date | Title | Format | Pillar';return;}
+  result.className='import-result';
+  result.textContent=count+' post'+(count!==1?'s':'')+' imported across '+Object.keys(batches).length+' week'+(Object.keys(batches).length!==1?'s':'')+'.'+( skipped?' ('+skipped+' line'+(skipped!==1?'s':'')+' skipped)':'');
+  aRenderAll();
+  setTimeout(closeImportModal,1400);
+}
 // ══ GOOGLE DRIVE ══
 var driveState='idle';var driveFileId=null;var driveTokenClient=null;var driveGapiReady=false;
 var DRIVE_FILE='lifehub_data.json';
-var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_','clean_'];
+var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_'];
 
 function handleDriveClick(){
   var cid=localStorage.getItem('hub_gdrive_cid');var key=localStorage.getItem('hub_gdrive_key');
@@ -1801,24 +1820,14 @@ function driveInitGapi(cid,key){
           client_id:cid,scope:'https://www.googleapis.com/auth/drive.appdata',
           callback:function(resp){
             if(resp.error){
-              // Silent auth failed — retry with visible prompt
-              if(resp.error==='interaction_required'||resp.error==='login_required'||resp.error==='access_denied'){
-                localStorage.removeItem('hub_gdrive_token_exp');
-                driveTokenClient.requestAccessToken({prompt:'select_account'});
-                return;
-              }
               console.error('OAuth error:',resp.error,resp.error_description);
               driveSetUI('error');return;
             }
-            var expiresAt=Date.now()+(parseInt(resp.expires_in||3600)-120)*1000;
-            localStorage.setItem('hub_gdrive_token_exp',expiresAt);
             driveLoad();
           }
         });
         driveGapiReady=true;
-        var exp=parseInt(localStorage.getItem('hub_gdrive_token_exp')||'0');
-        var needsAuth=Date.now()>exp;
-        driveTokenClient.requestAccessToken({prompt:needsAuth?'':'none'});
+        driveTokenClient.requestAccessToken({prompt:'consent'});
       }).catch(function(e){console.error('Drive API load error:',e);driveSetUI('error');});
     });
   }
@@ -1868,7 +1877,6 @@ async function driveSync(initial){
 function driveReset(){
   localStorage.removeItem('hub_gdrive_cid');
   localStorage.removeItem('hub_gdrive_key');
-  localStorage.removeItem('hub_gdrive_token_exp');
   driveFileId=null;driveGapiReady=false;driveTokenClient=null;
   driveSetUI('idle');
   document.getElementById('drive-client-id').value='';
