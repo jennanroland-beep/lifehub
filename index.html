@@ -313,6 +313,37 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
   .modal-box{width:95vw;padding:22px;}
   .nav-tabs{overflow-x:auto;}
 }
+
+/* ── CONTENT BRIEFS ── */
+.aug-tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:24px;}
+.aug-tab{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px 8px;cursor:pointer;transition:all .15s;margin-bottom:-1px;}
+.aug-tab:hover{color:var(--ink-light);}
+.aug-tab.active{color:var(--ink);border-bottom-color:var(--coral);}
+.aug-section{display:none;}.aug-section.active{display:block;}
+.briefs-layout{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start;}
+.briefs-list-panel{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:12px;}
+.brief-item{padding:8px 10px;border-radius:2px;cursor:pointer;border-bottom:1px solid var(--rule);transition:background .15s;}
+.brief-item:last-child{border-bottom:none;}
+.brief-item:hover{background:var(--paper2);}
+.brief-item.active{background:var(--paper2);border-left:2px solid var(--coral);padding-left:8px;}
+.brief-item-title{font-size:12px;font-weight:400;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px;}
+.brief-item-meta{font-size:9px;color:var(--ink-faint);margin-top:2px;letter-spacing:.06em;text-transform:uppercase;}
+.brief-editor{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:20px;}
+.brief-field{margin-bottom:18px;}
+.brief-field-label{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:5px;}
+.brief-text-input{background:none;border:none;border-bottom:1px solid var(--rule);width:100%;padding:5px 0 4px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);outline:none;transition:border-color .15s;}
+.brief-text-input:focus{border-bottom-color:var(--ink-light);}
+.brief-text-input::placeholder{color:var(--ink-faint);}
+.brief-textarea{background:none;border:1px solid var(--rule);border-radius:2px;width:100%;padding:10px 12px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);outline:none;resize:vertical;line-height:1.7;min-height:100px;transition:border-color .15s;}
+.brief-textarea:focus{border-color:var(--ink-light);}
+.brief-textarea::placeholder{color:var(--ink-faint);}
+.brief-textarea.tall{min-height:160px;}
+.brief-meta-row{display:flex;gap:12px;flex-wrap:wrap;}
+.brief-meta-row .brief-field{flex:1;min-width:120px;}
+.brief-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;color:var(--ink-faint);font-size:12px;text-align:center;line-height:1.8;}
+.brief-del-btn{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);background:none;border:none;cursor:pointer;padding:0;margin-left:auto;}
+.brief-del-btn:hover{text-decoration:underline;}
+@media(max-width:600px){.briefs-layout{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -627,7 +658,7 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
 <div class="panel" id="panel-auggie">
   <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--ink);">
     <div class="section-script" style="margin-bottom:0;">@AuggieDoggieBK</div>
-    <div style="display:flex;gap:8px;align-items:center;">
+    <div style="display:flex;gap:8px;align-items:center;" id="auggie-cal-controls">
       <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="openImportModal()">&#8595; Import Calendar</button>
       <button class="ghost-btn" style="font-size:8.5px;padding:5px 12px;" onclick="shiftAuggieWeek(-1)">&#8249;</button>
       <span style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.05em;" id="auggie-week-label">This week</span>
@@ -635,28 +666,101 @@ body{font-family:'Jost',sans-serif;background:var(--paper2);color:var(--ink);min
     </div>
   </div>
 
-  <div class="aug-board">
-    <!-- Left: ideas bank -->
-    <div>
-      <div class="ideas-bank">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule);">
-          <div class="label-caps">Ideas Bank</div>
-          <button class="ghost-btn" style="font-size:8.5px;padding:4px 10px;" onclick="aAddIdea()">+ Add</button>
+  <div class="aug-tabs">
+    <button class="aug-tab active" onclick="switchAugTab('calendar',this)">Calendar</button>
+    <button class="aug-tab" onclick="switchAugTab('briefs',this)">Content Briefs</button>
+  </div>
+
+  <!-- CALENDAR TAB -->
+  <div class="aug-section active" id="aug-section-calendar">
+    <div class="aug-board">
+      <!-- Left: ideas bank stays here for drag-and-drop -->
+      <div>
+        <div class="ideas-bank">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule);">
+            <div class="label-caps">Ideas Bank</div>
+            <button class="ghost-btn" style="font-size:8.5px;padding:4px 10px;" onclick="aAddIdea()">+ Add</button>
+          </div>
+          <div id="aug-ideas-list"></div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);">
+            <div class="label-caps" style="margin-bottom:8px;">Need ideas?</div>
+            <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Ask me in our chat for content ideas — just say what format (carousel, reel, etc.) and any topic or angle. I'll generate ideas you can paste into the bank above.</div>
+          </div>
         </div>
-        <div id="aug-ideas-list"></div>
-        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);">
-          <div class="label-caps" style="margin-bottom:8px;">Need ideas?</div>
-          <div style="font-size:11px;color:var(--ink-faint);line-height:1.7;">Ask me in our chat for content ideas — just say what format (carousel, reel, etc.) and any topic or angle. I'll generate ideas you can paste into the bank above.</div>
+      </div>
+      <!-- Right: calendar -->
+      <div>
+        <div class="label-caps" style="margin-bottom:12px;">Content Calendar — drag ideas onto days</div>
+        <div class="aug-week-grid" id="aug-week-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIEFS TAB -->
+  <div class="aug-section" id="aug-section-briefs">
+    <div class="briefs-layout">
+      <!-- Left: briefs list -->
+      <div>
+        <div class="briefs-list-panel">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule);">
+            <div class="label-caps">Briefs</div>
+            <button class="ghost-btn" style="font-size:8.5px;padding:4px 10px;" onclick="bAddBrief()">+ New</button>
+          </div>
+          <div id="briefs-list-items"></div>
+          <div id="briefs-empty-list" style="font-size:11px;color:var(--ink-faint);padding:8px 0;line-height:1.7;">No briefs yet. Hit + New to create your first one.</div>
+        </div>
+      </div>
+      <!-- Right: brief editor -->
+      <div id="brief-editor-wrap">
+        <div class="brief-empty" id="brief-editor-empty">
+          <div style="font-size:22px;margin-bottom:8px;">✦</div>
+          <div>Select a brief or create a new one.</div>
+        </div>
+        <div class="brief-editor" id="brief-editor" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--rule);">
+            <div class="label-caps">Editing brief</div>
+            <button class="brief-del-btn" onclick="bDeleteBrief()">Delete brief</button>
+          </div>
+          <div class="brief-field">
+            <div class="brief-field-label">Title / working name</div>
+            <input class="brief-text-input" id="brief-title" placeholder="e.g. Getting a second dog after loss" oninput="bSave()"/>
+          </div>
+          <div class="brief-meta-row">
+            <div class="brief-field">
+              <div class="brief-field-label">Pillar</div>
+              <input class="brief-text-input" id="brief-pillar" placeholder="e.g. pet grief" oninput="bSave()"/>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Format</div>
+              <input class="brief-text-input" id="brief-format" placeholder="e.g. carousel" oninput="bSave()"/>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Status</div>
+              <input class="brief-text-input" id="brief-status" placeholder="e.g. drafting" oninput="bSave()"/>
+            </div>
+          </div>
+          <div class="brief-field">
+            <div class="brief-field-label">Hook</div>
+            <input class="brief-text-input" id="brief-hook" placeholder="the opening line that stops the scroll" oninput="bSave()"/>
+          </div>
+          <div class="brief-field">
+            <div class="brief-field-label">Carousel script / slide notes</div>
+            <textarea class="brief-textarea tall" id="brief-script" placeholder="Slide 1 — cover&#10;Slide 2 — &#10;Slide 3 — &#10;..." oninput="bSave()"></textarea>
+          </div>
+          <div class="brief-field">
+            <div class="brief-field-label">Caption</div>
+            <textarea class="brief-textarea" id="brief-caption" placeholder="The caption that goes with the post…" oninput="bSave()"></textarea>
+          </div>
+          <div class="brief-field">
+            <div class="brief-field-label">Notes</div>
+            <textarea class="brief-textarea" id="brief-notes" placeholder="Hashtags, collab tags, posting time, things to remember…" oninput="bSave()"></textarea>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Right: weekly content calendar -->
-    <div>
-      <div class="label-caps" style="margin-bottom:12px;">Content Calendar — drag ideas onto days</div>
-      <div class="aug-week-grid" id="aug-week-grid"></div>
-    </div>
   </div>
+
+
 </div>
 
 <!-- IMPORT CALENDAR MODAL -->
@@ -1614,7 +1718,7 @@ function aRenderAll(){
   if(auggieKey!==currentWeekStart&&auggieWeekOffset===0){
     // reset so Auggie tab reflects the same week as the planner
   }
-  aRenderIdeas();aRenderWeekGrid();aUpdateWeekLabel();
+  aRenderIdeas();aRenderWeekGrid();aUpdateWeekLabel();bRenderList();
 }
 function aUpdateWeekLabel(){
   var key=getAuggieWeekKey(0);
@@ -1784,7 +1888,88 @@ function doImport(){
   aRenderAll();
   setTimeout(closeImportModal,1400);
 }
-// ══ GOOGLE DRIVE ══
+// ── AUG TAB SWITCHER ──
+function switchAugTab(tab, btn) {
+  document.querySelectorAll('.aug-tab').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.aug-section').forEach(function(s){s.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('aug-section-'+tab).classList.add('active');
+  var controls = document.getElementById('auggie-cal-controls');
+  if(controls) controls.style.display = tab==='calendar' ? 'flex' : 'none';
+  if(tab==='briefs') bRenderList();
+  if(tab==='calendar') { aRenderIdeas(); aRenderWeekGrid(); }
+}
+// ── CONTENT BRIEFS ──
+var activeBriefId = null;
+function bLoad(){return load('auggie_briefs')||{briefs:[]};}
+function bSave(){
+  var d=bLoad();
+  var brief=d.briefs.find(function(b){return b.id===activeBriefId;});
+  if(!brief)return;
+  brief.title=document.getElementById('brief-title').value;
+  brief.pillar=document.getElementById('brief-pillar').value;
+  brief.format=document.getElementById('brief-format').value;
+  brief.status=document.getElementById('brief-status').value;
+  brief.hook=document.getElementById('brief-hook').value;
+  brief.script=document.getElementById('brief-script').value;
+  brief.caption=document.getElementById('brief-caption').value;
+  brief.notes=document.getElementById('brief-notes').value;
+  brief.updated=Date.now();
+  hubSave('auggie_briefs',d);
+  bRenderList();
+}
+function bRenderList(){
+  var d=bLoad();
+  var list=document.getElementById('briefs-list-items');
+  var empty=document.getElementById('briefs-empty-list');
+  if(!list)return;
+  if(!d.briefs.length){list.innerHTML='';if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+  list.innerHTML=d.briefs.map(function(b){
+    var active=b.id===activeBriefId?' active':'';
+    var meta=[b.pillar,b.format,b.status].filter(Boolean).join(' · ');
+    return'<div class="brief-item'+active+'" onclick="bOpenBrief(\''+b.id+'\')">'+
+      '<div class="brief-item-title">'+esc(b.title||'Untitled brief')+'</div>'+
+      (meta?'<div class="brief-item-meta">'+esc(meta)+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+function bOpenBrief(id){
+  activeBriefId=id;
+  var d=bLoad();
+  var brief=d.briefs.find(function(b){return b.id===id;});
+  if(!brief)return;
+  document.getElementById('brief-editor-empty').style.display='none';
+  document.getElementById('brief-editor').style.display='block';
+  document.getElementById('brief-title').value=brief.title||'';
+  document.getElementById('brief-pillar').value=brief.pillar||'';
+  document.getElementById('brief-format').value=brief.format||'';
+  document.getElementById('brief-status').value=brief.status||'';
+  document.getElementById('brief-hook').value=brief.hook||'';
+  document.getElementById('brief-script').value=brief.script||'';
+  document.getElementById('brief-caption').value=brief.caption||'';
+  document.getElementById('brief-notes').value=brief.notes||'';
+  bRenderList();
+}
+function bAddBrief(){
+  var d=bLoad();
+  var id='brief-'+Date.now();
+  d.briefs.unshift({id:id,title:'',pillar:'',format:'',status:'Idea',hook:'',script:'',caption:'',notes:'',created:Date.now(),updated:Date.now()});
+  hubSave('auggie_briefs',d);
+  bRenderList();
+  bOpenBrief(id);
+}
+function bDeleteBrief(){
+  if(!activeBriefId)return;
+  var d=bLoad();
+  d.briefs=d.briefs.filter(function(b){return b.id!==activeBriefId;});
+  hubSave('auggie_briefs',d);
+  activeBriefId=null;
+  document.getElementById('brief-editor').style.display='none';
+  document.getElementById('brief-editor-empty').style.display='flex';
+  bRenderList();
+}
+// ── GOOGLE DRIVE ──
 var driveState='idle';var driveFileId=null;var driveTokenClient=null;var driveGapiReady=false;
 var DRIVE_FILE='lifehub_data.json';
 var DRIVE_KEYS_PREFIX=['goals-','week-','tracker-','reflection-','wardrobe_','meals_','auggie_','grocery_','outfit_week_'];
